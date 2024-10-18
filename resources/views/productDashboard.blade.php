@@ -82,6 +82,7 @@
             font-weight: bold;
             font-size: 16px; /* Tăng kích thước font */
             transition: background-color 0.3s ease; /* Hiệu ứng chuyển động cho background */
+            width: 100%; /* Đặt chiều rộng nút bằng 100% */
         }
 
         .form-group button:hover {
@@ -117,9 +118,9 @@
             color: #856404;
         }
 
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
         }
 
         button {
@@ -162,6 +163,13 @@
         .toggle-button:hover {
             background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
         }
+
+        /* Định dạng cho hình ảnh */
+        .product-images img {
+            max-width: 100px; 
+            max-height: 100px; 
+            margin-right: 10px; /* Khoảng cách giữa các hình ảnh */
+        }
     </style>
 </head>
 <body>
@@ -171,6 +179,16 @@
     {{-- Kiểm tra xem có thông điệp trong session không --}}
     @if (session('message'))
         <div class="alert alert-warning">{{ session('message') }}</div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <button class="toggle-button" id="toggleFormButton">Thêm sản phẩm</button> <!-- Nút để mở form -->
@@ -208,7 +226,7 @@
                 <select id="color_id" name="color_id" required>
                     <option value="">Chọn màu sắc</option>
                     @foreach ($colors as $color)
-                        <option value="{{ $color->id }}">{{ $color->name }}</option>
+                        <option value="{{ $color->color_id }}">{{ $color->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -221,7 +239,7 @@
                 <input type="file" id="image2" name="image2" accept="image/*">
             </div>
             <div class="form-group">
-                <label for="image3">Hình ảnh 3:</label>
+                <label for="image2">Hình ảnh 3:</label>
                 <input type="file" id="image3" name="image3" accept="image/*">
             </div>
             <div class="form-group">
@@ -234,44 +252,53 @@
         <thead>
             <tr>
                 <th>Tên sản phẩm</th>
+                <th>Mô tả</th>
                 <th>Giá</th>
                 <th>Số lượng</th>
                 <th>Thể loại</th>
                 <th>Màu sắc</th>
+                <th>Hình ảnh</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @if ($products->isEmpty())
+            @foreach ($products as $product)
                 <tr>
-                    <td colspan="6" style="text-align: center;">Hiện tại không có sản phẩm nào.</td>
+                    <td>{{ $product->product_name }}</td>
+                    <td>{{ $product->description }}</td>
+                    <td>{{ $product->price }}</td>
+                    <td>{{ $product->quantity }}</td>
+                    <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
+                    <td>{{ $product->color->name ?? 'Không có màu sắc' }}</td>    
+                    <td class="product-images">
+                        @if ($product->image1)
+                            <img src="{{ asset('images/products/' . $product->image1) }}" alt="Hình ảnh 1">
+                        @endif
+                        @if ($product->image2)
+                            <img src="{{ asset('images/products/' . $product->image2) }}" alt="Hình ảnh 2">
+                        @endif
+                        @if ($product->image3)
+                            <img src="{{ asset('images/products/' . $product->image3) }}" alt="Hình ảnh 3">
+                        @endif
+                    </td>
+                    <td>
+                        <form action="{{ route('products.destroy', $product->product_id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Xóa</button>
+                        </form>
+                        <a href="{{ route('products.edit', $product->product_id) }}">Cập nhật</a>
+                    </td>
                 </tr>
-            @else
-                @foreach($products as $product)
-                    <tr>
-                        <td>{{ $product->product_name }}</td>
-                        <td>{{ number_format($product->price, 2) }} VNĐ</td>
-                        <td>{{ $product->quantity }}</td>
-                        <td>{{ $product->category->category_name ?? 'N/A' }}</td>
-                        <td>{{ $product->color->name ?? 'N/A' }}</td>
-                        <td>
-                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">Xóa</button>
-                            </form>
-                            <a href="{{ route('products.update', $product->id) }}">Sửa</a>
-                        </td>
-                    </tr>
-                @endforeach
-            @endif
+            @endforeach
         </tbody>
     </table>
 
     <script>
+        // JavaScript để điều khiển hiển thị form
         document.getElementById('toggleFormButton').addEventListener('click', function() {
-            const formContainer = document.getElementById('productForm');
-            formContainer.classList.toggle('show'); // Thay đổi trạng thái hiển thị của form
+            var formContainer = document.getElementById('productForm');
+            formContainer.classList.toggle('show');
         });
     </script>
 </body>
