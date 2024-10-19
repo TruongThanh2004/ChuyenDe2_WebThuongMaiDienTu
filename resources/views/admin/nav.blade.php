@@ -92,7 +92,7 @@
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
-                        <li class="active">
+                        <li class="">
                             <a class="has-arrow" href="index.html">
 								   <i class="icon nalika-home icon-wrap"></i>
 								   <span class="mini-click-non">Ecommerce</span>
@@ -112,9 +112,19 @@
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">User</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="User List" href="user-list"><span class="mini-sub-pro">User List</span></a></li>
-                                <li><a title="User Edit" href=""><span class="mini-sub-pro">User Edit</span></a></li>
-                                <li><a title="User Detail" href=""><span class="mini-sub-pro">User Detail</span></a></li>
+                                <li><a title="User List" href="{{route('user-list')}}"><span class="mini-sub-pro">User List</span></a></li>
+                             
+                               
+                            </ul>
+                        </li>
+
+                        
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Product</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Product List" href="{{ route('admin.products') }}"><span class="mini-sub-pro">Product List</span></a></li>
+                                <li><a title="Product Edit" href=""><span class="mini-sub-pro">Product Edit</span></a></li>
+                                <li><a title="Product Detail" href=""><span class="mini-sub-pro">Product Detail</span></a></li>
                                
                             </ul>
                         </li>
@@ -905,6 +915,13 @@
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
+<<<<<<< HEAD
+=======
+
+    <script src="js/js.js"></script>
+   
+    <script src="js/checkUser.js"></script>
+>>>>>>> CRUD_User
 </body>
 
 </html>

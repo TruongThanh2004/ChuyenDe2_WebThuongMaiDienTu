@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,8 +54,26 @@ Route::get('/dashboard', function () {
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
-Route::get('/user-list', function () {
-    return view('admin.users')  ;
+
+//ADMIN-USER
+Route::controller(UserController::class)->prefix('user-list')->group(function () {
+    Route::get('', 'index')->name('user-list');
+    Route::get('create', 'create')->name('user-list.create');
+    Route::post('store', 'store')->name('user-list.store');
+    Route::get('show/{id}', 'show')->name('user-list.show');
+    Route::get('edit/{id}', 'edit')->name('user-list.edit');
+    Route::put('edit/{id}', 'update')->name('user-list.update');
+    Route::delete('destroy/{id}', 'destroy')->name('user-list.destroy');
+  
 });
 
+
+
+Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
+Route::post('admin/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
+Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
