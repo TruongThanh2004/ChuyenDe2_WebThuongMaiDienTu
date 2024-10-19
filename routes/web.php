@@ -1,9 +1,6 @@
 <?php
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\UserController;
->>>>>>> CRUD_User
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 /*
@@ -57,17 +54,6 @@ Route::get('/dashboard', function () {
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
-<<<<<<< HEAD
-Route::get('/user-list', function () {
-    return view('admin.users')  ;
-=======
-
-
-
-
-
-
-
 
 //ADMIN-USER
 Route::controller(UserController::class)->prefix('user-list')->group(function () {
@@ -79,7 +65,6 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
     Route::put('edit/{id}', 'update')->name('user-list.update');
     Route::delete('destroy/{id}', 'destroy')->name('user-list.destroy');
   
->>>>>>> CRUD_User
 });
 
 
