@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,39 +43,47 @@ Route::get('/cart', function () {
 Route::get('/singleProduct', function () {
     return view('singleProduct');
 });
-Route::get('/login', function () {
-    return view('login');
-});
-Route::get('/register', function () {
-    return view('Register');
-});
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard')  ;
-});
+
+
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
 
 
-
-
-
-
-
-
-//ADMIN-USER
-Route::controller(UserController::class)->prefix('user-list')->group(function () {
-    Route::get('', 'index')->name('user-list');
-    Route::get('create', 'create')->name('user-list.create');
-    Route::post('store', 'store')->name('user-list.store');
-    Route::get('show/{id}', 'show')->name('user-list.show');
-    Route::get('edit/{id}', 'edit')->name('user-list.edit');
-    Route::put('edit/{id}', 'update')->name('user-list.update');
-    Route::delete('destroy/{id}', 'destroy')->name('user-list.destroy');
-  
+//check login
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+    Route::controller(UserController::class)->prefix('user-list')->group(function () {
+        Route::get('', 'index')->name('user-list'); 
+        Route::get('create', 'create')->name('user-list.create');
+        Route::post('store', 'store')->name('user-list.store');
+        Route::get('show/{id}', 'show')->name('user-list.show');
+        Route::get('edit/{id}', 'edit')->name('user-list.edit');
+        Route::put('edit/{id}', 'update')->name('user-list.update');
+        Route::delete('destroy/{id}', 'destroy')->name('user-list.destroy');
+      
+    });
 });
 
+
+
+//Register - Login
+Route::get('/register', function () {
+    return view('Register');
+})->name('register');
+
+Route::post('/save-user',[UserController::class,'save'])->name('saveUser');
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('/do-login',[UserController::class,'doLogin'])->name('doLogin');
+
+Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 
 Route::get('/admin/products', [ProductController::class, 'index1'])->name('admin.products');
