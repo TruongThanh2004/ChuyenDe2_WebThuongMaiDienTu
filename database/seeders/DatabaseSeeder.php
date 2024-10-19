@@ -1,9 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-<<<<<<< HEAD
 
-=======
 use Illuminate\Support\Facades\DB;
 >>>>>>> CRUD_User
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
