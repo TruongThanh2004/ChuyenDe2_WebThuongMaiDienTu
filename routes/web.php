@@ -1,9 +1,6 @@
 <?php
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\UserController;
->>>>>>> CRUD_User
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 /*
