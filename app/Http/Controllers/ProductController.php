@@ -10,6 +10,11 @@ use App\Models\Color;
 class ProductController extends Controller
 {
     // Hàm thêm sản phẩm
+    public function create() {
+        $categories = Category::all(); // Lấy danh sách thể loại
+        $colors = Color::all(); // Lấy danh sách màu sắc
+        return view('admin.createproduct', compact('categories', 'colors'));
+    }
     public function store(Request $request)
     {
         // Validate các trường, bao gồm việc kiểm tra file ảnh

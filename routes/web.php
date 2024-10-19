@@ -70,10 +70,11 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
 
 
 Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-Route::post('admin/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+// Route để hiển thị form thêm sản phẩm
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+
+// Route để lưu sản phẩm
+Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::post('/admin/products/edit{id}', [ProductController::class, 'update'])->name('products.edit');
+Route::post('/admin/products/delete', [ProductController::class, 'destroy'])->name('products.destroy');
 
