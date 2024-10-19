@@ -1,35 +1,5 @@
 @extends('admin.nav')
-    @section('text')
-            <!-- Mobile Menu end -->
-            <div class="breadcome-area">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div class="breadcome-list">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="breadcomb-wp">
-											<div class="breadcomb-icon">
-												<i class="icon nalika-user"></i>
-											</div>
-											<div class="breadcomb-ctn">
-												<h2>User List</h2>
-												<p>Welcome <span class="bread-ntd">Admin Template</span></p>
-											</div>
-										</div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="breadcomb-report">
-											<button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i class="icon nalika-download"></i></button>
-										</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+@section('text')
 
 
 <!-- Mobile Menu end -->
@@ -45,7 +15,7 @@
                                     <i class="icon nalika-user"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                    <h2>User List</h2>
+                                    <h2>Category List</h2>
                                     <p>Welcome <span class="bread-ntd">Admin Template</span></p>
                                 
                                 </div>
@@ -61,8 +31,6 @@
                 </div>
             </div>
         </div>
-            </div>
-        </div>
     </div>
 </div>
 </div>
@@ -73,38 +41,22 @@
                 <div class="product-status-wrap">
                     <h4>User List</h4>
                     <div class="add-product">
-                        <a href="{{route('user-list.create')}}">Add New User</a>
+                        <a href="{{route('category-list.create')}}">Add New Category</a>
                     </div>
                     <table>
                         <tr>
-                            <th>ID</th>
-                            <th>Image</th>
-                            <th>User Name</th>
-                            <th>Full Name</th>
-                            <th>PassWord</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Role</th>
-                            <th></th>
-                            <th></th>
+                            <th>ID</th>                   
+                            <th>Category Name</th>
 
                         </tr>
-                        @foreach ($user as $data_user)                                                  
+                        @foreach ($category as $data_category)                                                  
                             <tr>
-                                <td>{{ $data_user->id}}</td>
-                                <td><img src="../images/user/{{$data_user->image}}" alt=""></td>
-                                <td>{{ $data_user->username}}</td>
-                                <td>{{ $data_user->fullname}}</td>
+                                <td>{{ $data_category->id}}</td>
+                              
+                                <td>{{$data_category-> name}}</td>
+                             
                                 <td>
-                                    {{ $data_user->password}}
-                                </td>
-                                <td>{{ $data_user->email}}</td>
-                                <td>{{ $data_user->address}}</td>
-                                <td>{{ $data_user->phone}}</td>
-                                <td>{{$data_user->role}}</td>
-                                <td>
-                                    <form action="{{route('user-list.edit', $data_user->id)}}">
+                                    <form action="{{route('category-list.edit', $data_category->id)}}">
 
                                         <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
                                                 class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
@@ -113,8 +65,8 @@
                                 </td>
                                 <td>
 
-                                    <form action="{{ route('user-list.destroy', $data_user->id) }}" method="POST"
-                                        onsubmit="return confirm('Bạn có muốn xóa loại sản phẩm này?')">
+                                    <form action="{{ route('category-list.destroy', $data_category->id) }}" method="POST"
+                                        onsubmit="return confirm('Bạn có muốn xóa danh mục này?')">
                                         @csrf
                                         @method('DELETE')
                                         <button data-toggle="tooltip" title="Xóa" class="pd-setting-ed"><i
