@@ -1,11 +1,8 @@
 <?php
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\UserController;
->>>>>>> CRUD_User
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,7 +76,6 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
     Route::put('edit/{id}', 'update')->name('user-list.update');
     Route::delete('destroy/{id}', 'destroy')->name('user-list.destroy');
   
->>>>>>> CRUD_User
 });
 
 
