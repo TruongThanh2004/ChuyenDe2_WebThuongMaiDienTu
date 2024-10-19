@@ -40,6 +40,23 @@ Route::get('/cart', function () {
 Route::get('/singleProduct', function () {
     return view('singleProduct');
 });
+Route::get('/login', function () {
+    return view('login');
+});
+Route::get('/register', function () {
+    return view('Register');
+});
+
+Route::get('/dashboard', function () {
+    return view('admin.dashboard')  ;
+});
+Route::get('/product-list', function () {
+    return view('admin.products')  ;
+});
+Route::get('/user-list', function () {
+    return view('admin.users')  ;
+});
+
 
 
 

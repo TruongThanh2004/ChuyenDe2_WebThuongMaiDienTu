@@ -26,6 +26,7 @@
                 <li><a href="contact">Contact</a></li>
                 <li id="lg-bag"><a href="cart"><i class="far fa-shopping-bag"></i></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
+                <li><a href="login">Đăng Nhập</a></li>
             </ul>
         </div>
         <div id="mobile">
