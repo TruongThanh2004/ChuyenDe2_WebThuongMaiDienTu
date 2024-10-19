@@ -5,7 +5,7 @@
 use App\Http\Controllers\UserController;
 >>>>>>> CRUD_User
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,4 +82,12 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
 >>>>>>> CRUD_User
 });
 
+
+
+Route::get('/admin/products', [ProductController::class, 'index1'])->name('admin.products');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
+Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 

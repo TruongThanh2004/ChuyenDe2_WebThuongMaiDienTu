@@ -127,6 +127,17 @@
                                
                             </ul>
                         </li>
+
+                        
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Product</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Product List" href="{{ route('admin.products') }}"><span class="mini-sub-pro">Product List</span></a></li>
+                                <li><a title="Product Edit" href=""><span class="mini-sub-pro">Product Edit</span></a></li>
+                                <li><a title="Product Detail" href=""><span class="mini-sub-pro">Product Detail</span></a></li>
+                               
+                            </ul>
+                        </li>
                        
 
 

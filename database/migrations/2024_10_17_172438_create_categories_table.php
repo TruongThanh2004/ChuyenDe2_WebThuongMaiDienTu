@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email',191)->primary();
-            $table->string('token',191);
-            $table->timestamp('created_at')->nullable();
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id('category_id'); // khóa chính, tự động tăng
+            $table->string('category_name', 255); // tên danh mục
+            $table->timestamps(); // thêm thời gian tạo và cập nhật
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('categories');
     }
 };
