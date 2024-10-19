@@ -1611,14 +1611,9 @@ ul#single-product-tab li{
 .form-radio label{
 	color:#fff;
 }
-<<<<<<< HEAD
-.review-content-section .input-group input[type="text"]{
-	
-=======
 
 .review-content-section .input-group input[type="text"]{
    
->>>>>>> CRUD_User
 }
 .review-content-section .input-group input::-webkit-input-placeholder, .product-delivary .form-group input::-webkit-input-placeholder, .form-group input::-webkit-input-placeholder, .review-content-section input::-webkit-input-placeholder {
     color:#fff;
@@ -3672,9 +3667,6 @@ th.fc-day-header.fc-widget-header {
 	background:#152036;
 	border-color: #152036;
 	color:#fff;
-<<<<<<< HEAD
-}
-=======
 }
 
 
@@ -3758,11 +3750,5 @@ input[type="file"] {
   input[type="file"]::file-selector-button:active {
     background-color: #e5e7eb;
   }
-  .error-message{
-    
-    font-size: 20px;
-    color: red;
-    
-  }
+  
 
->>>>>>> CRUD_User

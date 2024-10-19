@@ -128,6 +128,17 @@
                                
                             </ul>
                         </li>
+
+
+                         
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Category</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Category List" href="{{ route('category-list') }}"><span class="mini-sub-pro">Category List</span></a></li>
+                             
+                               
+                            </ul>
+                        </li>
                        
 
 
@@ -915,13 +926,10 @@
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
-<<<<<<< HEAD
-=======
 
     <script src="js/js.js"></script>
    
     <script src="js/checkUser.js"></script>
->>>>>>> CRUD_User
 </body>
 
 </html>
