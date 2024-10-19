@@ -1,5 +1,5 @@
 @extends('admin.nav')
-
+<link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 @section('text')
 <div class="breadcome-area">
     <div class="container-fluid">

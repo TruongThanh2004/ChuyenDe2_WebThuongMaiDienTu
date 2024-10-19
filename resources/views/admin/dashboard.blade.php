@@ -2,7 +2,11 @@
 @section('text')
 
 
-
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="breadcome-area">
                 <div class="container-fluid">
                     <div class="row">

@@ -72,9 +72,9 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
 Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
 // Route để hiển thị form thêm sản phẩm
 Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
-
 // Route để lưu sản phẩm
 Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::post('/admin/products/edit{id}', [ProductController::class, 'update'])->name('products.edit');
-Route::post('/admin/products/delete', [ProductController::class, 'destroy'])->name('products.destroy');
+Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
+Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 

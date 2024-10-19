@@ -915,13 +915,10 @@
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
-<<<<<<< HEAD
-=======
 
     <script src="js/js.js"></script>
    
     <script src="js/checkUser.js"></script>
->>>>>>> CRUD_User
 </body>
 
 </html>
