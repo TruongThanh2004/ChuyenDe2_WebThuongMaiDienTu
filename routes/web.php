@@ -54,10 +54,6 @@ Route::get('/dashboard', function () {
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
-<<<<<<< HEAD
-Route::get('/user-list', function () {
-    return view('admin.users')  ;
-=======
 
 
 
@@ -78,12 +74,4 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
   
 });
 
-
-
-Route::get('/admin/products', [ProductController::class, 'index1'])->name('admin.products');
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
