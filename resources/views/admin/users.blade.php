@@ -103,16 +103,14 @@
                             <div class="breadcomb-report">
                                 <button data-toggle="tooltip" data-placement="left" title="Download Report"
                                     class="btn"><i class="icon nalika-download"></i></button>
->>>>>>> CRUD_User
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-         @endsection
-=======
+            </div>
+        </div>
     </div>
 </div>
 </div>
@@ -189,4 +187,3 @@
     </div>
 </div>
 @endsection
->>>>>>> CRUD_User

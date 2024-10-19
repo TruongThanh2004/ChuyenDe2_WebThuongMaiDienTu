@@ -1,8 +1,14 @@
 <?php
 
 use App\Http\Controllers\UserController;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+=======
+use App\Http\Controllers\CategoriesController;
+use Illuminate\Support\Facades\Route;
+
+>>>>>>> Crud_Category
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -55,6 +61,13 @@ Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
 
+
+
+
+
+
+
+
 //ADMIN-USER
 Route::controller(UserController::class)->prefix('user-list')->group(function () {
     Route::get('', 'index')->name('user-list');
@@ -75,4 +88,16 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
 Route::put('/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+Route::controller(CategoriesController::class)->prefix('category-list')->group(function () {
+    Route::get('', 'index')->name('category-list');
+    Route::get('create', 'create')->name('category-list.create');
+    Route::post('store', 'store')->name('category-list.store');
+    Route::get('show/{id}', 'show')->name('category-list.show');
+    Route::get('edit/{id}', 'edit')->name('category-list.edit');
+    Route::put('edit/{id}', 'update')->name('category-list.update');
+    Route::delete('destroy/{id}', 'destroy')->name('category-list.destroy');
+  
+});
+
 
