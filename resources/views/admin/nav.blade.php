@@ -92,7 +92,11 @@
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
+<<<<<<< HEAD
                         <li class="active">
+=======
+                        <li class="">
+>>>>>>> CRUD_User
                             <a class="has-arrow" href="index.html">
 								   <i class="icon nalika-home icon-wrap"></i>
 								   <span class="mini-click-non">Ecommerce</span>
@@ -112,9 +116,14 @@
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">User</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
+<<<<<<< HEAD
                                 <li><a title="User List" href="user-list"><span class="mini-sub-pro">User List</span></a></li>
                                 <li><a title="User Edit" href=""><span class="mini-sub-pro">User Edit</span></a></li>
                                 <li><a title="User Detail" href=""><span class="mini-sub-pro">User Detail</span></a></li>
+=======
+                                <li><a title="User List" href="{{route('user-list')}}"><span class="mini-sub-pro">User List</span></a></li>
+                             
+>>>>>>> CRUD_User
                                
                             </ul>
                         </li>
@@ -905,6 +914,13 @@
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
+<<<<<<< HEAD
+=======
+
+    <script src="js/js.js"></script>
+   
+    <script src="js/checkUser.js"></script>
+>>>>>>> CRUD_User
 </body>
 
 </html>

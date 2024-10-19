@@ -1,5 +1,9 @@
 <?php
 
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\UserController;
+>>>>>>> CRUD_User
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,8 +57,29 @@ Route::get('/dashboard', function () {
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
+<<<<<<< HEAD
 Route::get('/user-list', function () {
     return view('admin.users')  ;
+=======
+
+
+
+
+
+
+
+
+//ADMIN-USER
+Route::controller(UserController::class)->prefix('user-list')->group(function () {
+    Route::get('', 'index')->name('user-list');
+    Route::get('create', 'create')->name('user-list.create');
+    Route::post('store', 'store')->name('user-list.store');
+    Route::get('show/{id}', 'show')->name('user-list.show');
+    Route::get('edit/{id}', 'edit')->name('user-list.edit');
+    Route::put('edit/{id}', 'update')->name('user-list.update');
+    Route::delete('destroy/{id}', 'destroy')->name('user-list.destroy');
+  
+>>>>>>> CRUD_User
 });
 
 
