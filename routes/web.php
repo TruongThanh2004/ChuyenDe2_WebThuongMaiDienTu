@@ -1,14 +1,9 @@
 <?php
 
 use App\Http\Controllers\UserController;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-=======
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 
->>>>>>> Crud_Category
 /*
 |--------------------------------------------------------------------------
 | Web Routes
