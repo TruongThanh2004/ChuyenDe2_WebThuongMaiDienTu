@@ -138,14 +138,30 @@ class ProductController extends Controller
         // Kiểm tra xem bảng products có tồn tại không
         if (!\Schema::hasTable('products')) {
             // Trả về view với thông báo nếu bảng không tồn tại
-            return view('productDashboard')->with('message', 'Bảng sản phẩm không tồn tại.');
+            return view('admin.products')->with('message', 'Bảng sản phẩm không tồn tại.');
         }
 
         $products = Product::all(); // Lấy tất cả sản phẩm
         $categories = Category::all(); // Lấy tất cả danh mục
         $colors = Color::all(); // Lấy tất cả màu sắc
+        $products = Product::paginate(10);
 
         return view('productDashboard', compact('products', 'categories', 'colors'));
+    }
+    public function index1()
+    {
+        // Kiểm tra xem bảng products có tồn tại không
+        if (!\Schema::hasTable('products')) {
+            // Trả về view với thông báo nếu bảng không tồn tại
+            return view('admin.products')->with('message', 'Bảng sản phẩm không tồn tại.');
+        }
+
+        $products = Product::all(); // Lấy tất cả sản phẩm
+        $categories = Category::all(); // Lấy tất cả danh mục
+        $colors = Color::all(); // Lấy tất cả màu sắc
+        $products = Product::paginate(10);
+
+        return view('admin.products', compact('products', 'categories', 'colors'));
     }
     public function edit($id)
 {

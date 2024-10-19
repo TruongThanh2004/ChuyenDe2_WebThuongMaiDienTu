@@ -59,7 +59,7 @@ Route::get('/user-list', function () {
 
 
 
-
+Route::get('/admin/products', [ProductController::class, 'index1'])->name('admin.products');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
