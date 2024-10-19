@@ -1,5 +1,9 @@
 <?php
+<<<<<<< HEAD
 
+=======
+ini_set('memory_limit', '2048M');
+>>>>>>> CRUD_User
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
