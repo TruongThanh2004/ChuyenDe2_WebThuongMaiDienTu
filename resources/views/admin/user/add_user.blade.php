@@ -47,22 +47,22 @@
 
                         </ul>
                         <form action="{{route('user-list.store')}}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+                            @csrf
                             <div id="myTabContent" class="tab-content custom-product-edit">
                                 <div class="product-tab-list tab-pane fade active in" id="description">
                                     <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-12 col-md-5 col-sm-12 col-xs-12">
                                             <div class="review-content-section">
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="username"
                                                         placeholder="Nhập User Name" id="username">
-                                                 
-                                                 <small class="error-message"></small>
-                                             
+                                                        <div>
+                                                        <small class="error-message"></small>
+                                                        </div>                                                    
                                                 </div>
+                                               
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
