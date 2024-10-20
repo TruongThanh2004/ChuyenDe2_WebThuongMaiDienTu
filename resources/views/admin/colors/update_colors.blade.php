@@ -1,26 +1,25 @@
-@extends('admin_colors.nav')
+@extends('admin.nav')
 @section('text')
 
 <div class="card" style="margin:20px;">
   <div class="card-header">Sửa Bảng Màu</div>
   <div class="card-body">
 
-    <form action="{{ route('admin_colors.update', ['id' =>  $colorsdm->id]) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+  <form action="{{ route('admin_colors.update', $color->color_id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-        <div class="form-group">
-            <label for="ame"> Tên Danh Mục :</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ $colorsdm->name }}" required>
+    <label for="name">Tên Màu:</label>
+    <input type="text" name="name" id="name" class="form-control" value="{{ $color->name }}" required><br>
 
-            <label>colors_Image</label><br>
-        <input type="file" name="color_image" id="color_image" class="form-control" value="{{$colorsdm->images}}" required><br>
-        </div>
+    <label for="color_image">Ảnh Màu:</label>
+    <input type="file" name="color_image" id="color_image" class="form-control" value="{{ $color->images }}"><br>
 
-
-        <button type="submit" class="btn btn-success">Sửa Bảng Màu</button>
-    </form>
+    <button type="submit" class="btn btn-success">Cập Nhật</button>
+</form>
 
   </div>
 </div>
 @endsection
+
+
