@@ -12,8 +12,8 @@
     <label for="name">Tên Màu:</label>
     <input type="text" name="name" id="name" class="form-control" value="{{ $color->name }}" required><br>
 
-    <label for="color_image">Ảnh Màu:</label>
-    <input type="file" name="color_image" id="color_image" class="form-control" value="{{ $color->images }}"><br>
+    <label for="images">Ảnh Màu:</label>
+    <input type="file" name="images" id="images" class="form-control" value="{{ $color->images }}"><br>
 
     <button type="submit" class="btn btn-success">Cập Nhật</button>
 </form>

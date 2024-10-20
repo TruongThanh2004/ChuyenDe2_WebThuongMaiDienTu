@@ -9,11 +9,12 @@
             <label for="name" class="text-name">Tên Màu:</label>
             <input type="text" name="name" id="name" class="form-control"  placeholder="Nhập tên" required><br>
 
-            <label for="color_image" class="text-name">Ảnh Màu:</label>
-            <input type="file" name="color_image" id="color_image" class="form-control"><br>
+            <label for="images" class="text-name">Ảnh Màu:</label>
+            <input type="file" name="images" id="images" class="form-control"><br>
 
             <button type="submit" class="btn btn-success">Thêm Màu</button>
         </form>
+      
     </div>
 </div>
 @endsection

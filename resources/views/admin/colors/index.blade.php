@@ -32,7 +32,7 @@
                                     <td>{{ $color->color_id }}</td>
                                     <td>{{ $color->name }}</td>
                                     <td>
-                                        <img src="{{ asset($color->images) }}" width="50" height="50" alt="Color Image">
+                                        <img src="{{ asset('images/colors/'.$color->images) }}" width="70" height="100" alt="Color Image">
                                     </td>
                                     <td>
                                     <a href="{{ route('admin_colors.edit', $color->color_id) }}" class="btn btn-primary btn-sm">Sửa</a>
