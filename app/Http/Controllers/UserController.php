@@ -127,8 +127,10 @@ class UserController extends Controller
             'username' => $request->username,           
             'password' =>$request->password
         ];
-        if(Auth::attempt($login)){
+        if(Auth::attempt($login)&&Auth::user()->role==2){
          return redirect()->route('dashboard');
+        }else{
+            return redirect()->route('home');
         }
     }
 

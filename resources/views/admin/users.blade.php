@@ -88,8 +88,8 @@
                                 <td>{{ $data_user->email}}</td>
                                 <td>{{ $data_user->address}}</td>
                                 <td>{{ $data_user->phone}}</td>
-                                <td>{{$data_user->role}}</td>
-                                <td>
+                                <td>{{$data_user->role == '1' ? 'User':'Admin'}}</td>
+                                <td> 
                                     <form action="{{route('user-list.edit', $data_user->id)}}">
 
                                         <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
