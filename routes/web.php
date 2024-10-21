@@ -103,6 +103,14 @@ Route::post('/do-login',[UserController::class,'doLogin'])->name('doLogin');
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
+Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
+// Route để hiển thị form thêm sản phẩm
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+// Route để lưu sản phẩm
+Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
+Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 
 

@@ -24,10 +24,6 @@ return new class extends Migration
             $table->string('image3', 255)->nullable(); // ảnh sản phẩm 3
             $table->tinyInteger('rating')->default(0); // điểm đánh giá sản phẩm
             $table->timestamps(); // thời gian tạo và cập nhật
-
-            // Khóa ngoại
-            //$table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
-            $table->foreign('color_id')->references('color_id')->on('colors')->onDelete('cascade');
         });
     }
 
