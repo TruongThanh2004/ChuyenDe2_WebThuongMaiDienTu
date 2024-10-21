@@ -116,6 +116,5 @@ Route::prefix('admin/colors')->group(function () {
     Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
 
-    // Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');
-    // Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');
+  
 });
