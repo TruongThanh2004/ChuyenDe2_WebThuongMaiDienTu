@@ -196,4 +196,17 @@ class ProductController extends Controller
 
     return view('admin.product.update', compact('product', 'categories', 'colors'));
 }
+public function show($id)
+{
+    // Lấy sản phẩm theo ID
+    $product = Product::findOrFail($id);
+
+    // Lấy thể loại và màu sắc
+    $categories = Category::all();
+    $colors = Color::all();
+
+    // Nếu bạn muốn chỉ hiển thị sản phẩm mà không cần chỉnh sửa
+    return view('admin.product.showproduct', compact('product', 'categories', 'colors'));
+}
+
 }

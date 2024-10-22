@@ -110,6 +110,7 @@ Route::middleware(['auth','checkrole'])->group(function () {
     Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::get('/admin/products/search', [ProductController::class, 'search'])->name('admin.products.search');
+    Route::get('/products/{id}/show', [ProductController::class, 'show'])->name('products.show');
 
 
 
