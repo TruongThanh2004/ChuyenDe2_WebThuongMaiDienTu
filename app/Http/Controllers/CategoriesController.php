@@ -12,7 +12,7 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $category = Category::paginate(5);     
         if(isset($request->keyword) && $request->keyword != ''){
