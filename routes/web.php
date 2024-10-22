@@ -3,7 +3,10 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+<<<<<<< HEAD
 use App\Http\Controllers\CategoriesController;
+=======
+>>>>>>> parent of f4ad518 (Reapply "Merge branch 'CRUD_User'")
 
 /*
 |--------------------------------------------------------------------------
