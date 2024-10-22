@@ -1,15 +1,11 @@
 <?php
 
 use App\Http\Controllers\UserController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CategoriesController;
->>>>>>> Crud_color
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
-use App\Http\Controllers\CategoriesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
