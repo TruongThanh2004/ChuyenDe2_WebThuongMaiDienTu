@@ -140,7 +140,14 @@
                             </ul>
                         </li>
                        
-
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Colors</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="User List" href="{{route('admin_colors.index')}}"><span class="mini-sub-pro">User List</span></a></li>
+                             
+                               
+                            </ul>
+                        </li>
 
 
                        

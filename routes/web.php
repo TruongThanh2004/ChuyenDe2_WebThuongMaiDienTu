@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 
@@ -77,7 +79,8 @@ Route::controller(UserController::class)->prefix('user-list')->group(function ()
 
 
 
-Route::get('/admin/products', [ProductController::class, 'index1'])->name('admin.products');
+Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
+Route::post('admin/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::get('/products/update/{id}', [ProductController::class, 'edit'])->name('products.edit');
@@ -96,3 +99,22 @@ Route::controller(CategoriesController::class)->prefix('category-list')->group(f
 });
 
 
+// colors
+// Route::prefix('admin/colors')->controller(ColorController::class)->group(function () {
+//     Route::get('', 'index')->name('admin_colors.index');
+//     Route::get('create', 'create')->name('admin_colors.create');
+//     Route::post('store', 'AddNewcolors')->name('admin_colors.AddNewcolors');
+//     Route::get('edit/{id}', 'edit')->name('admin_colors.edit');
+//     Route::put('update/{id}', 'update')->name('admin_colors.update');
+//     Route::delete('destroy/{id}', 'destroy')->name('admin_colors.destroy');
+// });
+Route::prefix('admin/colors')->group(function () {
+    Route::get('/', [ColorController::class, 'index'])->name('admin_colors.index');  // Danh sách màu
+    Route::get('create', [ColorController::class, 'create'])->name('admin_colors.create');  // Form tạo mới
+    Route::post('store', [ColorController::class, 'AddNewcolors'])->name('admin_colors.store');  // Thêm mới
+    Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
+    Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
+    Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
+
+  
+});
