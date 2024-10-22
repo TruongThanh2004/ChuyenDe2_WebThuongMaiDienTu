@@ -58,12 +58,19 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                    <div class="header-top-menu tabl-d-n hd-search-rp">
+                        <div class="breadcome-heading">
+                            <form role="search" class="" action="{{ route('admin.products.search') }}">
+                                <input type="text" placeholder="Search..." class="form-control" id="search"
+                                    name="keyword">
+                                <button type="sumbit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                     <div class="product-status-wrap">
                         <h4>Danh sách sản phẩm</h4>
-                        <form action="{{ route('admin.products.search') }}" method="GET">
-                                <input type="text" name="search" placeholder="Nhập từ khóa tìm kiếm...">
-                                <button type="submit">Tìm kiếm</button>
-                            </form>
                         <div class="add-product">
                             <a href="{{ route('products.create') }}">Thêm sản phẩm</a>
                         </div>
