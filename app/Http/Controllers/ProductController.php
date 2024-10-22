@@ -10,6 +10,11 @@ use App\Models\Color;
 class ProductController extends Controller
 {
     // Hàm thêm sản phẩm
+    public function create() {
+        $categories = Category::all(); // Lấy danh sách thể loại
+        $colors = Color::all(); // Lấy danh sách màu sắc
+        return view('admin.product.createproduct', compact('categories', 'colors'));
+    }
     public function store(Request $request)
     {
         // Validate các trường, bao gồm việc kiểm tra file ảnh
@@ -54,7 +59,7 @@ class ProductController extends Controller
         // Tạo sản phẩm mới với dữ liệu đã xử lý
         Product::create($data);
     
-        return redirect()->back()->with('success', 'Product added successfully.');
+        return redirect()->route('admin.products')->with('success', 'Thêm sản phẩm thành công.');
     }
     
 
@@ -118,7 +123,7 @@ class ProductController extends Controller
         // Cập nhật sản phẩm
         $product->update($data);
     
-        return redirect()->route('products.index')->with('success', 'Cập nhật sản phẩm thành công.');
+        return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công.');
     }
     
     // Hàm xóa sản phẩm
@@ -127,9 +132,9 @@ class ProductController extends Controller
         $product = Product::where('product_id', $id)->first();
         if ($product) {
             $product->delete();
-            return redirect()->route('products.index')->with('success', 'Sản phẩm đã được xóa.');
+            return redirect()->route('admin.products')->with('success', 'Sản phẩm đã được xóa.');
         }
-        return redirect()->route('products.index')->with('error', 'Sản phẩm không tồn tại.');
+        return redirect()->route('admin.products')->with('error', 'Sản phẩm không tồn tại.');
     }
 
     // Hàm hiển thị tất cả sản phẩm
@@ -161,7 +166,7 @@ class ProductController extends Controller
         $colors = Color::all(); // Lấy tất cả màu sắc
         $products = Product::paginate(10);
 
-        return view('admin.products', compact('products', 'categories', 'colors'));
+        return view('admin.product.products', compact('products', 'categories', 'colors'));
     }
     public function edit($id)
 {
@@ -169,6 +174,6 @@ class ProductController extends Controller
     $categories = Category::all(); // Lấy tất cả các thể loại
     $colors = Color::all(); // Lấy tất cả các màu sắc
 
-    return view('update', compact('product', 'categories', 'colors'));
+    return view('admin.product.update', compact('product', 'categories', 'colors'));
 }
 }
