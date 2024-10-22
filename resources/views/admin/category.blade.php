@@ -1,7 +1,5 @@
 @extends('admin.nav')
 @section('text')
-
-
 <!-- Mobile Menu end -->
 <div class="breadcome-area">
     <div class="container-fluid">
@@ -34,29 +32,49 @@
     </div>
 </div>
 </div>
+
+
+
 <div class="product-status mg-b-30">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                    <div class="header-top-menu tabl-d-n hd-search-rp">
+                        <div class="breadcome-heading">
+                            <form role="search" class="" action="">
+                                <input type="text" placeholder="Search..." class="form-control" id="search"
+                                    name="keyword">
+                                <button type="sumbit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="product-status-wrap">
-                    <h4>User List</h4>
+                    <h4>Category List</h4>               
                     <div class="add-product">
                         <a href="{{route('category-list.create')}}">Add New Category</a>
                     </div>
+                    @if (session('success'))    
+                   <span><p> <p style="color:red"> {{session('success')}}</></p></span>                  
+                    @endif
+                    
                     <table>
                         <tr>
                             <th>ID</th>                   
                             <th>Category Name</th>
-
+                            <th></th>
+                            <th></th>
                         </tr>
                         @foreach ($category as $data_category)                                                  
                             <tr>
-                                <td>{{ $data_category->id}}</td>
+                                <td>{{ $data_category->category_id}}</td>
                               
-                                <td>{{$data_category-> name}}</td>
+                                <td>{{$data_category-> category_name}}</td>
                              
                                 <td>
-                                    <form action="{{route('category-list.edit', $data_category->id)}}">
+                                    <form action="{{route('category-list.edit', $data_category->category_id)}}">
 
                                         <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
                                                 class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
@@ -65,7 +83,7 @@
                                 </td>
                                 <td>
 
-                                    <form action="{{ route('category-list.destroy', $data_category->id) }}" method="POST"
+                                    <form action="{{ route('category-list.destroy', $data_category->category_id) }}" method="POST"
                                         onsubmit="return confirm('Bạn có muốn xóa danh mục này?')">
                                         @csrf
                                         @method('DELETE')
@@ -77,13 +95,7 @@
                         @endforeach
                     </table>
                     <div class="custom-pagination">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
+                    {{ $category->links() }}
                     </div>
                 </div>
             </div>
