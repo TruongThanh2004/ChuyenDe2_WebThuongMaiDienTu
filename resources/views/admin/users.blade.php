@@ -1,5 +1,7 @@
 @extends('admin.nav')
 @section('text')
+
+
 <!-- Mobile Menu end -->
 <div class="breadcome-area">
     <div class="container-fluid">
@@ -32,6 +34,37 @@
     </div>
 </div>
 </div>
+    @section('text')
+            <!-- Mobile Menu end -->
+            <div class="breadcome-area">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="breadcome-list">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="breadcomb-wp">
+											<div class="breadcomb-icon">
+												<i class="icon nalika-user"></i>
+											</div>
+											<div class="breadcomb-ctn">
+												<h2>User List</h2>
+												<p>Welcome <span class="bread-ntd">Admin Template</span></p>
+											</div>
+										</div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="breadcomb-report">
+											<button data-toggle="tooltip" data-placement="left" title="Download Report" class="btn"><i class="icon nalika-download"></i></button>
+										</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -88,8 +121,8 @@
                                 <td>{{ $data_user->email}}</td>
                                 <td>{{ $data_user->address}}</td>
                                 <td>{{ $data_user->phone}}</td>
-                                <td>{{$data_user->role == '1' ? 'User':'Admin'}}</td>
-                                <td> 
+                                <td>{{$data_user->role}}</td>
+                                <td>
                                     <form action="{{route('user-list.edit', $data_user->id)}}">
 
                                         <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
@@ -122,4 +155,3 @@
         </div>
     </div>
 </div>
-@endsection
