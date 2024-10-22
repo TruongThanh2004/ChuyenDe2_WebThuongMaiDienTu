@@ -136,6 +136,28 @@ class BlogController extends Controller
                 return redirect()->route('blogs.index')->with('error', 'Không thể xóa blog, vui lòng thử lại.');
             }
         }
-    }
+        public function phanTrang(Request $request)
+        {
+            $search = $request->input('search', '');
 
+            // Nếu có giá trị tìm kiếm, thực hiện tìm kiếm theo tiêu đề
+            if ($search) {
+                $blogs = Blog::where('title', 'like', '%' . $search . '%')->paginate(5);
+            } else {
+                $blogs = Blog::paginate(5); // Phân trang mà không tìm kiếm
+            }
+
+            // Trả về view kèm biến $blogs và $search
+            return view('blogs.index', compact('blogs', 'search'));
+        }
+        public function show($id)
+        {
+            $blog = Blog::with('user')->findOrFail($id); // Tìm bài viết cùng với thông tin người dùng
+            return view('blogs.show', compact('blog'));
+        }
+
+        
+
+    }
+    
 

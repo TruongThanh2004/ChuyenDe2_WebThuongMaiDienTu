@@ -51,3 +51,5 @@ Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store'); //
 Route::get('/blogs/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit'); // Hiển thị form sửa blog
 Route::put('/blogs/{id}', [BlogController::class, 'update'])->name('blogs.update'); // Xử lý sửa blog
 Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
+Route::get('/blogs', [BlogController::class, 'phanTrang'])->name('blogs.index');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');

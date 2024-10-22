@@ -27,6 +27,7 @@ class Blog extends Model
     // Define a relationship with the User model
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id'); // Sử dụng 'user_id' là khóa ngoại
     }
+
 }
