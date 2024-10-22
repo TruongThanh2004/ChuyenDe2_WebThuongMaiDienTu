@@ -137,22 +137,42 @@ class ProductController extends Controller
         return redirect()->route('admin.products')->with('error', 'Sản phẩm không tồn tại.');
     }
 
-    // Hàm hiển thị tất cả sản phẩm
-    // public function index()
-    // {
-    //     // Kiểm tra xem bảng products có tồn tại không
-    //     if (!\Schema::hasTable('products')) {
-    //         // Trả về view với thông báo nếu bảng không tồn tại
-    //         return view('admin.products')->with('message', 'Bảng sản phẩm không tồn tại.');
-    //     }
 
-    //     $products = Product::all(); // Lấy tất cả sản phẩm
-    //     $categories = Category::all(); // Lấy tất cả danh mục
-    //     $colors = Color::all(); // Lấy tất cả màu sắc
-    //     $products = Product::paginate(10);
 
-    //     return view('productDashboard', compact('products', 'categories', 'colors'));
-    // }
+        public function search(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $searchTerm = $request->input('search');
+
+        // Kiểm tra nếu từ khóa tìm kiếm không rỗng
+        if ($searchTerm) {
+            // Tìm kiếm sản phẩm theo tên sản phẩm, mô tả hoặc các trường khác
+            $products = Product::where('product_name', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('price', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhereHas('category', function($query) use ($searchTerm) {
+                    $query->where('category_name', 'LIKE', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('color', function($query) use ($searchTerm) {
+                    $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+                })
+                ->paginate(10); // Phân trang 10 sản phẩm mỗi trang
+
+            // Nếu không có sản phẩm, trả về view với thông báo
+            if ($products->isEmpty()) {
+                return view('admin.product.products', compact('products'))->with('message', 'Không tìm thấy sản phẩm nào.');
+            }
+
+            // Trả về view cùng với kết quả tìm kiếm
+            return view('admin.product.products', compact('products'));
+        }
+
+        // Nếu không có từ khóa tìm kiếm, trả về danh sách sản phẩm đầy đủ
+        return redirect()->route('admin.products')->with('error', 'Vui lòng nhập từ khóa để tìm kiếm.');
+    }
+
+
+
     public function index()
     {
         // Kiểm tra xem bảng products có tồn tại không
