@@ -50,7 +50,7 @@
                     <div class="product-status-wrap">
                         <h4>Danh sách sản phẩm</h4>
                         <div class="add-product">
-                            <a href="{{ route('products.store') }}">Thêm sản phẩm</a>
+                            <a href="{{ route('products.create') }}">Thêm sản phẩm</a>
                         </div>
                         <table>
                             <thead>
