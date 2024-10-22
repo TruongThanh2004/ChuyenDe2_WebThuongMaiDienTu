@@ -47,8 +47,11 @@ class UserController extends Controller
             
             $file->move(public_path('images/user/'),$file_name);
         }
-        $request->merge(['image'=>$file_name]);
-        User::create($request->all());
+  
+        $password = Hash::make($request->password);
+        $request->merge(['image'=>$file_name,'password'=>$password]);
+        $user = User::create($request->all());
+        
         return redirect()->route('user-list')->with('success','Thêm user thành côngg');
         
     }
@@ -86,7 +89,8 @@ class UserController extends Controller
         }else{
             $file_name = $olaImage;
         }
-        $request->merge(['image'=>$file_name]);
+        $password = Hash::make($request->password);
+        $request->merge(['image'=>$file_name,'password'=>$password]);
         $updateUser->update($request->all());
         return redirect()->route('user-list');
     }
@@ -114,7 +118,7 @@ class UserController extends Controller
        if($request->password1 === $request->password2){
             $user->password = Hash::make($request->password1);
             $user->save();
-            return redirect()->route('register')->with('success', 'User registered successfully!');
+            return redirect()->route('register')->with('success', 'Đăng ký thành công!');
        }else{
             $error = "Mật khẩu không giống nhau xin nhập lại mật khẩu";
             return redirect()->route('register')->with('success', $error);
@@ -125,19 +129,31 @@ class UserController extends Controller
     public function doLogin(Request $request){
         $login = [  
             'username' => $request->username,           
-            'password' =>$request->password
+            'password' =>$request->password,
         ];
-        if(Auth::attempt($login)&&Auth::user()->role==2){
-         return redirect()->route('dashboard');
-        }else{
-            return redirect()->route('home');
-        }
+        
+
+            
+                if(Auth::attempt($login)&&Auth::user()->role===2){                 
+                return redirect()->route('dashboard');
+                }else if(Auth::attempt($login)&&Auth::user()->role===1){   
+                return redirect()->route('home');
+                }else{
+                  
+                    return redirect()->route('home');
+             }
+
+            
+        
+             
+
+            
     }
 
 
     public function logout(){
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 
   

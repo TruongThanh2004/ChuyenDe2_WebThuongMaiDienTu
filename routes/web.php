@@ -5,7 +5,12 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Middleware\CheckRole;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ColorController;
+>>>>>>> origin/main
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +22,13 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+
+    Route::get('/', function () {
+    
+        return view('home');
+    })->name('home');
+
+
 
 Route::get('/shop', function () {
     return view('shop');
@@ -51,12 +60,12 @@ Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
 
-
 //check login -> admin
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','checkrole'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
+
     Route::controller(UserController::class)->prefix('user-list')->group(function () {
         Route::get('', 'index')->name('user-list'); 
         Route::get('create', 'create')->name('user-list.create');
@@ -76,7 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     
     Route::controller(CategoriesController::class)->prefix('category-list')->group(function () {
-        Route::get('', 'index')->name('category-list');
+        Route::get('', 'index')->name(name: 'category-list');
         Route::get('create', 'create')->name('category-list.create');
         Route::post('store', 'store')->name('category-list.store');
         Route::get('show/{id}', 'show')->name('category-list.show');
@@ -85,6 +94,34 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('destroy/{id}', 'destroy')->name('category-list.destroy');
       
     });
+
+    // Route::controller(ProductController::class)->prefix('products-list')->group(function () {
+    //     Route::get('', 'index')->name('products.index');
+    //     Route::get('create', 'create')->name('products.create');
+    //     Route::post('store', 'store')->name('products.store');
+    //     Route::get('edit/{id}', 'edit')->name('products.edit');
+    //     Route::put('update/{id}', 'update')->name('products.update');
+    //     Route::delete('delete/{id}', 'destroy')->name('products.destroy');
+    //     Route::get('search', 'search')->name('products.search');
+    // });
+    
+    
+    Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
+    // Route để hiển thị form thêm sản phẩm
+    Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+    // Route để lưu sản phẩm
+    Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
+    Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/admin/products/search', [ProductController::class, 'search'])->name('admin.products.search');
+
+
+
+
+
+
+
 });
 
 
@@ -103,15 +140,6 @@ Route::get('/login', function () {
 Route::post('/do-login',[UserController::class,'doLogin'])->name('doLogin');
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
-
-Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-// Route để hiển thị form thêm sản phẩm
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
-// Route để lưu sản phẩm
-Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 
 

@@ -12,10 +12,16 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $category = Category::all();
-        return view('admin.category')->with('category', $category);
+        $category = Category::paginate(5);     
+        if(isset($request->keyword) && $request->keyword != ''){
+            $category = Category::where('category_name','like','%' .$request->keyword.'%')
+                                ->orWhere('category_id','like','%' .$request->keyword.'%')
+            ->paginate(5);
+            
+        }
+        return view('admin.category')->with('category',$category);
     }
 
     /**
@@ -39,7 +45,7 @@ class CategoriesController extends Controller
     {
 
         $category = Category::create([
-            'name' => $request->input('name'),
+            'category_name' => $request->input('category_name'),
         ]);
         return redirect()->route('category-list')->with('success', 'Thêm danh mục sản phẩm thành công');
 
@@ -49,13 +55,13 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id 
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.category.show_category',compact('category'));
+        // $category = Category::findOrFail($id);
+        // return view('admin.category.show_category',compact('category'));
     }
 
     /**
@@ -68,6 +74,7 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
         return view('admin.category.edit_category',compact('category'));
+        
     }
 
     /**
@@ -97,4 +104,5 @@ class CategoriesController extends Controller
         return redirect()->route('category-list');
      
     }
+    
 }
