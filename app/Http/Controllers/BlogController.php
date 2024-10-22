@@ -26,12 +26,19 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        // Xác thực dữ liệu
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'user_id' => 'required|exists:users,id',
+            'title' => 'required|min:5|max:255|regex:/^[\pL\s\d]+$/u',
+            'content' => 'required',
+            'image' => 'required|mimes:jpeg,png,jpg,gif|max:4096', // 4096 KB = 4MB
+        ], [
+            'title.required' => 'Tiêu đề không được để trống.',
+            'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+            'title.max' => 'Tiêu đề không được quá 255 ký tự.',
+            'title.regex' => 'Tiêu đề không được chứa ký tự đặc biệt hoặc emoji.',
+            'content.required' => 'Nội dung không được để trống.',
+            'image.required' => 'Hình ảnh không được để trống.',
+            'image.mimes' => 'Hệ thống chỉ chấp nhận định dạng JPG, PNG, JPEG, GIF.',
+            'image.max' => 'Kích thước tệp hình ảnh không được vượt quá 4MB.',
         ]);
 
         // Sử dụng try-catch để bắt các lỗi phát sinh
