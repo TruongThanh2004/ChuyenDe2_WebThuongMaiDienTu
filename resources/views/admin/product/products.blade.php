@@ -73,7 +73,7 @@
                                     </td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ $product->description }}</td>
-                                    <td>${{ $product->price }}</td>
+                                    <td>{{ $product->price }}VND</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
                                     <td>{{ $product->color->name ?? 'Không có màu sắc' }}</td>
