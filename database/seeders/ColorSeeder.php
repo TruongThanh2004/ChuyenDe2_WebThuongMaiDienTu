@@ -14,9 +14,9 @@ class ColorSeeder extends Seeder
     {
         // Danh sách các màu mẫu
         $colors = [
-            ['name' => 'Đỏ', 'images' => 'images/colors/red.png'],
-            ['name' => 'Xanh dương', 'images' => 'images/colors/blue.png'],
-            ['name' => 'Xanh lá', 'images' => 'images/colors/green.png'],
+            ['name' => 'Đỏ', 'images' => 'images/colors/1729540040.png'],
+            ['name' => 'Xanh dương', 'images' => 'images/colors/1729540210.png'],
+            ['name' => 'Xanh lá', 'images' => 'images/colors/1729540241.png'],
             ['name' => 'Vàng', 'images' => 'images/colors/yellow.png'],
             ['name' => 'Đen', 'images' => 'images/colors/black.png'],
             ['name' => 'Trắng', 'images' => 'images/colors/white.png'],
