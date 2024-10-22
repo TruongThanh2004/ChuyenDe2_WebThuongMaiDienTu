@@ -73,13 +73,16 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="images/admin/logo/logo.png" alt="" /></a>
+                <a href="{{route('dashboard')}}"><img class="main-logo" src="images/admin/logo/logo.png" alt="" /></a>
                 <strong><img src="images/admin/logo/logosn.png" alt="" /></strong>
             </div>
 			<div class="nalika-profile">
 				<div class="profile-dtl">
-					<a href="#"><img src="images/admin/notification/4.jpg" alt="" /></a>
-					<h2>Lakian <span class="min-dtn">Das</span></h2>
+                    @if (Auth::check())
+                    <a href="#"><img src="images/user/{{Auth::user()->image}}" alt="" /></a>
+					<h2>{{Auth::user()->username}}</h2>
+                    @endif
+					
 				</div>
 				<div class="profile-social-dtl">
 					<ul class="dtl-social">
@@ -123,8 +126,6 @@
                             <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Product</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Product List" href="{{ route('admin.products') }}"><span class="mini-sub-pro">Product List</span></a></li>
-                                <li><a title="Product Edit" href=""><span class="mini-sub-pro">Product Edit</span></a></li>
-                                <li><a title="Product Detail" href=""><span class="mini-sub-pro">Product Detail</span></a></li>
                                
                             </ul>
                         </li>
@@ -140,7 +141,14 @@
                             </ul>
                         </li>
                        
-
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Colors</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="User List" href="{{route('admin_colors.index')}}"><span class="mini-sub-pro">User List</span></a></li>
+                             
+                               
+                            </ul>
+                        </li>
 
 
                        
@@ -156,7 +164,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="logo-pro">
-                        <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
+                        <a href=""><img class="main-logo" src="img/logo/logo.png" alt="" /></a>
                     </div>
                 </div>
             </div>
@@ -175,17 +183,8 @@
 												</button>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
-                                        <div class="header-top-menu tabl-d-n hd-search-rp">
-                                            <div class="breadcome-heading">
-												<form role="search" class="">
-													<input type="text" placeholder="Search..." class="form-control">
-													<a href=""><i class="fa fa-search"></i></a>
-												</form>
-											</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                  
+                                    <div class="col-lg-11 col-md-12 col-sm-12 col-xs-12">
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
                                                 <li class="nav-item dropdown">
@@ -206,43 +205,7 @@
                                                                         <p>Please done this project as soon possible.</p>
                                                                     </div>
                                                                 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="img/contact/4.jpg" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Sulaiman din</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="img/contact/3.jpg" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="img/contact/2.jpg" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
+                                                            </li>  
                                                         </ul>
                                                         <div class="message-view">
                                                             <a href="#">View All Messages</a>
@@ -266,43 +229,7 @@
                                                                         <p>Please done this project as soon possible.</p>
                                                                     </div>
                                                                 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="icon nalika-cloud" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Sulaiman din</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="icon nalika-folder" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="icon nalika-bar-chart" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
-                                                                        <h2>Victor Jara</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
+                                                            </li>                    
                                                         </ul>
                                                         <div class="notification-view">
                                                             <a href="#">View All Notification</a>
@@ -312,7 +239,9 @@
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
 															<i class="icon nalika-user"></i>
-															<span class="admin-name">Advanda Cro</span>
+															@if (Auth::check())
+                                                            <span class="admin-name">{{Auth::user()->username}}</span>
+                                                            @endif
 															<i class="icon nalika-down-arrow nalika-angle-dw"></i>
 														</a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
@@ -324,7 +253,7 @@
                                                         </li>
                                                         <li><a href="#"><span class="icon nalika-settings author-log-ic"></span> Settings</a>
                                                         </li>
-                                                        <li><a href="login.html"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
+                                                        <li><a href="{{route('logout')}}"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
                                                         </li>
                                                     </ul>
                                                 </li>
