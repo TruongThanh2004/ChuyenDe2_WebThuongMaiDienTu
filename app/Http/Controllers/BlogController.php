@@ -82,12 +82,22 @@ class BlogController extends Controller
     }
 
     public function update(Request $request, $id)
-{
+    {
     $request->validate([
-        'title' => 'required|max:255',
+        'title' => 'required|min:5|max:255|regex:/^[\pL\s\d]+$/u',
         'content' => 'required',
-        'image' => 'nullable|image|max:2048', // Đảm bảo hình ảnh có định dạng hợp lệ
+        'image' => 'nullable|mimes:jpeg,png,jpg,gif|max:4096', // 4096 KB = 4MB
+    ], [
+        'title.required' => 'Tiêu đề không được để trống.',
+        'title.min' => 'Tiêu đề phải có ít nhất 5 ký tự.',
+        'title.max' => 'Tiêu đề không được quá 255 ký tự.',
+        'title.regex' => 'Tiêu đề không được chứa ký tự đặc biệt hoặc emoji.',
+        'content.required' => 'Nội dung không được để trống.',
+        'image.mimes' => 'Hệ thống chỉ chấp nhận định dạng JPG, PNG, JPEG, GIF.',
+        'image.max' => 'Kích thước tệp hình ảnh không được vượt quá 4MB.',
     ]);
+
+
 
     $blog = Blog::findOrFail($id);
     $data = $request->all();
