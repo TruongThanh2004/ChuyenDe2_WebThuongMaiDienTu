@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('colors', function (Blueprint $table) {
             $table->id('color_id'); // khóa chính, tự động tăng
-            $table->string('images', 255); // ảnh bảng màu
-            $table->string('name', 50); // tên bảng màu
+            $table->string('images', 255)->nullable(); // ảnh bảng màu (cho phép null)
+            $table->string('name', 30); // tên bảng màu
             $table->timestamps(); // thêm thời gian tạo và cập nhật
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('colors');
     }
 };
