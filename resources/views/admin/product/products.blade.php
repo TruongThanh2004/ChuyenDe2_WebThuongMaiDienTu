@@ -1,5 +1,4 @@
 @extends('admin.nav')
-
 @section('text')
     <div class="breadcome-area">
         <div class="container-fluid">
@@ -31,27 +30,46 @@
             </div>
         </div>
     </div>
-
-    <!-- Thông báo lỗi nếu có -->
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
+   <!-- Thông báo lỗi tìm kiếm -->
+   @if (session('message'))
+                        <div class="alert alert-success" role="alert" id="success-message">
+                            {{ session('message') }}
+                        </div>
+                        <script>
+                            // Tự động ẩn thông báo sau 5 giây
+                            setTimeout(function () {
+                                document.getElementById('success-message').style.display = 'none';
+                            }, 3000); 
+                        </script>
+                    @endif
+      <!-- Thông báo cập nhật thành công -->
+      @if (session('success'))
+                        <div class="alert alert-success" role="alert" id="success-message">
+                            {{ session('success') }}
+                        </div>
+                        <script>
+                            // Tự động ẩn thông báo sau 5 giây
+                            setTimeout(function () {
+                                document.getElementById('success-message').style.display = 'none';
+                            }, 3000); 
+                        </script>
+                    @endif
     <div class="product-status mg-b-30">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
                         <h4>Danh sách sản phẩm</h4>
+                        <form action="{{ route('admin.products.search') }}" method="GET">
+                                <input type="text" name="search" placeholder="Nhập từ khóa tìm kiếm...">
+                                <button type="submit">Tìm kiếm</button>
+                            </form>
                         <div class="add-product">
                             <a href="{{ route('products.create') }}">Thêm sản phẩm</a>
                         </div>
+                        @if($products->isEmpty())
+                            <p>Không có sản phẩm nào để hiển thị.</p>
+                        @else
                         <table>
                             <thead>
                                 <tr>
@@ -85,7 +103,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" data-toggle="tooltip" title="Xóa" class="pd-setting-ed">
-                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                <i class="fa fa-trash-o"  onclick="return confirm('Bạn có chắc chắn muốn xóa?')" aria-hidden="true"></i>
                                             </button>
                                         </form>
                                     </td>
@@ -93,7 +111,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-
+                        @endif
                         <div class="custom-pagination">
                             {{ $products->links() }} <!-- Pagination -->
                         </div>
