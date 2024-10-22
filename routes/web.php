@@ -1,11 +1,16 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
+<<<<<<< HEAD
+=======
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ColorController;
+>>>>>>> origin/main
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -140,14 +145,6 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 
 // colors
-// Route::prefix('admin/colors')->controller(ColorController::class)->group(function () {
-//     Route::get('', 'index')->name('admin_colors.index');
-//     Route::get('create', 'create')->name('admin_colors.create');
-//     Route::post('store', 'AddNewcolors')->name('admin_colors.AddNewcolors');
-//     Route::get('edit/{id}', 'edit')->name('admin_colors.edit');
-//     Route::put('update/{id}', 'update')->name('admin_colors.update');
-//     Route::delete('destroy/{id}', 'destroy')->name('admin_colors.destroy');
-// });
 Route::prefix('admin/colors')->group(function () {
     Route::get('/', [ColorController::class, 'index'])->name('admin_colors.index');  // Danh sách màu
     Route::get('create', [ColorController::class, 'create'])->name('admin_colors.create');  // Form tạo mới
@@ -156,5 +153,6 @@ Route::prefix('admin/colors')->group(function () {
     Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
 
-  
+    // Route::get('/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin_colors.search');
+    Route::get('/admin/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin.colors.search');
 });
