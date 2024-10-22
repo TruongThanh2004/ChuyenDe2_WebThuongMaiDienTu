@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasFactory;
-    protected $primaryKey = 'category_id'; 
-    protected $fillable = ['category_name']; // Các trường có thể gán hàng loạt
+    public $timestamps = false;
+    protected $table = 'categories';
+    protected $primaryKey = 'category_id';
+    protected $fillable = ['category_name'];
 }
-

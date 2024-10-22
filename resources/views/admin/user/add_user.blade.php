@@ -43,7 +43,7 @@
                     <div class="review-tab-pro-inner">
                         <ul id="myTab3" class="tab-review-design">
                             <li class="active"><a href="#description"><i class="icon nalika-edit"
-                                        aria-hidden="true"></i> Product Edit</a></li>
+                                        aria-hidden="true"></i>Add User</a></li>
 
                         </ul>
                         <form action="{{route('user-list.store')}}" method="POST" enctype="multipart/form-data">

@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->id('category_id'); // khóa chính, tự động tăng
-            $table->string('category_name', 255); // tên danh mục
-            $table->timestamps(); // thêm thời gian tạo và cập nhật
+            $table->increments('category_id');
+            $table->string('category_name');
         });
     }
 

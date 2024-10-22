@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +8,15 @@
     <title>e-commerce website</title>
 
     <!-- font-awesome cdn link -->
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
 
     <!-- custom css file link -->
     <link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
-    
+
     <section id="header">
         <a href="#"><img src="images/logo.png" class="logo" alt=""></a>
         <div>
@@ -26,7 +28,16 @@
                 <li><a href="contact">Contact</a></li>
                 <li id="lg-bag"><a href="cart"><i class="far fa-shopping-bag"></i></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
-                <li><a href="login">Đăng Nhập</a></li>
+                <li>
+                    <a href="">
+                        @if (Auth::check())                        
+                            <span class="admin-name">{{ Auth::user()->username }}</span>
+                            <li><a href="{{route('logout')}}"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
+                        @else
+                        <a href="login">Đăng Nhập</a>
+                        @endif
+                    </a>
+                </li>
             </ul>
         </div>
         <div id="mobile">
@@ -36,7 +47,7 @@
     </section>
 
     @yield('content')
-    
+
 
     <section id="newsletter" class="section-p1 section-m1">
         <div class="newstext">
@@ -101,4 +112,5 @@
     <!-- javascript script file link -->
     <script src="script.js"></script>
 </body>
+
 </html>

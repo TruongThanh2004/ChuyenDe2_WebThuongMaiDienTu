@@ -550,6 +550,7 @@ ul.message-menu li .message-img{
 }
 .breadcome-heading {
     margin: 14px 0px;
+    
 }
 ul.notification-menu li .notification-icon{
 	float: left;
@@ -813,13 +814,13 @@ ul.setting-panel-list li{
     border: 1px solid #152036;
     font-size: 13px;
     height: 34px;
-    color: #303030;
+    color: white;
     padding-left: 20px;
     padding-right: 40px;
     background: #152036;
     box-shadow: none;
     border-radius: 30px;
-    width: 200px;
+    width: 300px;
 	transition:all .4s ease 0s;
 }
 .breadcome-heading .form-control:focus, .breadcome-heading .form-control:active {
@@ -841,17 +842,23 @@ ul.setting-panel-list li{
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;
 }
-.breadcome-heading a {
+.breadcome-heading .btn {
     position: absolute;
     top: 50%;
-    left: 178px;
+    left: 280px;
     display: block;
     height: 34px;
-    line-height: 34px;
+    line-height: 20px;
     width: 34px;
     text-align: center;
-    color: #999;
+    color: white;
     margin-top: -17px;
+    width: auto;
+    
+}
+.breadcome-heading .btn:hover {
+    background:#00acee;
+    color: #333;
 }
 ul.breadcome-menu {
     padding-top: 8px;
@@ -1249,10 +1256,15 @@ ul.two-part-sp li{
 .product-status-wrap img {
     width: 60px;
 }
+.custom-pagination{
+    
+    text-align: right;
+}
 .custom-pagination ul.pagination li a{
 	color: #fff;
 	background-color: #152036;
     border: 1px solid #152036;
+   
 }
 .custom-pagination ul.pagination{
 	margin-bottom: 0px;
@@ -1611,14 +1623,9 @@ ul#single-product-tab li{
 .form-radio label{
 	color:#fff;
 }
-<<<<<<< HEAD
-.review-content-section .input-group input[type="text"]{
-	
-=======
 
 .review-content-section .input-group input[type="text"]{
    
->>>>>>> CRUD_User
 }
 .review-content-section .input-group input::-webkit-input-placeholder, .product-delivary .form-group input::-webkit-input-placeholder, .form-group input::-webkit-input-placeholder, .review-content-section input::-webkit-input-placeholder {
     color:#fff;
@@ -3672,9 +3679,6 @@ th.fc-day-header.fc-widget-header {
 	background:#152036;
 	border-color: #152036;
 	color:#fff;
-<<<<<<< HEAD
-}
-=======
 }
 
 
@@ -3758,11 +3762,9 @@ input[type="file"] {
   input[type="file"]::file-selector-button:active {
     background-color: #e5e7eb;
   }
-  .error-message{
-    
-    font-size: 20px;
-    color: red;
-    
-  }
 
->>>>>>> CRUD_User
+  /* #search{
+    color: white;
+  }
+   */
+

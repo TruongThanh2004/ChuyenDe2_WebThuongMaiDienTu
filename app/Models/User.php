@@ -18,9 +18,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'image',
+        'username',
+        'fullname',
         'password',
+        'email',
+        'address',
+        'phone',
+        'role',
     ];
 
     /**
@@ -41,4 +46,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function __construct(array $attributes = []){
+        parent::__construct($attributes);
+        
+        $this->attributes['role'] = '1';
+        $this->attributes['image'] = 'user.jpg';
+        $this->attributes['fullname'] = '';
+        $this->attributes['phone'] = '';
+        $this->attributes['address'] = '';
+    }
 }
