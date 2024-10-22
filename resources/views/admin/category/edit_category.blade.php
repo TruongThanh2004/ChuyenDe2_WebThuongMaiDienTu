@@ -46,7 +46,7 @@
                                         aria-hidden="true"></i> Category add</a></li>
 
                         </ul>
-                        <form action="{{route('category-list.update',$category->id)}}" method="POST">
+                        <form action="{{route('category-list.update',$category->category_id)}}" method="POST">
                         @csrf
                         @method('PUT')
                             <div id="myTabContent" class="tab-content custom-product-edit">
@@ -57,8 +57,8 @@
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="name"
-                                                         id="name" value="{{$category->name}}">
+                                                    <input type="text" class="form-control" name="category_name"
+                                                         id="name" value="{{$category->category_name}}">
                                                  
                                                  <small class="error-message"></small>
                                              

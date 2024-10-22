@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\UserController;
+<<<<<<< HEAD
 use App\Http\Controllers\ColorController;
+=======
+use Illuminate\Support\Facades\Route;
+>>>>>>> Crud_Category
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

@@ -14,27 +14,27 @@ class CategoriesSeeder extends Seeder
     {
         DB::table('categories')->insert([
             [
-                'name' => 'Iphone',
+                'category_name' => 'Iphone',
             ],
 
             [
-                'name' => 'SamSung',
+                'category_name' => 'SamSung',
             ],
 
             [
-                'name' => 'Vivo',
+                'category_name' => 'Vivo',
             ],
 
             [
-                'name' => 'Xiaomi',
+                'category_name' => 'Xiaomi',
             ],
 
             [
-                'name' => 'Oppo',
+                'category_name' => 'Oppo',
             ],
 
             [
-                'name' => 'Huawei',
+                'category_name' => 'Huawei',
             ],
         ]);
     }
