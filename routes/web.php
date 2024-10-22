@@ -3,11 +3,7 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-<<<<<<< HEAD
-use App\Http\Controllers\CategoriesController;
-=======
->>>>>>> parent of f4ad518 (Reapply "Merge branch 'CRUD_User'")
-
+use App\Http\Middleware\CheckRole;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,9 +15,13 @@ use App\Http\Controllers\CategoriesController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+
+    Route::get('/', function () {
+    
+        return view('home');
+    })->name('home');
+
+
 
 Route::get('/shop', function () {
     return view('shop');
@@ -53,12 +53,12 @@ Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
 
-
 //check login -> admin
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','checkrole'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
+
     Route::controller(UserController::class)->prefix('user-list')->group(function () {
         Route::get('', 'index')->name('user-list'); 
         Route::get('create', 'create')->name('user-list.create');
