@@ -56,7 +56,7 @@
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="name"
+                                                    <input type="text" class="form-control" name="category_name"
                                                         placeholder="Nhập Category Name" id="name">
                                                  
                                                  <small class="error-message"></small>
@@ -66,9 +66,6 @@
 
                                             </div>
                                         </div>
-
-
-
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="text-center custom-pro-edt-ds">
