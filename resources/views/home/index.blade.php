@@ -44,6 +44,11 @@
                         @endif
                     </a>
                 </li>
+                @if (Auth::check())
+                    @if (Auth::user()->role == 2)
+                    <li><a href="{{route('dashboard')}}">Dashboard</a></li>
+                    @endif
+                @endif
             </ul>
         </div>
         <div id="mobile">
