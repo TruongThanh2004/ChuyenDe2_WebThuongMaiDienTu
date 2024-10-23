@@ -97,15 +97,9 @@ Route::get('/register', function () {
     return view('Register');
 })->name('register');
 
-Route::post('/save-user',[UserController::class,'save'])->name('saveUser');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
 
-Route::post('/do-login',[UserController::class,'doLogin'])->name('doLogin');
 
-Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
 // Route để hiển thị form thêm sản phẩm
