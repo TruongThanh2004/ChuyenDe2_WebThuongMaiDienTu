@@ -1,4 +1,4 @@
-@extends('index')
+@extends('home.index')
 @section('content')
 <section id="productdetails" class="section-p1">
         <div class="single-pro-image">

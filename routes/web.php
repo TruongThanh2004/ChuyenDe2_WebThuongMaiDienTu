@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -19,25 +21,25 @@ use App\Http\Controllers\CategoriesController;
 
     Route::get('/', function () {
     
-        return view('home');
+        return view('home.home');
     })->name('home');
 
 
 
 Route::get('/shop', function () {
-    return view('shop');
+    return view('home.shop');
 });
 
 Route::get('/blog', function () {
-    return view('blog');
+    return view('home.blog');
 });
 
 Route::get('/about', function () {
-    return view('about');
+    return view('home.about');
 });
 
 Route::get('/contact', function () {
-    return view('contact');
+    return view('home.contact');
 });
 
 Route::get('/cart', function () {
@@ -45,7 +47,7 @@ Route::get('/cart', function () {
 });
 
 Route::get('/singleProduct', function () {
-    return view('singleProduct');
+    return view('home.singleProduct');
 });
 
 
@@ -53,6 +55,17 @@ Route::get('/singleProduct', function () {
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
+
+
+
+Route::middleware(['auth'])->group(function(){
+
+   Route::controller(ProfileController::class)->prefix('profile')->group(function(){
+    Route::get('','index')->name('profile');
+   });
+
+});
+
 
 //check login -> admin
 Route::middleware(['auth','checkrole'])->group(function () {
@@ -93,9 +106,27 @@ Route::middleware(['auth','checkrole'])->group(function () {
 
 
 //Register - Login
-Route::get('/register', function () {
-    return view('Register');
-})->name('register');
+
+Route::get('/register',[AccountController::class,'register'])->name('register');
+
+Route::post('/save-user',[AccountController::class,'save'])->name('saveUser');
+
+Route::get('/login',[AccountController::class,'login'])->name('login');
+
+
+
+Route::post('/do-login',[AccountController::class,'doLogin'])->name('doLogin');
+
+Route::get('/logout',[AccountController::class,'logout'])->name('logout');
+
+
+Route::get('/forgot-password',[AccountController::class,'forgot_password'])->name('forgot_password');
+Route::post('/forgot-password',[AccountController::class,'check_forgot_password'])->name('check_forgot_password');
+
+Route::get('/reset-password/{token}',[AccountController::class,'reset_password'])->name('reset-password');
+Route::post('/reset-password/{token}',[AccountController::class,'check_reset_password']);   
+
+
 
 
 
