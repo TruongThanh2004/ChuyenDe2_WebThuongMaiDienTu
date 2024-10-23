@@ -1232,4 +1232,70 @@ footer .copyright {
         width: 100%;
         padding: 20px;
     }
+
+
+
+
+
+
+    
+}
+
+/*
+css Dang Nhap
+*/
+
+
+.nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px; 
+    color: #333; 
+    text-decoration: none;
+}
+
+.admin-name {
+    margin-right: 8px; 
+    font-weight: bold; 
+    margin-left: 10px;
+}
+
+
+.dropdown-header-top {
+    text-align: left;
+    display: none; 
+    position: absolute; 
+    right: auto; 
+    top: 100%; 
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    z-index: 1000; 
+    min-width: 160px; 
+}
+
+
+.nav-item:hover .dropdown-header-top {
+    display: block; 
+}
+
+.dropdown-header-top li {
+    list-style: none; 
+}
+
+.dropdown-header-top li a {
+    display: block; 
+    padding: 10px 15px; 
+    color: #333; 
+    text-decoration: none; 
+}
+
+.dropdown-header-top li a:hover {
+    background-color: #f1f1f1;
+    color: #007bff; 
+}
+
+
+.icon {
+    margin-right: 5px; 
 }
