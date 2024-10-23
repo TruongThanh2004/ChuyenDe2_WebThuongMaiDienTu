@@ -60,10 +60,11 @@ Route::get('/product-list', function () {
 
 
 Route::middleware(['auth'])->group(function(){
-
    Route::controller(ProfileController::class)->prefix('profile')->group(function(){
     Route::get('','index')->name('profile');
+    Route::put('edit/{id}','update')->name('profile.update');
    });
+
 
 });
 

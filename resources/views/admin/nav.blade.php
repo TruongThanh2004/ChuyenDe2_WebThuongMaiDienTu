@@ -284,22 +284,14 @@
                                                     </a>
                                                     <ul role="menu"
                                                         class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="register.html"><span
+                                                        <li><a href="{{route('home')}}"><span
                                                                     class="icon nalika-home author-log-ic"></span>
-                                                                Register</a>
+                                                                Home</a>
                                                         </li>
                                                         <li><a href="{{route('profile')}}"><span
                                                                     class="icon nalika-user author-log-ic"></span> My
                                                                 Profile</a>
-                                                        </li>
-                                                        <li><a href="lock.html"><span
-                                                                    class="icon nalika-diamond author-log-ic"></span>
-                                                                Lock</a>
-                                                        </li>
-                                                        <li><a href="#"><span
-                                                                    class="icon nalika-settings author-log-ic"></span>
-                                                                Settings</a>
-                                                        </li>
+                                                        </li>                                              
                                                         <li><a href="{{route('logout')}}"><span
                                                                     class="icon nalika-unlocked author-log-ic"></span>
                                                                 Log Out</a>
