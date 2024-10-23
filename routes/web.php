@@ -3,10 +3,11 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
-use App\Http\Controllers\CategoriesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,7 +93,7 @@ Route::middleware(['auth','checkrole'])->group(function () {
     Route::delete('/products/destroy/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     
     Route::controller(CategoriesController::class)->prefix('category-list')->group(function () {
-        Route::get('', 'index')->name('category-list');
+        Route::get('', 'index')->name(name: 'category-list');
         Route::get('create', 'create')->name('category-list.create');
         Route::post('store', 'store')->name('category-list.store');
         Route::get('show/{id}', 'show')->name('category-list.show');
@@ -101,6 +102,35 @@ Route::middleware(['auth','checkrole'])->group(function () {
         Route::delete('destroy/{id}', 'destroy')->name('category-list.destroy');
       
     });
+
+    // Route::controller(ProductController::class)->prefix('products-list')->group(function () {
+    //     Route::get('', 'index')->name('products.index');
+    //     Route::get('create', 'create')->name('products.create');
+    //     Route::post('store', 'store')->name('products.store');
+    //     Route::get('edit/{id}', 'edit')->name('products.edit');
+    //     Route::put('update/{id}', 'update')->name('products.update');
+    //     Route::delete('delete/{id}', 'destroy')->name('products.destroy');
+    //     Route::get('search', 'search')->name('products.search');
+    // });
+    
+    
+    Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
+    // Route để hiển thị form thêm sản phẩm
+    Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
+    // Route để lưu sản phẩm
+    Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
+    Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/admin/products/search', [ProductController::class, 'search'])->name('admin.products.search');
+    Route::get('/products/{id}/show', [ProductController::class, 'show'])->name('products.show');
+
+
+
+
+
+
+
 });
 
 
@@ -132,26 +162,9 @@ Route::post('/reset-password/{token}',[AccountController::class,'check_reset_pas
 
 
 
-Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-// Route để hiển thị form thêm sản phẩm
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('products.create');
-// Route để lưu sản phẩm
-Route::post('/admin/products/store', [ProductController::class, 'store'])->name('products.store');
-Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('products.edit');
-Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('products.update');
-Route::delete('/admin/products/delete/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
-
 
 
 // colors
-// Route::prefix('admin/colors')->controller(ColorController::class)->group(function () {
-//     Route::get('', 'index')->name('admin_colors.index');
-//     Route::get('create', 'create')->name('admin_colors.create');
-//     Route::post('store', 'AddNewcolors')->name('admin_colors.AddNewcolors');
-//     Route::get('edit/{id}', 'edit')->name('admin_colors.edit');
-//     Route::put('update/{id}', 'update')->name('admin_colors.update');
-//     Route::delete('destroy/{id}', 'destroy')->name('admin_colors.destroy');
-// });
 Route::prefix('admin/colors')->group(function () {
     Route::get('/', [ColorController::class, 'index'])->name('admin_colors.index');  // Danh sách màu
     Route::get('create', [ColorController::class, 'create'])->name('admin_colors.create');  // Form tạo mới
@@ -160,5 +173,6 @@ Route::prefix('admin/colors')->group(function () {
     Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
 
-  
+    // Route::get('/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin_colors.search');
+    Route::get('/admin/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin.colors.search');
 });

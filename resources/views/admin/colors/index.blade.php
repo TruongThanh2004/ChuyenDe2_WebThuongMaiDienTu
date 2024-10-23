@@ -29,12 +29,24 @@
                             <button type="submit" class="btn btn-success">Add colors</button>
                         </form>
                     </div>
-                    <br>
-                    <br>
 
-                    <table class="table">
-                        <thead>
-                            <h1>Danh sách bảng màu</h1>
+                </div>
+                <br>
+                <br>
+
+                <table class="table">
+                    <thead>
+                        <h1>Danh sách bảng màu</h1>
+
+                        <!--  form tim kiếm -->
+                        <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                            <div class="header-top-menu tabl-d-n hd-search-rp">
+                                <div class="breadcome-heading">
+
+                                  
+                                </div>
+                            </div>
+
                             @if ($colordm->isEmpty())
                                 <div class="alert alert-warning" role="alert">
                                     Hiện tại danh sách trống, vui lòng tạo màu mới.
@@ -42,21 +54,19 @@
                                         mới</a>
                                 </div>
                             @else
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Tên</th>
-                                            <th>Ảnh</th>
-                                            <th>Hành Động</th>
-                                        </tr>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tên</th>
+                                                <th>Ảnh</th>
+                                                <th>Hành Động</th>
+                                            </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($colordm as $color)
                                             <tr>
                                                 <td>{{ $color->color_id }}</td>
                                                 <td>{{ $color->name }}</td>
-                                                <!-- <td>
-                                                                <img src="{{ asset('images/colors/'.$color->images) }}" width="70" height="100" alt="Color Image">
-                                                            </td> -->
+                                                
                                                 <td>
                                                     @if($color->images)
                                                         <img src="{{ asset('images/colors/' . $color->images) }}" width="70" height="100"
@@ -85,10 +95,10 @@
                                 </table>
                                 {{ $colordm->links() }}
                             @endif
-                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 @endsection
