@@ -13,7 +13,6 @@
 
 <body>
     <div class="container light-style flex-grow-1 container-p-y">
-        
        <div class="header-container">
         <a href="{{Auth::user()->role == 2 ?route('dashboard'):route('home')}}"><i class="fas fa-arrow-alt-circle-left"></i></a>
        <h4 class="font-weight-bold py-3 mb-4">
