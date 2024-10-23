@@ -170,12 +170,12 @@ class ColorController extends Controller
     $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
 
    
-    $colors = Color::where('name', 'LIKE', '%' . $keyword . '%')
+    $colordm = Color::where('name', 'LIKE', '%' . $keyword . '%')
                     ->orWhere('color_id', $keyword)
                     ->paginate(7);
 
     // Trả về view cùng với kết quả phân trang
-    return view('admin.colors.index', compact('colors', 'keyword'));
+    return view('admin.colors.index', compact('colordm', 'keyword'));
 }
 
 }

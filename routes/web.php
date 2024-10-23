@@ -147,7 +147,5 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
     Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
-
-    // Route::get('/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin_colors.search');
-    Route::get('/admin/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin.colors.search');
+    Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors');
 });
