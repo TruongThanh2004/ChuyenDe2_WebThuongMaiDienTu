@@ -6,11 +6,6 @@ use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
-<<<<<<< HEAD
-=======
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\ColorController;
->>>>>>> origin/main
 /*
 |--------------------------------------------------------------------------
 | Web Routes
