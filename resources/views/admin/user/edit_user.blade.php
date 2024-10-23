@@ -96,7 +96,7 @@
                                                         <input type="text" class="form-control" name="role" value="{{$user->role}}">
                                                 </div>
                                                 <div class="input-group mg-b-pro-edt">
-                                                <img src="../images/user/{{$user->image}}" alt="" width="150px" height="150px" >
+                                                <img src="{{asset('images/user/' . $user->image)}}" alt="" width="150px" height="150px" >
                                                 </div>
                                                 
                                                 <input type="file" name="fileUpload">
