@@ -163,4 +163,19 @@ class ColorController extends Controller
         $color->delete();
         return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
     }
+
+    // hàm tìm kiếm theo ID, name
+    public function timkiemcolors(Request $request)
+{
+    $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
+
+   
+    $colordm = Color::where('name', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('color_id', $keyword)
+                    ->paginate(7);
+
+    // Trả về view cùng với kết quả phân trang
+    return view('admin.colors.index', compact('colordm', 'keyword'));
+}
+
 }

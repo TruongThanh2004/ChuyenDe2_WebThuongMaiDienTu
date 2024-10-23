@@ -103,6 +103,9 @@
                                     <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
                                     <td>{{ $product->color->name ?? 'Không có màu sắc' }}</td>
                                     <td>
+                                        <a href="{{ route('products.show', $product->product_id) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
                                         <a href="{{ route('products.edit', $product->product_id) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
