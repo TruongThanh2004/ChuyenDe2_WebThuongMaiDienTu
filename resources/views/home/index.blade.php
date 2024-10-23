@@ -13,10 +13,16 @@
     <!-- custom css file link -->
     <link rel="stylesheet" href="style.css">
 
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
-
 <body>
-
+                @if (Session::has('success'))
+                <script>
+                        swal("{{Session::get('success')}}","Shopping thôii", "success");
+                    </script>  
+                @endif
     <section id="header">
         <a href="#"><img src="images/logo.png" class="logo" alt=""></a>
         <div>
@@ -30,14 +36,19 @@
                 <a href="#" id="close"><i class="far fa-times"></i></a>
                 <li>
                     <a href="">
-                        @if (Auth::check())                        
-                            <span class="admin-name">{{ Auth::user()->username }}</span>
+                        @if (Auth::check())
+                                    <span class="admin-name">{{ Auth::user()->username }}</span>
                             <li><a href="{{route('logout')}}"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
                         @else
-                        <a href="login">Đăng Nhập</a>
+                            <a href="login">Đăng Nhập</a>
                         @endif
                     </a>
                 </li>
+                @if (Auth::check())
+                    @if (Auth::user()->role == 2)
+                    <li><a href="{{route('dashboard')}}">Dashboard</a></li>
+                    @endif
+                @endif
             </ul>
         </div>
         <div id="mobile">
