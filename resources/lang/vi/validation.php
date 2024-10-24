@@ -24,6 +24,7 @@ return [
     ],
     'images.invalid' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.',
     'uploaded' => 'Upload ảnh thất bại, vui lòng thử lại hoặc kiểm tra kích thước tệp.',
+<<<<<<< HEAD
 
 
     // Thông báo cho trường 'product_name'
@@ -77,4 +78,7 @@ return [
         'alpha_num_space' => 'Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
     ],
     
+=======
+    'message' => 'Từ khóa không được vượt quá 255 ký tự.'
+>>>>>>> Crud_color
 ];

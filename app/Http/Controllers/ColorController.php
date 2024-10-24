@@ -23,7 +23,7 @@ class ColorController extends Controller
     }
 
 
-
+// ham them màu sắc
     public function AddNewcolors(Request $request)
     {
         // Xác thực dữ liệu từ yêu cầu
@@ -39,8 +39,8 @@ class ColorController extends Controller
             'images' => [
                 'nullable',
                 'image',
-                'mimes:jpg,jpeg,png,gif', 
-                'max:5120', 
+                'mimes:jpg,jpeg,png,gif',
+                'max:5120',
 
             ],
         ], [
@@ -85,7 +85,7 @@ class ColorController extends Controller
         return view('admin.colors.update_colors', compact('color'));
     }
 
-    
+
     // hàm update bảng màu
     public function update(Request $request, $id)
     { // Xác thực dữ liệu từ yêu cầu
@@ -164,18 +164,34 @@ class ColorController extends Controller
         return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
     }
 
+
+
     // hàm tìm kiếm theo ID, name
     public function timkiemcolors(Request $request)
-{
-    $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
+    {
+        $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
+        if (strlen($keyword) > 255) {
+            return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
+        }
+        // Kiểm tra nếu người dùng không nhập từ khóa
+        if (empty($keyword)) {
+            return redirect()->back()->with('notification', 'Bạn chưa nhập từ khóa để tìm kiếm.');
+        }
 
-   
-    $colordm = Color::where('name', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('color_id', $keyword)
-                    ->paginate(7);
+        $colordm = Color::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('color_id', $keyword)
+            ->paginate(5);
 
-    // Trả về view cùng với kết quả phân trang
-    return view('admin.colors.index', compact('colordm', 'keyword'));
-}
+        // Kiểm tra nếu không có kết quả
+        if ($colordm->isEmpty()) {
+            return view('admin.colors.index')->with([
+                'colordm' => $colordm,
+                'keyword' => $keyword,
+                'message' => 'Không có kết quả nào.'
+            ]);
+        }
+
+        return view('admin.colors.index', compact('colordm', 'keyword'));
+    }
 
 }

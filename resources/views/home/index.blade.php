@@ -9,10 +9,15 @@
 
     <!-- font-awesome cdn link -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> Crud_color
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- custom css file link -->
     <link rel="stylesheet" href="style.css">
+
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
 
 

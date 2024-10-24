@@ -8,6 +8,12 @@
     <title>Dashboard V.1 | Nalika - Material Admin Template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+     <!-- CSS colors
+		============================================ -->
+        <link rel="stylesheet" href="css/color/form-list.css">
     <!-- favicon
 		============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -1053,6 +1059,9 @@
         <script src="js/js.js"></script>
 
         <script src="js/checkUser.js"></script>
+
+<!-- js admin color -->
+        <script src="js/color/colors-index.js"></script>
         
 </body>
 
