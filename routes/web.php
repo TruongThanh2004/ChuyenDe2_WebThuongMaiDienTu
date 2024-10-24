@@ -67,7 +67,49 @@ use App\Http\Middleware\CheckRole;
         });
 
 
+<<<<<<< HEAD
+Route::get('/shop', function () {
+    return view('home.shop');
+});
+
+Route::get('/blog', function () {
+    return view('home.blog');
+});
+
+Route::get('/about', function () {
+    return view('home.about');
+});
+
+Route::get('/contact', function () {
+    return view('home.contact');
+});
+
+Route::get('/cart', function () {
+    return view('cart');
+});
+
+Route::get('/singleProduct', function () {
+    return view('home.singleProduct');
+});
+
+
+
+Route::get('/product-list', function () {
+    return view('admin.products')  ;
+});
+
+
+
+Route::middleware(['auth'])->group(function(){
+   Route::controller(ProfileController::class)->prefix('profile')->group(function(){
+    Route::get('','index')->name('profile');
+    Route::put('edit/{id}','update')->name('profile.update');
+   });
+
+
+=======
       
+>>>>>>> Crud_color
 });
 
 
@@ -130,6 +172,7 @@ Route::middleware(['auth','checkrole'])->group(function () {
         
     });
 
+Route::get('/shop', [ProductController::class, 'ShowProductHome']);
 
 
 //Register - Login

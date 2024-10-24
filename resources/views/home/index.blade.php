@@ -9,6 +9,10 @@
 
     <!-- font-awesome cdn link -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+<<<<<<< HEAD
+
+=======
+>>>>>>> Crud_color
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- custom css file link -->
     <link rel="stylesheet" href="style.css">
@@ -16,15 +20,18 @@
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
 
+
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </head>
+
 <body>
-                @if (Session::has('success'))
-                <script>
-                        swal("{{Session::get('success')}}","Shopping thôii", "success");
-                    </script>  
-                @endif
+    @if (Session::has('success'))
+        <script>
+            swal("{{Session::get('success')}}", "Shopping thôii", "success");
+        </script>
+    @endif
     <section id="header">
         <a href="#"><img src="images/logo.png" class="logo" alt=""></a>
         <div>
@@ -36,19 +43,30 @@
                 <li><a href="contact">Contact</a></li>
                 <li id="lg-bag"><a href="cart"><i class="far fa-shopping-bag"></i></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
-                <li>
-                    <a href="">
-                        @if (Auth::check())
-                                    <span class="admin-name">{{ Auth::user()->username }}</span>
-                            <li><a href="{{route('logout')}}"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
-                        @else
-                            <a href="login">Đăng Nhập</a>
-                        @endif
-                    </a>
+
+                <li class="nav-item">
+                    @if (Auth::check())
+                        <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                            class="nav-link dropdown-toggle">
+                            <i class="far fa-user"></i>
+                            <span class="admin-name">{{ Auth::user()->username }}</span>
+                           
+                        </a>
+                        <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+                            
+                            <li><a href="{{ route('profile') }}"> My Profile</a></li>
+                                    <hr>
+                            <li><a href="{{ route('logout') }}"> Log Out</a></li>
+                        </ul>
+                    @else
+                        <a href="{{ route('login') }}" class="nav-link" >Đăng Nhập</a>
+                    @endif
                 </li>
+
+
                 @if (Auth::check())
                     @if (Auth::user()->role == 2)
-                    <li><a href="{{route('dashboard')}}">Dashboard</a></li>
+                        <li><a href="{{route('dashboard')}}">Dashboard</a></li>
                     @endif
                 @endif
             </ul>
