@@ -21,12 +21,12 @@ use App\Http\Middleware\CheckRole;
 */
 
 
-    // Route::get('/', function () {
+    Route::get('/', function () {
     
-    //     return view('home.home');
-    // })->name('home');
+        return view('home.home');
+    })->name('home');
    
-    Route::get('/', [ProductController::class, 'index2'])->name('home');
+    // Route::get('/', [ProductController::class, 'index2'])->name('home');
 
     Route::get('/shop', function () {
         return view('home.shop');
@@ -60,14 +60,9 @@ use App\Http\Middleware\CheckRole;
     
     
     
-    Route::middleware(['auth'])->group(function(){
-        
-        Route::controller(ProfileController::class)->prefix('profile')->group(function(){
-            Route::get('','index')->name('profile');
-        });
 
 
-<<<<<<< HEAD
+
 Route::get('/shop', function () {
     return view('home.shop');
 });
@@ -107,9 +102,7 @@ Route::middleware(['auth'])->group(function(){
    });
 
 
-=======
-      
->>>>>>> Crud_color
+
 });
 
 
