@@ -34,7 +34,16 @@
     </div>
 </div>
 
-<div class="form-container" id="productForm">
+<div class="form-container" id="productForm"> 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('products.update', $product->product_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
