@@ -24,4 +24,5 @@ return [
     ],
     'images.invalid' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.',
     'uploaded' => 'Upload ảnh thất bại, vui lòng thử lại hoặc kiểm tra kích thước tệp.',
+    'message' => 'Từ khóa không được vượt quá 255 ký tự.'
 ];
