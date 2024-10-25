@@ -106,7 +106,7 @@
                                                 <a href="{{ route('admin_colors.edit', $color->color_id) }}"
                                                     class="btn btn-primary btn-sm">Sửa</a>
 
-                                                <form action="{{ route('admin_colors.destroy', $color->color_id) }}" method="POT"
+                                                <form action="{{ route('admin_colors.destroy', $color->color_id) }}" method="POST"
                                                     style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
