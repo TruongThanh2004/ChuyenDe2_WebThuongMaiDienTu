@@ -7,18 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/register.css">
     <title>register</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
+
     <video autoplay muted loop id="backgroundVideo">
         <source src="images/clip_may_tinh.mp4" type="video/mp4">
     </video>
-    @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{session('success')}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
+    <script>
+        @if (Session::has('error'))
+		swal("", "{{Session::get('error')}}", "error");
+		@endif
+    </script>
+  
     <div class="container">
         <div class="bubbles"></div>
         <form action="{{route('saveUser')}}" method="POST">
