@@ -165,7 +165,7 @@ Route::middleware(['auth','checkrole'])->group(function () {
         
     });
 
-Route::get('/shop', [ProductController::class, 'ShowProductShop']);
+Route::get('/shop', [ProductController::class, 'ShowProductShop'])->name('shop');
 Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->name('product.details');
 
 
