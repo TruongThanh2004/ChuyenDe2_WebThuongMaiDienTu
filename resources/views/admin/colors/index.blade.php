@@ -31,6 +31,12 @@
                             {{ $message }}
                         </div>
                     @endif
+                    <!-- thông báo khi thay đổi thông tin nhưng đối tượng không tồn tại  -->
+                    @if ($errors->has('message'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('message') }}
+                        </div>
+                    @endif
 
                     <br /><br />
                     <div class="table-responsive">
@@ -100,7 +106,7 @@
                                                 <a href="{{ route('admin_colors.edit', $color->color_id) }}"
                                                     class="btn btn-primary btn-sm">Sửa</a>
 
-                                                <form action="{{ route('admin_colors.destroy', $color->color_id) }}" method="POST"
+                                                <form action="{{ route('admin_colors.destroy', $color->color_id) }}" method="POT"
                                                     style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
