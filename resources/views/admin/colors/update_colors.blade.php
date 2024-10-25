@@ -5,6 +5,16 @@
   <h1 class="title-h1">Sửa Bảng Màu</h1>
   <div class="body-form">
 
+ 
+  <!-- @if ($errors->has('update_failed'))
+            <div class="alert alert-danger" role="alert" id="update-failed">
+                {{ $errors->first('update_failed') }}
+                <button onclick="window.location.href='{{ route('admin_colors.index') }}'" class="btn btn-primary btn-sm mt-2">
+                    Quay lại danh sách
+                </button>
+            </div>
+        @endif -->
+
 
     <form action="{{ route('admin_colors.update', $color->color_id) }}" method="POST" enctype="multipart/form-data">
       @csrf
