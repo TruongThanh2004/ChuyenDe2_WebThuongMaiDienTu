@@ -8,6 +8,12 @@
     <title>Dashboard V.1 | Nalika - Material Admin Template</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+     <!-- CSS colors
+		============================================ -->
+        <link rel="stylesheet" href="css/color/form-list.css">
     <!-- favicon
 		============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -284,22 +290,14 @@
                                                     </a>
                                                     <ul role="menu"
                                                         class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="register.html"><span
+                                                        <li><a href="{{route('home')}}"><span
                                                                     class="icon nalika-home author-log-ic"></span>
-                                                                Register</a>
+                                                                Home</a>
                                                         </li>
                                                         <li><a href="{{route('profile')}}"><span
                                                                     class="icon nalika-user author-log-ic"></span> My
                                                                 Profile</a>
-                                                        </li>
-                                                        <li><a href="lock.html"><span
-                                                                    class="icon nalika-diamond author-log-ic"></span>
-                                                                Lock</a>
-                                                        </li>
-                                                        <li><a href="#"><span
-                                                                    class="icon nalika-settings author-log-ic"></span>
-                                                                Settings</a>
-                                                        </li>
+                                                        </li>                                              
                                                         <li><a href="{{route('logout')}}"><span
                                                                     class="icon nalika-unlocked author-log-ic"></span>
                                                                 Log Out</a>
@@ -1061,6 +1059,9 @@
         <script src="js/js.js"></script>
 
         <script src="js/checkUser.js"></script>
+
+<!-- js admin color -->
+        <script src="js/color/colors-index.js"></script>
         
 </body>
 

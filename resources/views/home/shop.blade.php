@@ -8,7 +8,7 @@
     <section id="product1" class="section-p1">
         <div class="pro-container">
         @foreach ($products as $product)
-            <div class="pro" onclick="window.location.href='singleProduct';">
+        <div class="pro" onclick="window.location.href='{{ route('product.details', ['id' => $product->product_id]) }}';">
             <img src="{{ asset('images/products/' . $product->image1) }}" alt="{{ $product->product_name }}" />
                 <div class="des">
                 <span>{{ $product->category->category_name ?? 'Không có thể loại' }}</span>
