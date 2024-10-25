@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CategoriesController;
@@ -11,6 +12,12 @@ use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ColorController;
 >>>>>>> origin/main
+=======
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\BlogController;
+
+>>>>>>> CRUD_Blog
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,12 +60,15 @@ Route::get('/cart', function () {
 Route::get('/singleProduct', function () {
     return view('singleProduct');
 });
+<<<<<<< HEAD
 
 
 
 Route::get('/product-list', function () {
     return view('admin.products')  ;
 });
+=======
+>>>>>>> CRUD_Blog
 
 //check login -> admin
 Route::middleware(['auth','checkrole'])->group(function () {
@@ -118,6 +128,7 @@ Route::middleware(['auth','checkrole'])->group(function () {
     Route::get('/products/{id}/show', [ProductController::class, 'show'])->name('products.show');
 
 
+<<<<<<< HEAD
 
 
 
@@ -156,3 +167,13 @@ Route::prefix('admin/colors')->group(function () {
     // Route::get('/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin_colors.search');
     Route::get('/admin/colors/search', [ColorController::class, 'timkiemcolors'])->name('admin.colors.search');
 });
+=======
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index'); // Hiển thị danh sách blog
+Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create'); // Hiển thị form thêm blog
+Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store'); // Xử lý thêm blog
+Route::get('/blogs/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit'); // Hiển thị form sửa blog
+Route::put('/blogs/{id}', [BlogController::class, 'update'])->name('blogs.update'); // Xử lý sửa blog
+Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
+Route::get('/blogs', [BlogController::class, 'phanTrang'])->name('blogs.index');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+>>>>>>> CRUD_Blog

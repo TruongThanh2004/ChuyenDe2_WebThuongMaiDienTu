@@ -28,6 +28,7 @@
                 <li><a href="contact">Contact</a></li>
                 <li id="lg-bag"><a href="cart"><i class="far fa-shopping-bag"></i></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
+<<<<<<< HEAD
                 <li>
                     <a href="">
                         @if (Auth::check())                        
@@ -38,6 +39,8 @@
                         @endif
                     </a>
                 </li>
+=======
+>>>>>>> CRUD_Blog
             </ul>
         </div>
         <div id="mobile">
