@@ -134,7 +134,8 @@ Route::middleware(['auth','checkrole'])->group(function () {
 
 });
 
-Route::get('/shop', [ProductController::class, 'ShowProductHome']);
+Route::get('/shop', [ProductController::class, 'ShowProductShop']);
+Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->name('product.details');
 
 
 //Register - Login
