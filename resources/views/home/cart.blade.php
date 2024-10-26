@@ -19,14 +19,30 @@
                 </tr>
             </thead>
             <tbody>
+            @if (count($cart) > 0)
+                @foreach ($cart as $id => $item)
+                    <tr id="row-{{ $id }}">
+                        <td><a href="#"><i class="fas fa-times-circle" style="color:black"></i></a></td>
+                        <td><img src="{{ asset('images/products/' . $item['image']) }}" alt=""></td>
+                        <td>{{ $item['name'] }}</td>
+                        <td>${{ number_format($item['price'], 2) }}</td>
+                        <td>
+                            <form action="{{ route('cart.updateQuantity', $id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                <button type="button" onclick="updateQuantity({{ $id }}, -1)">-</button>
+                                <input type="number" name="quantity" id="quantity-{{ $id }}" value="{{ $item['quantity'] }}" min="1" readonly>
+                                <button type="button" onclick="updateQuantity({{ $id }}, 1)">+</button>
+                            </form>
+                        </td>
+                        <td id="subtotal-{{ $id }}">${{ number_format($item['price'] * $item['quantity'], 2) }}</td>
+                    </tr>
+                @endforeach
+            @else
                 <tr>
-                    <td><a href="#"><i class="fas fa-times-circle" style="color:black"></i></a></td>
-                    <td><img src="images/products/f1.jpg" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirt</td>
-                    <td>$118.19</td>
-                    <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
+                    <td colspan="6">Your cart is empty.</td>
                 </tr>
+            @endif
+
                 <tr>
                     <td><a href="#"><i class="fas fa-times-circle" style="color:black"></i></a></td>
                     <td><img src="images/products/f2.jpg" alt=""></td>

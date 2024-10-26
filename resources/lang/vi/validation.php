@@ -26,6 +26,7 @@ return [
     'uploaded' => 'Upload ảnh thất bại, vui lòng thử lại hoặc kiểm tra kích thước tệp.',
 
 
+
     // Thông báo cho trường 'product_name'
     'product_name' => [
         'required' => 'Tên sản phẩm không được bỏ trống.',
@@ -77,4 +78,7 @@ return [
         'alpha_num_space' => 'Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
     ],
     
+
+    'message' => 'Từ khóa không được vượt quá 255 ký tự.'
+
 ];
