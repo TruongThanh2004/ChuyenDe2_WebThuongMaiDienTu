@@ -181,6 +181,13 @@
                             </ul>
                         </li>
 
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Blog</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Blog List" href="{{ route('blogs.index') }}"><span class="mini-sub-pro">Blog List</span></a></li>
+                            </ul>
+                        </li>
+
 
 
 

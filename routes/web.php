@@ -9,6 +9,8 @@ use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
+use App\Http\Controllers\BlogController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -215,3 +217,14 @@ Route::prefix('admin/colors')->group(function () {
 // Route::POST('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 // Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
 // Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+//blogs
+Route::prefix('admin/blogs')->group(function () {
+    Route::get('/', [BlogController::class, 'index'])->name('blogs.index'); // Hiển thị danh sách blog
+    Route::get('/create', [BlogController::class, 'create'])->name('blogs.create'); // Hiển thị form thêm blog
+    Route::post('/', [BlogController::class, 'store'])->name('blogs.store'); // Xử lý thêm blog
+    Route::get('/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit'); // Hiển thị form sửa blog
+    Route::put('/{id}', [BlogController::class, 'update'])->name('blogs.update'); // Xử lý sửa blog
+    Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
+    Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Hiển thị chi tiết blog
+});
