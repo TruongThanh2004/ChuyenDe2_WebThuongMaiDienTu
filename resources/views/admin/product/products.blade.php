@@ -63,8 +63,8 @@
                         <div class="breadcome-heading">
                             <form role="search" class="" action="{{ route('admin.products.search') }}">
                                 <input type="text" placeholder="Search..." class="form-control" id="search"
-                                    name="keyword">
-                                <button type="sumbit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                                    name="search">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
                     </div>
