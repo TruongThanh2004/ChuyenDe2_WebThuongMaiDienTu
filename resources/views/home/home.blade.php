@@ -1,4 +1,4 @@
-@extends('index')
+@extends('home.index')
 @section('content')
 
 <section id="hero">
