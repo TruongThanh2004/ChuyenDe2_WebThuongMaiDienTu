@@ -1,4 +1,4 @@
-@extends('home.index')
+@extends('index')
 
 @section('content')
 <section id="page-header" class="about-header">

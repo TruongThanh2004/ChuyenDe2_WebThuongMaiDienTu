@@ -58,8 +58,7 @@
                         <a href="{{route('user-list.create')}}">Add New User</a>
                     </div>
                     @if (session('success'))    
-                   <span><p> <p style="color:red"> {{session('success')}}</></p></span>   
-                                
+                   <span><p> <p style="color:red"> {{session('success')}}</></p></span>                  
                     @endif
 
                   
@@ -81,7 +80,7 @@
                         @foreach ($user as $data_user)                                                  
                             <tr>
                                 <td>{{ $data_user->id}}</td>
-                                <td><img src="{{asset('images/user/' . $data_user->image)}}" alt=""></td>
+                                <td><img src="../images/user/{{$data_user->image}}" alt=""></td>
                                 <td>{{ $data_user->username}}</td>
                                 <td>{{ $data_user->fullname}}</td>
                                 <td>
@@ -90,7 +89,7 @@
                                 <td>{{ $data_user->email}}</td>
                                 <td>{{ $data_user->address}}</td>
                                 <td>{{ $data_user->phone}}</td>
-                                <td>{{$data_user->role == 1 ? 'User':'Admin'}}</td>
+                                <td>{{$data_user->role}}</td>
                                 <td>
                                     <form action="{{route('user-list.edit', $data_user->id)}}">
 
