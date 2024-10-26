@@ -36,11 +36,7 @@
             <input type="number" value="1">
             <button class="normal">Add to Cart</button>
             <h4>Product Details</h4>
-            <span>The Gildan Ultra Cotton T-shirt is made from a substantial 6.0 oz. per sq. yd. fabric
-                constructed from 100% cotton, this classic fit preshrunk jersey knit provides unmatched comfort
-                with each wear. Featuring a taped neck and shoulder, and a seamless double-needle collar, and available in a range
-                of colors, it offers it all in the ultimate head-turning package.
-            </span>
+            <span>{{ $product->description}}</span>
         </div>
     </section>
 
