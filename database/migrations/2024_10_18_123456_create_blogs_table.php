@@ -6,30 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateBlogsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('blogs', function (Blueprint $table) {
-            $table->id('post_id'); // Trường post_id tự động tăng
-            $table->unsignedBigInteger('user_id'); // Trường user_id
-            $table->string('title', 255); // Tiêu đề bài viết
-            $table->text('content'); // Nội dung bài viết
-            $table->string('image', 255)->nullable(); // Đường dẫn hình ảnh
-            $table->timestamps(); // Thời gian tạo và cập nhật
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade'); // Khóa ngoại
+            $table->bigIncrements('post_id');
+            $table->unsignedInteger('user_id'); // hoặc bigInteger nếu id của users là bigIncrements
+            $table->string('title');
+            $table->text('content');
+            $table->string('image')->nullable();
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Đảm bảo khóa ngoại
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('blogs');
     }
