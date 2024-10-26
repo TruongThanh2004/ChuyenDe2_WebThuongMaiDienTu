@@ -6,6 +6,7 @@ use Auth;
 use Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use PHPUnit\Framework\Constraint\IsEmpty;
 class UserController extends Controller
 {
     /**
@@ -92,7 +93,7 @@ class UserController extends Controller
         $password = Hash::make($request->password);
         $request->merge(['image'=>$file_name,'password'=>$password]);
         $updateUser->update($request->all());
-        return redirect()->route('user-list');
+        return redirect()->route('user-list')->with('success','Update user thành công');
     }
 
     /**
@@ -103,58 +104,7 @@ class UserController extends Controller
       
         $deleteUser = User::findOrFail($id);
        $deleteUser->delete();
-       return redirect()->route('user-list');
+       return redirect()->route('user-list')->with('success','Xóa user thành công');
     }
-
-
-    
-
-
-    public function save(Request $request)  {
-        $user = new User();
-        $error = null;
-        $user->username = $request->username;
-        $user->email = $request->email;
-       if($request->password1 === $request->password2){
-            $user->password = Hash::make($request->password1);
-            $user->save();
-            return redirect()->route('register')->with('success', 'Đăng ký thành công!');
-       }else{
-            $error = "Mật khẩu không giống nhau xin nhập lại mật khẩu";
-            return redirect()->route('register')->with('success', $error);
-       }
-    }
-
-
-    public function doLogin(Request $request){
-        $login = [  
-            'username' => $request->username,           
-            'password' =>$request->password,
-        ];
-        
-
-            
-                if(Auth::attempt($login)&&Auth::user()->role===2){                 
-                return redirect()->route('dashboard');
-                }else if(Auth::attempt($login)&&Auth::user()->role===1){   
-                return redirect()->route('home');
-                }else{
-                  
-                    return redirect()->route('home');
-             }
-
-            
-        
-             
-
-            
-    }
-
-
-    public function logout(){
-        Auth::logout();
-        return redirect()->route('home');
-    }
-
   
 }

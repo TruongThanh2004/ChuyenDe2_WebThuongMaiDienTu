@@ -25,11 +25,9 @@ class Blog extends Model
     protected $keyType = 'int';
 
     // Define a relationship with the User model
-    // app/Models/Blog.php
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id'); // Sử dụng 'user_id' là khóa ngoại
     }
-
 
 }

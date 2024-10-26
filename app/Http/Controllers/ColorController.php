@@ -23,7 +23,7 @@ class ColorController extends Controller
     }
 
 
-
+    // ham them màu sắc
     public function AddNewcolors(Request $request)
     {
         // Xác thực dữ liệu từ yêu cầu
@@ -39,8 +39,8 @@ class ColorController extends Controller
             'images' => [
                 'nullable',
                 'image',
-                'mimes:jpg,jpeg,png,gif', 
-                'max:5120', 
+                'mimes:jpg,jpeg,png,gif',
+                'max:5120',
 
             ],
         ], [
@@ -85,17 +85,27 @@ class ColorController extends Controller
         return view('admin.colors.update_colors', compact('color'));
     }
 
-    
+
     // hàm update bảng màu
     public function update(Request $request, $id)
-    { // Xác thực dữ liệu từ yêu cầu
+    {
+        // Kiểm tra xem đối tượng còn tồn tại hay không
+        $color = Color::find($id);
+
+        if (!$color) {
+            // Nếu không tìm thấy, trả về thông báo lỗi và yêu cầu tải lại trang
+            return redirect()->route('admin_colors.index')
+                             ->withErrors(['message' => ' update thất bại !!!Đối tượng không tồn tại. Vui lòng tải lại trang.']);
+        }
+
+        // Xác thực dữ liệu từ yêu cầu
         $request->validate([
             'name' => [
                 'required',
                 'string',
                 'min:3',
                 'max:30',
-                'regex:/^[\p{L}0-9]+(?:\s[\p{L}0-9]+)*$/u', // Cho phép chữ cái (có dấu), số và khoảng trắng
+                'regex:/^[\p{L}0-9]+(?:\s[\p{L}0-9]+)*$/u',
             ],
             'images' => [
                 'nullable',
@@ -104,7 +114,6 @@ class ColorController extends Controller
                 'max:5120',
             ],
         ], [
-
             'name.required' => 'Tên bảng màu không được bỏ trống.',
             'name.regex' => 'Tên bảng màu không hợp lệ, hãy nhập ký tự chữ hoặc số, không nhập khoảng trắng đầu dòng hoặc ký tự đặc biệt.',
             'name.min' => 'Tên quá ngắn, vui lòng nhập ít nhất 3 ký tự.',
@@ -115,67 +124,81 @@ class ColorController extends Controller
             'images.uploaded' => 'Upload ảnh thất bại, vui lòng kiểm tra kích thước tệp và thử lại.',
         ]);
 
-        // Tìm đối tượng Color theo ID
-        $color = Color::findOrFail($id);
+        // Cập nhật thông tin màu sắc
         $color->name = $request->input('name');
 
-
-        // Xử lý upload ảnh nếu có
         if ($request->hasFile('images')) {
             $image = $request->file('images');
 
             if (!$image->isValid()) {
-                return redirect()->back()->withInput()->withErrors(['images' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.']);
+                return redirect()->back()->withInput()
+                                      ->withErrors(['images' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.']);
             }
-            //kiểm tra Xóa ảnh cũ nếu có
-            if ($color->images) {
-                $oldImagePath = public_path('images/colors/' . $color->images);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath); // Xóa tệp ảnh cũ
-                }
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
 
-
-                $image->move(public_path('images/colors'), $imageName);
-
-
-                $color->images = $imageName;
+            // Xóa ảnh cũ nếu có
+            if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
+                unlink(public_path('images/colors/' . $color->images));
             }
+
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/colors'), $imageName);
+
+            $color->images = $imageName;
         }
+
         $color->save();
         return redirect()->route('admin_colors.index')->with('success', 'Màu đã được cập nhật thành công!');
     }
-
-
-
-
-
     // hàm xóa một bảng màu
+
     public function destroy($id)
     {
-        $color = Color::findOrFail($id);
-
-
-        // Kiểm tra nếu hình ảnh tồn tại và xóa nó
-        if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
-            unlink(public_path('images/colors/' . $color->images)); // unlink đường dẫn tuyệt đối trong laravel
+        $color = Color::find($id);
+    
+        if (!$color) {
+            return redirect()->route('admin_colors.index')
+                             ->withErrors(['message' => ' xóa thất bại !!!Đối tượng không tồn tại! ']);
         }
-        $color->delete();
-        return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
+    
+        try {
+            if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
+                unlink(public_path('images/colors/' . $color->images));
+            }
+    
+            $color->delete();
+            return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
+        } catch (\Exception $e) {
+            return redirect()->route('admin_colors.index')
+                             ->withErrors(['message' => 'Xóa thất bại. Vui lòng thử lại!']);
+        }
     }
 
     // hàm tìm kiếm theo ID, name
     public function timkiemcolors(Request $request)
-{
-    $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
+    {
+        $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
+        if (strlen($keyword) > 255) {
+            return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
+        }
+        // Kiểm tra nếu người dùng không nhập từ khóa
+        if (empty($keyword)) {
+            return redirect()->back()->with('notification', 'Bạn chưa nhập từ khóa để tìm kiếm.');
+        }
 
-   
-    $colors = Color::where('name', 'LIKE', '%' . $keyword . '%')
-                    ->orWhere('color_id', $keyword)
-                    ->paginate(7);
+        $colordm = Color::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('color_id', $keyword)
+            ->paginate(5);
 
-    // Trả về view cùng với kết quả phân trang
-    return view('admin.colors.index', compact('colors', 'keyword'));
-}
+        // Kiểm tra nếu không có kết quả
+        if ($colordm->isEmpty()) {
+            return view('admin.colors.index')->with([
+                'colordm' => $colordm,
+                'keyword' => $keyword,
+                'message' => 'Không có kết quả nào.'
+            ]);
+        }
+
+        return view('admin.colors.index', compact('colordm', 'keyword'));
+    }
 
 }
