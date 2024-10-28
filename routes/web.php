@@ -28,42 +28,6 @@ use App\Http\Controllers\BlogController;
         return view('home.home');
     })->name('home');
    
-    // Route::get('/', [ProductController::class, 'index2'])->name('home');
-
-    Route::get('/shop', function () {
-        return view('home.shop');
-    });
-    
-    Route::get('/blog', function () {
-        return view('home.blog');
-    });
-    
-    Route::get('/about', function () {
-        return view('home.about');
-    });
-    
-    Route::get('/contact', function () {
-        return view('home.contact');
-    });
-    
-    Route::get('/cart', function () {
-        return view('cart');
-    });
-    
-    Route::get('/singleProduct', function () {
-        return view('home.singleProduct');
-    });
-    
-    
-    
-    Route::get('/product-list', function () {
-        return view('admin.products')  ;
-    });
-    
-    
-    
-
-
 
 Route::get('/shop', function () {
     return view('home.shop');
@@ -82,6 +46,9 @@ Route::get('/contact', function () {
 });
 
 Route::get('/cart', function () {
+    return view('cart');
+});
+Route::get('/home', function () {
     return view('cart');
 });
 
@@ -142,17 +109,6 @@ Route::middleware(['auth','checkrole'])->group(function () {
         Route::delete('destroy/{id}', 'destroy')->name('category-list.destroy');
         
     });
-    
-    // Route::controller(ProductController::class)->prefix('products-list')->group(function () {
-        //     Route::get('', 'index')->name('products.index');
-        //     Route::get('create', 'create')->name('products.create');
-        //     Route::post('store', 'store')->name('products.store');
-        //     Route::get('edit/{id}', 'edit')->name('products.edit');
-        //     Route::put('update/{id}', 'update')->name('products.update');
-        //     Route::delete('delete/{id}', 'destroy')->name('products.destroy');
-        //     Route::get('search', 'search')->name('products.search');
-        // });
-    
         
         Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
         // Route để hiển thị form thêm sản phẩm
@@ -210,12 +166,17 @@ Route::prefix('admin/colors')->group(function () {
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
     Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors');
 });
-// Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
+Route::get('/cart', function () {
+    return view('home.cart');
+});
+// Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::get('/home/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 
-// Route::POST('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
-// Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+// Route::post('/home/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+// Route::post('/home/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+
 
 //blogs
 Route::prefix('admin/blogs')->group(function () {
