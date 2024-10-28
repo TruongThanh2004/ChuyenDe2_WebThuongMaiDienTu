@@ -146,7 +146,7 @@
 
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i
-                                    class="icon nalika-user icon-wrap"></i> <span
+                                    class="icon nalika-shopping-cart icon-wrap"></i> <span
                                     class="mini-click-non">Product</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Product List" href="{{ route('admin.products') }}"><span
@@ -159,7 +159,7 @@
 
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i
-                                    class="icon nalika-user icon-wrap"></i> <span
+                                    class="icon nalika-menu-task icon-wrap"></i> <span
                                     class="mini-click-non">Category</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Category List" href="{{ route('category-list') }}"><span
@@ -171,13 +171,20 @@
 
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i
-                                    class="icon nalika-user icon-wrap"></i> <span
+                                    class="icon nalika-diamond icon-wrap"></i> <span
                                     class="mini-click-non">Colors</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="User List" href="{{route('admin_colors.index')}}"><span
                                             class="mini-sub-pro">User List</span></a></li>
 
 
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Blog</span></a>
+                            <ul class="submenu-angle" aria-expanded="false">
+                                <li><a title="Blog List" href="{{ route('blogs.index') }}"><span class="mini-sub-pro">Blog List</span></a></li>
                             </ul>
                         </li>
 
