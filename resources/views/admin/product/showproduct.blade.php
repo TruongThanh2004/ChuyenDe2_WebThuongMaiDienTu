@@ -1,162 +1,92 @@
-@extends('home.index')
-@section('content')
-<!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"> -->
-<!-- <link rel="stylesheet" href="{{ asset('style.css') }}"> -->
-<style>
-    .custom-select {
-        position: relative;
-        width: 300px;
-        cursor: pointer;
-    }
+@extends('admin.nav')
+@section('text')
+    <style>
+        /* CSS cho trang chi tiết sản phẩm */
+        .product-details {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .select-trigger {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #f0f0f0;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        gap: 10px;
-    }
+        .product-details h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
 
-    .select-trigger span {
-        font-size: 16px;
-        flex-grow: 1;
-    }
+        .product-info p {
+            font-size: 16px;
+            color: #555;
+            margin: 10px 0;
+        }
 
-    .color-preview {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: transparent;
-        /* Màu mặc định */
-        border: 1px solid #ccc;
-    }
+        .product-info strong {
+            color: #000;
+        }
 
-    .options {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: none;
-        /* Ẩn mặc định */
-        position: absolute;
-        width: 100%;
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 10;
-    }
+        /* CSS cho hình ảnh sản phẩm */
+        .product-images {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
 
-    .options.show {
-        display: block;
-        /* Hiển thị khi cần */
-    }
+        .product-images img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover; /* Giúp hình ảnh cắt vừa đúng khung mà không méo */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease; /* Hiệu ứng khi di chuột qua */
+        }
 
-    .options li {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        gap: 10px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
+        .product-images img:hover {
+            transform: scale(1.05); /* Phóng to hình khi di chuột qua */
+        }
 
-    .options li:hover {
-        background-color: #f1f1f1;
-    }
+        /* CSS cho nút quay lại */
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
 
-    .options img {
-        width: 100px;
-        height: 50px;
-        object-fit: contain;
-        border-radius: 50%;
-    }
+        .btn-back:hover {
+            background-color: #2980b9;
+        }
+    </style>
 
-    .color-preview {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 1px solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+    <div class="product-details">
+        <h2>Chi tiết sản phẩm</h2>
+        <div class="product-info">
+            <p><strong>Tên sản phẩm:</strong> {{ $product->product_name }}</p>
+            <p><strong>Mô tả:</strong> {{ $product->description }}</p>
+            <p><strong>Giá:</strong> {{ $product->price }} VND</p>
+            <p><strong>Số lượng:</strong> {{ $product->quantity }}</p>
+            <p><strong>Thể loại:</strong> {{ $product->category->category_name ?? 'Không có thể loại' }}</p>
+            <p><strong>Màu sắc:</strong> {{ $product->color->name ?? 'Không có màu sắc' }}</p>
 
-    .preview-img {jhj
-        max-width: 100%;
-        height: 300%;
-        object-fit: cover;
-    }
-</style>
-<script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>
-<script src="{{ asset('script.js') }}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const selectTrigger = document.querySelector('.select-trigger');
-        const options = document.querySelector('.options');
-        const selectedColorInput = document.getElementById('selectedColor');
-        const colorPreviewImg = document.querySelector('.preview-img'); // Lấy hình ảnh trong preview
-
-        // Mở/Đóng combobox khi click vào trigger
-        selectTrigger.addEventListener('click', () => {
-            options.classList.toggle('show');
-        });
-
-        // Đóng combobox khi click ra ngoài
-        document.addEventListener('click', (event) => {
-            if (!selectTrigger.contains(event.target)) {
-                options.classList.remove('show');
-            }
-        });
-
-        // Cập nhật preview khi người dùng chọn màu
-        options.querySelectorAll('li').forEach(option => {
-            option.addEventListener('click', () => {
-                const imageSrc = option.dataset.image; // Lấy đường dẫn hình ảnh
-                const colorName = option.dataset.name; // Lấy tên màu
-
-                console.log('Selected Image:', imageSrc); // Kiểm tra xem hình ảnh có đúng không
-
-                // Cập nhật hình ảnh preview
-                colorPreviewImg.src = imageSrc;
-                colorPreviewImg.style.display = 'block'; // Hiển thị hình ảnh
-
-                // Cập nhật tên màu trong trigger
-                selectTrigger.querySelector('span').innerText = colorName;
-
-                // Cập nhật giá trị vào input ẩn
-                selectedColorInput.value = option.dataset.value;
-
-                // Đóng danh sách sau khi chọn
-                options.classList.remove('show');
-            });
-        });
-    });
-
-
-
-</script>
-<section id="productdetails" class="section-p1">
-
-    <div class="single-pro-image">
-        <img src="{{ asset('images/products/' . $product->image1) }}" width="100%" id="MainImg"
-            alt="{{ $product->product_name }}">
-        <div class="small-image-group">
-            <div class="small-img-col">
-                <img src="{{ asset('images/products/' . $product->image1) }}" width="100%" class="small-img" alt="">
-            </div>
-            <div class="small-img-col">
-                <img src="{{ asset('images/products/' . $product->image2) }}" width="100%" class="small-img" alt="">
-            </div>
-            <div class="small-img-col">
-                <img src="{{ asset('images/products/' . $product->image3) }}" width="100%" class="small-img" alt="">
-            </div>
-            <div class="small-img-col">
-                <img src="{{ asset('images/products/' . $product->image1) }}" width="100%" class="small-img" alt="">
+            <!-- Hiển thị các hình ảnh sản phẩm -->
+            <div class="product-images">
+                @if ($product->image1)
+                    <img src="{{ asset('images/products/' . $product->image1) }}" alt="{{ $product->product_name }}" />
+                @endif
+                @if ($product->image2)
+                    <img src="{{ asset('images/products/' . $product->image2) }}" alt="{{ $product->product_name }}" />
+                @endif
+                @if ($product->image3)
+                    <img src="{{ asset('images/products/' . $product->image3) }}" alt="{{ $product->product_name }}" />
+                @endif
             </div>
         </div>
         <a href="{{ route('admin.products') }}" class="btn-back">Quay lại danh sách sản phẩm</a>
