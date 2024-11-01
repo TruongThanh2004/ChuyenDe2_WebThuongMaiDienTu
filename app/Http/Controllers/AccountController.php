@@ -29,6 +29,9 @@ class AccountController extends Controller
        
        $user = User::where('email',$request->email)->first();
        
+    //    if(User::where('email')!= $request->email){
+    //         redirect()->route('forgot_password')->with('error','Email chưa được đăng ký');
+    //    }
        $token = \Str::random(50);
        $tokenData = [
             'email'=>$request->email,
@@ -36,9 +39,9 @@ class AccountController extends Controller
        ];   
        if(Password_reset_token::create($tokenData)){
        
-        Mail::to($request->email)->send(new ForgotPassword($user,$token));
-    
+        Mail::to($request->email)->send(new ForgotPassword($user,$token));    
        }
+       return redirect()->route('login');
     }
 
     public function reset_password($token)

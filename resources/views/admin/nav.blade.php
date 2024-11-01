@@ -60,6 +60,8 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="css/responsive.css">
+
+    <link rel="stylesheet" href="css/error/mess_error.css">
     <!-- modernizr JS
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -75,6 +77,15 @@
    @if (Session::has('successLogin'))
         <script>
             swal("{{Session::get('successLogin')}}", "Chào {{Auth::user()->username}}", "success");
+        </script>
+    @endif
+   </div>
+
+
+   <div>
+   @if (Session::has('successUser'))
+        <script>
+            swal("", "{{Session::get('successUser')}}", "success");
         </script>
     @endif
    </div>

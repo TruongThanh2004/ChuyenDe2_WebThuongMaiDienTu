@@ -7,6 +7,8 @@ use Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use PHPUnit\Framework\Constraint\IsEmpty;
+use Validator;
+use App\Helpers\ValidationHelper;
 class UserController extends Controller
 {
     /**
@@ -41,6 +43,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = ValidationHelper::userValidation($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('user-list.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         if($request->has('fileUpload')){
             $file = $request->fileUpload;
            
@@ -53,7 +63,7 @@ class UserController extends Controller
         $request->merge(['image'=>$file_name,'password'=>$password]);
         $user = User::create($request->all());
         
-        return redirect()->route('user-list')->with('success','Thêm user thành côngg');
+        return redirect()->route('user-list')->with('successUser','Thêm user thành côngg');
         
     }
 
@@ -80,7 +90,14 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        $validator = ValidationHelper::userUpdateValidation($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('user-list.edit',$id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $updateUser = User::findOrFail($id);
         $olaImage = $updateUser->image;
         if($request->has('fileUpload')){
@@ -93,7 +110,7 @@ class UserController extends Controller
         $password = Hash::make($request->password);
         $request->merge(['image'=>$file_name,'password'=>$password]);
         $updateUser->update($request->all());
-        return redirect()->route('user-list')->with('success','Update user thành công');
+        return redirect()->route('user-list')->with('successUser','Update user thành công');
     }
 
     /**
@@ -104,7 +121,7 @@ class UserController extends Controller
       
         $deleteUser = User::findOrFail($id);
        $deleteUser->delete();
-       return redirect()->route('user-list')->with('success','Xóa user thành công');
+       return redirect()->route('user-list')->with('successUser','Xóa user thành công');
     }
   
 }
