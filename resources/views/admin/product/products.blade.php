@@ -31,19 +31,19 @@
         </div>
     </div>
    <!-- Thông báo lỗi tìm kiếm -->
-   @if (session('message'))
+                    <!-- @if (session('message'))
                         <div class="alert alert-success" role="alert" id="success-message">
                             {{ session('message') }}
                         </div>
                         <script>
                             // Tự động ẩn thông báo sau 5 giây
                             setTimeout(function () {
-                                document.getElementById('success-message').style.display = 'none';
-                            }, 3000); 
+                                document.getElementById('success-message').style.display = 'none' style.color = 'white';
+                            }, 3000);
                         </script>
-                    @endif
-      <!-- Thông báo cập nhật thành công -->
-      @if (session('success'))
+                    @endif -->
+                    <!-- Thông báo cập nhật thành công -->
+                    @if (session('success'))
                         <div class="alert alert-success" role="alert" id="success-message">
                             {{ session('success') }}
                         </div>
@@ -51,9 +51,22 @@
                             // Tự động ẩn thông báo sau 5 giây
                             setTimeout(function () {
                                 document.getElementById('success-message').style.display = 'none';
-                            }, 3000); 
+                            }, 3000);
                         </script>
                     @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-success" role="alert" id="success-message">
+                            {{ session('error') }}
+                        </div>
+                        <script>
+                            // Tự động ẩn thông báo sau 5 giây
+                            setTimeout(function () {
+                                document.getElementById('success-message').style.display = 'none';
+                            }, 3000);
+                        </script>
+                    @endif
+
     <div class="product-status mg-b-30">
         <div class="container-fluid">
             <div class="row">
@@ -75,7 +88,7 @@
                             <a href="{{ route('products.create') }}">Thêm sản phẩm</a>
                         </div>
                         @if($products->isEmpty())
-                            <p>Không có sản phẩm nào để hiển thị.</p>
+                            <p style="color: yellow; font-size: 30px; font-weight: bold;">Không có sản phẩm nào để hiển thị.</p>
                         @else
                         <table>
                             <thead>
