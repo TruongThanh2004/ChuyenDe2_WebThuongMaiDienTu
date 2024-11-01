@@ -208,5 +208,30 @@ public function show($id)
     // Nếu bạn muốn chỉ hiển thị sản phẩm mà không cần chỉnh sửa
     return view('admin.product.showproduct', compact('product', 'categories', 'colors'));
 }
+public function showProduct($id)
+{
+    // Lấy sản phẩm theo ID
+    $product = Product::findOrFail($id);
 
+    // Lấy thể loại và màu sắc
+    $categories = Category::all();
+    $colors = Color::all();
+
+    // Nếu bạn muốn chỉ hiển thị sản phẩm mà không cần chỉnh sửa
+    return view('home.singleProduct', compact('product', 'categories', 'colors'));
+}
+public function ShowProductShop()
+{
+    // Kiểm tra xem bảng products, categories và colors có tồn tại không
+    if (!\Schema::hasTable('products') || !\Schema::hasTable('categories') || !\Schema::hasTable('colors')) {
+        // Trả về view với thông báo nếu bảng không tồn tại
+        return view('home.shop')->with('message', 'Một trong các bảng không tồn tại.');
+    }
+
+    $products = Product::paginate(10); // Lấy sản phẩm với phân trang 10 sản phẩm mỗi trang
+    $categories = Category::all(); // Lấy tất cả danh mục
+    $colors = Color::all(); // Lấy tất cả màu sắc
+
+    return view('home.shop', compact('products', 'categories', 'colors'));
+}
 }

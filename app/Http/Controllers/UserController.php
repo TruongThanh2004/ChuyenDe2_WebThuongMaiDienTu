@@ -123,5 +123,27 @@ class UserController extends Controller
        $deleteUser->delete();
        return redirect()->route('user-list')->with('successUser','Xóa user thành công');
     }
-  
+    public function updateEmail(Request $request)
+    {
+        // Lấy người dùng hiện tại
+        $user = Auth::user();
+    
+        // Xác thực dữ liệu
+        $request->validate([
+            'current_email' => 'required|email',
+            'new_email' => 'required|email|confirmed|unique:users,email,' . $user->id, // Kiểm tra email mới không trùng lặp, ngoại trừ chính nó
+        ]);
+    
+        // Kiểm tra email hiện tại
+        if ($request->current_email !== $user->email) {
+            return redirect()->back()->with('error', 'Current email does not match our records.');
+        }
+    
+        // Cập nhật email
+        $user->email = $request->new_email;
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Email updated successfully.');
+    }
+    
 }
