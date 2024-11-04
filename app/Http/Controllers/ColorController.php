@@ -74,6 +74,7 @@ class ColorController extends Controller
         }
         $color->save();
         return redirect()->route('admin_colors.index')->with('success', 'Màu được thêm thành công!');
+      
     }
 
 
@@ -172,33 +173,75 @@ class ColorController extends Controller
                              ->withErrors(['message' => 'Xóa thất bại. Vui lòng thử lại!']);
         }
     }
+    
 
-    // hàm tìm kiếm theo ID, name
-    public function timkiemcolors(Request $request)
-    {
-        $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
-        if (strlen($keyword) > 255) {
-            return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
-        }
-        // Kiểm tra nếu người dùng không nhập từ khóa
-        if (empty($keyword)) {
-            return redirect()->back()->with('notification', 'Bạn chưa nhập từ khóa để tìm kiếm.');
-        }
-
-        $colordm = Color::where('name', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('color_id', $keyword)
-            ->paginate(5);
-
-        // Kiểm tra nếu không có kết quả
-        if ($colordm->isEmpty()) {
-            return view('admin.colors.index')->with([
-                'colordm' => $colordm,
-                'keyword' => $keyword,
-                'message' => 'Không có kết quả nào.'
-            ]);
-        }
-
-        return view('admin.colors.index', compact('colordm', 'keyword'));
-    }
-
+     // hàm tìm kiếm theo ap dụng Full-Text Search cho cột name
+     public function timkiemcolors(Request $request)
+     {
+         $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
+     
+         // Kiểm tra độ dài từ khóa
+         if (strlen($keyword) > 255) {
+             return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
+         }
+     
+         // Kiểm tra nếu người dùng không nhập từ khóa
+         if (empty($keyword)) {
+             return redirect()->back()->with('notification', 'Bạn chưa nhập từ khóa để tìm kiếm.');
+         }
+     
+         // Sử dụng Full-Text Search cho cột `name`
+         $colordm = Color::whereRaw("MATCH(name) AGAINST(? IN NATURAL LANGUAGE MODE)", [$keyword])
+             ->orWhere('color_id', $keyword)
+             ->paginate(5);
+     
+         // Kiểm tra nếu không có kết quả
+         if ($colordm->isEmpty()) {
+             return view('admin.colors.index')->with([
+                 'colordm' => $colordm,
+                 'keyword' => $keyword,
+                 'message' => 'Không có kết quả nào.'
+             ]);
+         }
+     
+         return view('admin.colors.index', compact('colordm', 'keyword'));
+     }
+ 
+    
+     public function deleteSelected(Request $request)
+     {
+         // Lấy danh sách ID từ request
+         $selectedItems = $request->input('selected_items');
+     
+         // Chia nhỏ chuỗi ID thành mảng
+         $ids = explode(',', $selectedItems);
+         
+         // Khởi tạo mảng để lưu các thông báo
+         $messages = [];
+     
+         foreach ($ids as $id) {
+             $color = Color::find($id);
+     
+             if (!$color) {
+                 $messages[] = "Màu với ID $id không tồn tại!";
+                 continue; // Bỏ qua ID này và tiếp tục với ID tiếp theo
+             }
+     
+             try {
+                 // Xóa ảnh nếu tồn tại
+                 if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
+                     unlink(public_path('images/colors/' . $color->images));
+                 }
+     
+                 // Xóa màu
+                 $color->delete();
+                 $messages[] = "Màu với ID $id đã được xóa thành công!";
+             } catch (\Exception $e) {
+                 $messages[] = "Xóa màu với ID $id thất bại. Vui lòng thử lại!";
+             }
+         }
+     
+         // Chuyển hướng về trang danh sách với thông báo
+         return redirect()->route('admin_colors.index')->with('success', implode(' ', $messages));
+     }
 }

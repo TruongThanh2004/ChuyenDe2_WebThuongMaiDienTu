@@ -115,10 +115,24 @@
                                                         onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
                                                 </form>
                                             </td>
+                                            <td><input type="checkbox" class="remove-item" data-id="{{ $color->color_id }}"></td>
+
                                         </tr>
                                     @endforeach
+
                                 </tbody>
                             </table>
+                            <form id="delete-selected-form" action="{{ route('admin_colors.deleteSelected') }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <td><input type="checkbox" id="remove-all" onclick="toggleAll(this)"></td>
+                                <input type="hidden" name="selected_items" id="selected-items">
+                                <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">Xóa màu
+                                    đã chọn</button>
+                            </form>
+
+                            <br>
+
                             {{ $colordm->links() }}
                         @endif
             </div>
@@ -126,6 +140,29 @@
     </div>
 </div>
 </div>
+<script>
+    function toggleAll(source) {
+        const checkboxes = document.querySelectorAll('.remove-item');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = source.checked;
+        });
+    }
 
+    function confirmDeleteAll() {
+        const selectedItems = [];
+        document.querySelectorAll('.remove-item:checked').forEach(checkbox => {
+            selectedItems.push(checkbox.getAttribute('data-id'));
+        });
+
+        if (selectedItems.length > 0) {
+            document.getElementById('selected-items').value = selectedItems.join(',');
+            if (confirm('Bạn có chắc chắn muốn xóa các màu đã chọn?')) {
+                document.getElementById('delete-selected-form').submit();
+            }
+        } else {
+            alert('Vui lòng chọn ít nhất một màu để xóa.');
+        }
+    }
+</script>
 
 @endsection
