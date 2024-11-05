@@ -144,3 +144,15 @@
         </div>
     </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('form[method="POST"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            if (!confirm('Bạn có chắc chắn muốn xóa?')) {
+                event.preventDefault(); 
+            }
+        });
+    });
+});
+
+</script>
