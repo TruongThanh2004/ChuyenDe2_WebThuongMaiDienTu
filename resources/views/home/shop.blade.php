@@ -1,10 +1,21 @@
 @extends('home.index')
 @section('content')
+<link rel="stylesheet" href="{{ asset('style.css') }}">
 <section id="page-header">
         <h2>#stayhome</h2>
         <p>Save more with coupons & up to 70% off!</p>
     </section>
-    
+        @php
+        $sort = $sort ?? 'nosort';
+    @endphp
+
+    <form method="GET" action="{{ route('sortPrice') }}" id="sortForm">
+        <select name="sort" onchange="document.getElementById('sortForm').submit()">
+            <option value="nosort">Sắp xếp giá</option>
+            <option value="asc" {{ $sort === 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
+            <option value="desc" {{ $sort === 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
+        </select>
+    </form>
     <section id="product1" class="section-p1">
         <div class="pro-container">
         @foreach ($products as $product)
@@ -29,7 +40,7 @@
             @endforeach          
         </div>
         <div class="custom-pagination">
-        {{ $products->links() }}
+    {{ $products->appends(['sort' => $sort])->links() }}
     </div>
     </section>   
     @endsection

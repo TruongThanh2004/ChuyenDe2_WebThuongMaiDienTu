@@ -228,3 +228,4 @@ Route::prefix('admin/blogs')->group(function () {
     Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
     Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Hiển thị chi tiết blog
 });
+Route::get('/shop/sortprice', [ProductController::class, 'SortPrice'])->name('sortPrice');
