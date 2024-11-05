@@ -250,7 +250,9 @@ body {
 }
 
 #product1 .pro img {
-    width: 100%;
+    width: 277px;
+    height: 277px;
+    object-fit: cover;
     border-radius: 20px;   
 }
 
@@ -584,10 +586,16 @@ footer .copyright {
     display: flex;
     justify-content: space-between;
 }
-
+.small-img {
+    width: 126px;
+    height: 126px;
+    object-fit: cover;
+}
 .small-img-col {
     flex-basis: 24%;
     cursor: pointer;
+    width: 126px;
+    height: 126px;
 }
 
 #productdetails .single-pro-details {
