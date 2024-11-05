@@ -30,7 +30,7 @@
         <h6>{{ $product->category->category_name ?? 'Không có thể loại' }}</h6>
         <h4>{{ $product->product_name }}</h4>
         <h2>{{ $product->price }} VND</h2>
-
+        
         <!-- <select>
             <option>Select Color</option>
             @foreach ($colors as $color)
@@ -70,99 +70,26 @@
         <span>{{ $product->description}}</span>
     </div>
 </section>
-
-<section id="product1" class="section-p1">
-    <h2>Featured Products</h2>
-    <p>Summer Collection New Modern Design</p>
-    <div class="pro-container">
-        <div class="pro">
-            <img src="images/products/n1.jpg" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$78</h4>
-            </div>
-            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-        </div>
-        <div class="pro">
-            <img src="images/products/n2.jpg" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$78</h4>
-            </div>
-            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-        </div>
-        <div class="pro">
-            <img src="images/products/n3.jpg" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$78</h4>
-            </div>
-            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-        </div>
-        <div class="pro">
-            <img src="images/products/n4.jpg" alt="">
-            <div class="des">
-                <span>adidas</span>
-                <h5>Cartoon Astronaut T-Shirts</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <h4>$78</h4>
-            </div>
-            <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
-        </div>
-    </div>
-</section>
 <script>
-   document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const selectTrigger = document.querySelector('.select-trigger');
     const options = document.querySelector('.options');
     const selectedColorInput = document.getElementById('selectedColor');
     const colorPreviewImg = document.querySelector('.preview-img');
-    const mainImg = document.getElementById('MainImg'); // Hình ảnh chính
-    const smallImgs = document.querySelectorAll('.small-img'); // Danh sách ảnh nhỏ
+    const mainImg = document.getElementById('MainImg'); 
+    const smallImgs = document.querySelectorAll('.small-img'); 
 
-    // Mở/Đóng combobox khi click vào trigger
-    selectTrigger.addEventListener('click', () => {
+    selectTrigger.addEventListener('click', (event) => {
+        event.stopPropagation();
         options.classList.toggle('show');
     });
 
-    // Đóng combobox khi click ra ngoài
     document.addEventListener('click', (event) => {
         if (!selectTrigger.contains(event.target)) {
             options.classList.remove('show');
         }
     });
 
-    // Cập nhật preview khi người dùng chọn màu
     options.querySelectorAll('li').forEach(option => {
         option.addEventListener('click', () => {
             const imageSrc = option.dataset.image;
@@ -176,10 +103,31 @@
         });
     });
 
-    // Cập nhật hình ảnh chính khi nhấp vào một trong các ảnh nhỏ
+    let isAnimating = false;
+
     smallImgs.forEach(smallImg => {
         smallImg.addEventListener('click', () => {
-            mainImg.src = smallImg.src; // Cập nhật hình ảnh chính bằng src của ảnh nhỏ
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const targetSrc = smallImg.src;
+            const currentSrc = mainImg.src;
+            const direction = smallImg.offsetLeft < mainImg.offsetLeft ? 'left' : 'right';
+
+            mainImg.style.transition = 'transform 0.5s ease-in-out';
+            mainImg.style.transform = `translateX(${direction === 'left' ? '100%' : '-100%'})`;
+
+            mainImg.addEventListener('transitionend', () => {
+                mainImg.src = targetSrc;
+                mainImg.style.transition = 'none';
+                mainImg.style.transform = `translateX(${direction === 'left' ? '-100%' : '100%'})`;
+
+                setTimeout(() => {
+                    mainImg.style.transition = 'transform 0.5s ease-in-out';
+                    mainImg.style.transform = 'translateX(0)';
+                    isAnimating = false;
+                }, 10);
+            }, { once: true });
         });
     });
 });
