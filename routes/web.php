@@ -27,7 +27,8 @@ use App\Http\Controllers\BlogController;
     
         return view('home.home');
     })->name('home');
-   
+
+    Route::get('/', [ProductController::class, 'shop'])->name('home');
     // Route::get('/', [ProductController::class, 'index2'])->name('home');
 
     Route::get('/shop', function () {

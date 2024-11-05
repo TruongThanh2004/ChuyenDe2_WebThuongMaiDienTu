@@ -13,13 +13,15 @@
                 <div class="des">
                 <span>{{ $product->category->category_name ?? 'Không có thể loại' }}</span>
                 <h5>{{ $product->product_name }}</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
+                <div class="star">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $product->rating)
+                                <i class="fas fa-star"></i>
+                            @else
+                                <i class="far fa-star"></i>
+                            @endif
+                        @endfor
+                 </div>
                     <h4>{{ $product->price }}VND</h4>
                 </div>
                 <a href="#"><i class="fas fa-shopping-cart cart"></i></a>
