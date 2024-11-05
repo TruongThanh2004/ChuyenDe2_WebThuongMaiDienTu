@@ -234,4 +234,11 @@ public function ShowProductShop()
 
     return view('home.shop', compact('products', 'categories', 'colors'));
 }
+    public function shop()
+    {
+        // Lấy 5 sản phẩm mới nhất
+        $products = Product::orderBy('created_at', 'desc')->take(8)->get();
+
+        return view('home.home', compact('products'));
+    }
 }
