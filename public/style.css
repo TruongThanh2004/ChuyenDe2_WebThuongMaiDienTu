@@ -681,7 +681,6 @@ footer .copyright {
 }
 
 #blog .blog-details a::after {
-    content: "";
     width: 50px;
     height: 1px;
     background-color: #000;

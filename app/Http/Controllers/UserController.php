@@ -7,6 +7,8 @@ use Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
 use PHPUnit\Framework\Constraint\IsEmpty;
+use Validator;
+use App\Helpers\ValidationHelper;
 class UserController extends Controller
 {
     /**
@@ -23,6 +25,13 @@ class UserController extends Controller
                         ->orWhere('address','like','%' .$request->keyword.'%')
             ->paginate(5);
         }
+
+        if ($user->isEmpty()) {
+            return redirect()->route('user-list')->with([
+                'user' => $user, 
+                'error' => 'Không tìm thấy user bạn cần tìm'
+            ]);
+        }                        
         return view('admin.users')->with('user',$user);
     }
 
@@ -41,6 +50,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = ValidationHelper::userValidation($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('user-list.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         if($request->has('fileUpload')){
             $file = $request->fileUpload;
            
@@ -53,7 +70,7 @@ class UserController extends Controller
         $request->merge(['image'=>$file_name,'password'=>$password]);
         $user = User::create($request->all());
         
-        return redirect()->route('user-list')->with('success','Thêm user thành côngg');
+        return redirect()->route('user-list')->with('successUser','Thêm user thành côngg');
         
     }
 
@@ -80,7 +97,14 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        $validator = ValidationHelper::userUpdateValidation($request,$request);
+
+        if ($validator->fails()) {
+            return redirect()->route('user-list.edit',$id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $updateUser = User::findOrFail($id);
         $olaImage = $updateUser->image;
         if($request->has('fileUpload')){
@@ -93,7 +117,7 @@ class UserController extends Controller
         $password = Hash::make($request->password);
         $request->merge(['image'=>$file_name,'password'=>$password]);
         $updateUser->update($request->all());
-        return redirect()->route('user-list')->with('success','Update user thành công');
+        return redirect()->route('user-list')->with('successUser','Update user thành công');
     }
 
     /**
@@ -104,7 +128,29 @@ class UserController extends Controller
       
         $deleteUser = User::findOrFail($id);
        $deleteUser->delete();
-       return redirect()->route('user-list')->with('success','Xóa user thành công');
+       return redirect()->route('user-list')->with('successUser','Xóa user thành công');
     }
-  
+    public function updateEmail(Request $request)
+    {
+        // Lấy người dùng hiện tại
+        $user = Auth::user();
+    
+        // Xác thực dữ liệu
+        $request->validate([
+            'current_email' => 'required|email',
+            'new_email' => 'required|email|confirmed|unique:users,email,' . $user->id, // Kiểm tra email mới không trùng lặp, ngoại trừ chính nó
+        ]);
+    
+        // Kiểm tra email hiện tại
+        if ($request->current_email !== $user->email) {
+            return redirect()->back()->with('error', 'Current email does not match our records.');
+        }
+    
+        // Cập nhật email
+        $user->email = $request->new_email;
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Email updated successfully.');
+    }
+    
 }
