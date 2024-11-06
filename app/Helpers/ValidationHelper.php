@@ -105,4 +105,23 @@ class ValidationHelper
             
         ]);
     }
+
+
+
+    public static function Change_passowrd($request)
+    {
+        return Validator::make($request->all(), [
+            'code'=>'required|digits:6',
+            'password' => 'required|min:4|max:255',
+            'confirm_password'=>'required|same:password'
+        ], [
+            'code.required' => 'Vui lòng nhập mã code.',
+            'code.digits' => 'Mã code chính xác phải 6 số.',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.min' => 'Mật khẩu không được ít hơn 4 ký tự.',
+            'password.max' => 'Mật khẩu không được vượt quá 255 ký tự.',
+            'confirm_password.required' => 'Vui lòng xác nhận mật khẩu.',
+            'confirm_password.same' => 'Mật khẩu xác nhận không khớp với mật khẩu.'
+        ]);
+    }
 }

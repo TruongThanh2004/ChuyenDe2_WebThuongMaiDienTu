@@ -2,8 +2,8 @@
     
     
         <P>
-            Bạn hãy click vào link bên dưới để lấy lại mật khẩu
+            Mã xác nhận của bạn là: <h2>{{$token}}</h2>
         </P>
-        <a href="{{route('reset-password',$token)}}" style="display:inline-block; color:black">Click here to get new password</a>
+     
     </p>
 </div>

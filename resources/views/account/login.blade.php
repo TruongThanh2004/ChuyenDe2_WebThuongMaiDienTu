@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<title>CodePen - A Pen by Mohithpoojary</title>
-	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
-	<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
-	<link rel="stylesheet" href="../DoAnTT/public/css/login.css">
-	<link rel="stylesheet" href="css/login.css">
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-</head>
-
-<body>
+@extends('nav_bar')
+@section('content')
 	<!-- partial:index.partial.html -->
 	<video autoplay muted loop id="backgroundVideo">
 		<source src="images/clip_may_tinh.mp4" type="video/mp4">
@@ -67,8 +55,5 @@
 	</div>
 	<!-- partial -->
 
+	@endsection
 
-
-</body>
-
-</html>
