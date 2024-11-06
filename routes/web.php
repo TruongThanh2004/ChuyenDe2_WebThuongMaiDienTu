@@ -27,7 +27,8 @@ use App\Http\Controllers\BlogController;
     
         return view('home.home');
     })->name('home');
-   
+
+    Route::get('/', [ProductController::class, 'shop'])->name('home');
     // Route::get('/', [ProductController::class, 'index2'])->name('home');
 
     Route::get('/shop', function () {
@@ -101,6 +102,7 @@ Route::middleware(['auth'])->group(function(){
    Route::controller(ProfileController::class)->prefix('profile')->group(function(){
     Route::get('','index')->name('profile');
     Route::put('edit/{id}','update')->name('profile.update');
+    Route::put('change-password/{id}','change_password')->name('change_password');
    });
 
 
@@ -190,7 +192,7 @@ Route::get('/forgot-password',[AccountController::class,'forgot_password'])->nam
 Route::post('/forgot-password',[AccountController::class,'check_forgot_password'])->name('check_forgot_password');
 
 Route::get('/reset-password/{token}',[AccountController::class,'reset_password'])->name('reset-password');
-Route::post('/reset-password/{token}',[AccountController::class,'check_reset_password']);   
+Route::post('/reset-password/{token}',[AccountController::class,'check_reset_password'])->name('reset-password-code');   
 
 
 
@@ -227,3 +229,4 @@ Route::prefix('admin/blogs')->group(function () {
     Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
     Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Hiển thị chi tiết blog
 });
+Route::get('/shop/sortprice', [ProductController::class, 'SortPrice'])->name('sortPrice');

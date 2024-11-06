@@ -139,11 +139,11 @@ class ProductController extends Controller
 
 
 
-    public function search(Request $request)
+        public function search(Request $request)
     {
         // Lấy từ khóa tìm kiếm từ request
         $searchTerm = $request->input('search');
-    
+
         // Kiểm tra nếu từ khóa tìm kiếm không rỗng
         if ($searchTerm) {
             // Tìm kiếm sản phẩm theo tên sản phẩm, mô tả hoặc các trường khác
@@ -157,16 +157,16 @@ class ProductController extends Controller
                     $query->where('name', 'LIKE', '%' . $searchTerm . '%');
                 })
                 ->paginate(10); // Phân trang 10 sản phẩm mỗi trang
-    
+
             // Nếu không có sản phẩm, trả về view với thông báo
             if ($products->isEmpty()) {
                 return view('admin.product.products', compact('products'))->with('message', 'Không tìm thấy sản phẩm nào.');
             }
-    
+
             // Trả về view cùng với kết quả tìm kiếm
             return view('admin.product.products', compact('products'));
         }
-    
+
         // Nếu không có từ khóa tìm kiếm, trả về danh sách sản phẩm đầy đủ
         return redirect()->route('admin.products')->with('error', 'Vui lòng nhập từ khóa để tìm kiếm.');
     }
@@ -234,4 +234,28 @@ public function ShowProductShop()
 
     return view('home.shop', compact('products', 'categories', 'colors'));
 }
+    public function shop()
+    {
+        // Lấy 5 sản phẩm mới nhất
+        $products = Product::orderBy('created_at', 'desc')->take(8)->get();
+
+        return view('home.home', compact('products'));
+    }
+
+    public function SortPrice(Request $request)
+    {
+        $sort = $request->input('sort', 'asc'); // Mặc định là tăng dần
+    
+        $query = Product::query();
+    
+        if ($sort === 'asc') {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->orderBy('price', 'desc');
+        }
+    
+        $products = $query->paginate(10)->appends(['sort' => $sort]);
+    
+        return view('home.shop', compact('products', 'sort'));
+    }
 }

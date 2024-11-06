@@ -11,9 +11,9 @@
 
 
 
-     <!-- CSS colors
+    <!-- CSS colors
 		============================================ -->
-        <link rel="stylesheet" href="css/color/form-list.css">
+    <!-- <link rel="stylesheet" href="css/color/form-list.css"> -->
     <!-- favicon
 		============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -66,6 +66,8 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="css/responsive.css">
+
+    <link rel="stylesheet" href="css/error/mess_error.css">
     <!-- modernizr JS
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -73,17 +75,38 @@
 
     <!-- 
      -->
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
+
 <body>
 
-   <div>
-   @if (Session::has('successLogin'))
-        <script>
-            swal("{{Session::get('successLogin')}}", "Chào {{Auth::user()->username}}", "success");
-        </script>
-    @endif
-   </div>
+    <div>
+        @if (Session::has('successLogin'))
+            <script>
+                swal("{{Session::get('successLogin')}}", "Chào {{Auth::user()->username}}", "success");
+            </script>
+        @endif
+    </div>
+
+   
+    <div>
+        @if (Session::has('error'))
+            <script>
+                swal("", "{{Session::get('error')}}", "error");
+            </script>
+        @endif
+    </div>
+ 
+
+
+    <div>
+        @if (Session::has('successUser'))
+            <script>
+                swal("", "{{Session::get('successUser')}}", "success");
+            </script>
+        @endif
+    </div>
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
@@ -182,9 +205,11 @@
                         </li>
 
                         <li>
-                            <a class="has-arrow" href="" aria-expanded="false"><i class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Blog</span></a>
+                            <a class="has-arrow" href="" aria-expanded="false"><i
+                                    class="icon nalika-user icon-wrap"></i> <span class="mini-click-non">Blog</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Blog List" href="{{ route('blogs.index') }}"><span class="mini-sub-pro">Blog List</span></a></li>
+                                <li><a title="Blog List" href="{{ route('blogs.index') }}"><span
+                                            class="mini-sub-pro">Blog List</span></a></li>
                             </ul>
                         </li>
 
@@ -304,7 +329,7 @@
                                                         <li><a href="{{route('profile')}}"><span
                                                                     class="icon nalika-user author-log-ic"></span> My
                                                                 Profile</a>
-                                                        </li>                                              
+                                                        </li>
                                                         <li><a href="{{route('logout')}}"><span
                                                                     class="icon nalika-unlocked author-log-ic"></span>
                                                                 Log Out</a>
@@ -1067,9 +1092,9 @@
 
         <script src="js/checkUser.js"></script>
 
-<!-- js admin color -->
+        <!-- js admin color -->
         <script src="js/color/colors-index.js"></script>
-        
+
 </body>
 
 </html>
