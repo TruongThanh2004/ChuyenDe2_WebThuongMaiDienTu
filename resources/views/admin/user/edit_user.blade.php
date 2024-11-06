@@ -152,6 +152,13 @@
                                                 </div>
                                                 
                                                 <input type="file" name="fileUpload">
+
+
+                                                <div class="error_mess">
+                                                @if ($errors->has('fileUpload'))
+                                                        <span class="text-danger">{{ $errors->first('fileUpload') }}</span>
+                                                    @endif
+                                                </div> 
                                             </div>
                                         </div>
                                        

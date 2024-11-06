@@ -25,6 +25,13 @@ class UserController extends Controller
                         ->orWhere('address','like','%' .$request->keyword.'%')
             ->paginate(5);
         }
+
+        if ($user->isEmpty()) {
+            return redirect()->route('user-list')->with([
+                'user' => $user, 
+                'error' => 'Không tìm thấy user bạn cần tìm'
+            ]);
+        }                        
         return view('admin.users')->with('user',$user);
     }
 
@@ -90,7 +97,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = ValidationHelper::userUpdateValidation($request);
+        $validator = ValidationHelper::userUpdateValidation($request,$request);
 
         if ($validator->fails()) {
             return redirect()->route('user-list.edit',$id)

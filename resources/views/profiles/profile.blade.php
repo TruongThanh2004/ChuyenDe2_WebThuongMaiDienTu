@@ -61,6 +61,12 @@
                                         <button type="button" id="reset-button"
                                             class="btn btn-default md-btn-flat">Reset</button>
                                     </div>
+
+                                    <div class="error_mess">
+                                    @if ($errors->has('fileUpload'))
+                                        <span class="text-danger">{{ $errors->first('fileUpload') }}</span>
+                                    @endif
+                                </div>
                             </div>
 
                             <hr class="border-light m-0">

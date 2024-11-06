@@ -172,8 +172,8 @@
 
 
                                                 <div class="error_mess">
-                                                @if ($errors->has('name'))
-                                                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                                                @if ($errors->has('fileUpload'))
+                                                        <span class="text-danger">{{ $errors->first('fileUpload') }}</span>
                                                     @endif
                                                 </div> 
                                             </div>

@@ -26,9 +26,13 @@ class AccountController extends Controller
 
     public function check_forgot_password(Request $request){
         
-    
-       
         
+        $request->validate([
+            'email' => 'required|email',
+        ], [
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
+        ]);
         
 
        $user = User::where('email',$request->email)->first();
@@ -89,6 +93,20 @@ class AccountController extends Controller
     }
 
     public function save(Request $request)  {
+
+
+        $validator = ValidationHelper::register($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('register')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+
+
+
         $user = new User();
         $error = null;
         $user->username = $request->username;
