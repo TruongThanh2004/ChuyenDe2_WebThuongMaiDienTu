@@ -111,7 +111,7 @@
                                     </td>
                                     <td>{{ $product->product_name }}</td>
                                     <td>{{ $product->description }}</td>
-                                    <td>{{ $product->price }}VND</td>
+                                    <td>{{ number_format($product->price, 3, ',', '.') }}VND</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
                                     <td>{{ $product->color->name ?? 'Không có màu sắc' }}</td>
@@ -144,3 +144,15 @@
         </div>
     </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('form[method="POST"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            if (!confirm('Bạn có chắc chắn muốn xóa?')) {
+                event.preventDefault(); 
+            }
+        });
+    });
+});
+
+</script>

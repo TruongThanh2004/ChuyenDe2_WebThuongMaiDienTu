@@ -234,4 +234,28 @@ public function ShowProductShop()
 
     return view('home.shop', compact('products', 'categories', 'colors'));
 }
+    public function shop()
+    {
+        // Lấy 5 sản phẩm mới nhất
+        $products = Product::orderBy('created_at', 'desc')->take(8)->get();
+
+        return view('home.home', compact('products'));
+    }
+
+    public function SortPrice(Request $request)
+    {
+        $sort = $request->input('sort', 'asc'); // Mặc định là tăng dần
+    
+        $query = Product::query();
+    
+        if ($sort === 'asc') {
+            $query->orderBy('price', 'asc');
+        } else {
+            $query->orderBy('price', 'desc');
+        }
+    
+        $products = $query->paginate(10)->appends(['sort' => $sort]);
+    
+        return view('home.shop', compact('products', 'sort'));
+    }
 }

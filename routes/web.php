@@ -27,7 +27,8 @@ use App\Http\Controllers\BlogController;
     
         return view('home.home');
     })->name('home');
-   
+
+    Route::get('/', [ProductController::class, 'shop'])->name('home');
     // Route::get('/', [ProductController::class, 'index2'])->name('home');
 
     Route::get('/shop', function () {
@@ -228,6 +229,4 @@ Route::prefix('admin/blogs')->group(function () {
     Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
     Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Hiển thị chi tiết blog
 });
-Route::get('/blog', [BlogController::class, 'showBlogsForHome'])->name('home.blog');
-Route::get('/blog/{post_id}', [BlogController::class, 'showFullBlogs'])->name('home.showbl');
-Route::post('/profile/update-email', [UserController::class, 'updateEmail'])->name('profile.updateEmail');
+Route::get('/shop/sortprice', [ProductController::class, 'SortPrice'])->name('sortPrice');
