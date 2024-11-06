@@ -1,6 +1,16 @@
 @extends('admin.nav')
 
 @section('text')
+
+<head>
+
+    <!-- CSS colors
+		============================================ -->
+    <link rel="stylesheet" href="{{ asset('css/color/form-list.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
 <div class="container" style="background-color: blanchedalmond;">
     <div class="row" style="margin:20px;">
         <div class="col-12">
@@ -39,17 +49,16 @@
                     @endif
 
                     <br /><br />
-                    <div class="table-responsive">
-                        <form action="{{ route('admin_colors.create') }}" method="GET">
-                            <button type="submit" class="btn btn-success">Add colors</button>
-                        </form>
-                    </div>
+
 
                     <h1 class="title-name">Danh sách bảng màu</h1>
                 </div>
+
                 <br>
 
+
                 <!-- form tìm kiếm -->
+
                 <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                     <div class="header-top-menu tabl-d-n hd-search-rp">
                         <div class="breadcome-heading">
@@ -61,7 +70,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="table-responsive">
+                    <form action="{{ route('admin_colors.create') }}" method="GET">
+                        <button type="submit" class="btn btn-success">Add colors</button>
+                    </form>
+                </div>
 
+                <div class="sort-list">
+                    <form action="{{ route('admin_colors.sortToggle') }}" method="GET">
+
+                        <input type="hidden" name="sort"
+                            value="{{ request()->get('sort') === 'asc' ? 'desc' : 'asc' }}">
+                        <button type="submit" class="btn btn-success">
+                            @if (request()->get('sort') === 'asc')
+                                <i class="fas fa-sort-alpha-up"></i> Sắp xếp A → Z
+                            @else
+                                <i class="fas fa-sort-alpha-down"></i> Sắp xếp Z → A
+                            @endif
+                        </button>
+                    </form>
+                </div>
                 <table class="table">
                     <thead>
 
@@ -85,6 +113,8 @@
                                         <th>Tên</th>
                                         <th>Ảnh</th>
                                         <th>Hành Động</th>
+                                        <td class="items-checkbox"> <input type="checkbox" id="remove-all"
+                                                onclick="toggleAll(this)"></td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,54 +145,36 @@
                                                         onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
                                                 </form>
                                             </td>
-                                            <td><input type="checkbox" class="remove-item" data-id="{{ $color->color_id }}"></td>
+                                            <td class="items-checkbox"><input type="checkbox" class="remove-item"
+                                                    data-id="{{ $color->color_id }}"></td>
 
                                         </tr>
                                     @endforeach
 
                                 </tbody>
                             </table>
-                            <form id="delete-selected-form" action="{{ route('admin_colors.deleteSelected') }}" method="POST">
+                            <form id="delete-selected-form" action="{{ route('admin_colors.deleteSelected') }}" method="POST"
+                                class="move-form-right">
                                 @csrf
                                 @method('DELETE')
-                                <td><input type="checkbox" id="remove-all" onclick="toggleAll(this)"></td>
+
                                 <input type="hidden" name="selected_items" id="selected-items">
                                 <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">Xóa màu
                                     đã chọn</button>
                             </form>
 
                             <br>
-
-                            {{ $colordm->links() }}
+                            <div class="paginate">
+                                {{ $colordm->links() }}
+                            </div>
                         @endif
             </div>
         </div>
     </div>
 </div>
 </div>
-<script>
-    function toggleAll(source) {
-        const checkboxes = document.querySelectorAll('.remove-item');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = source.checked;
-        });
-    }
+<!-- js admin color -->
+<script src="{{ asset('js/color/colors-index.js') }}"></script>
 
-    function confirmDeleteAll() {
-        const selectedItems = [];
-        document.querySelectorAll('.remove-item:checked').forEach(checkbox => {
-            selectedItems.push(checkbox.getAttribute('data-id'));
-        });
-
-        if (selectedItems.length > 0) {
-            document.getElementById('selected-items').value = selectedItems.join(',');
-            if (confirm('Bạn có chắc chắn muốn xóa các màu đã chọn?')) {
-                document.getElementById('delete-selected-form').submit();
-            }
-        } else {
-            alert('Vui lòng chọn ít nhất một màu để xóa.');
-        }
-    }
-</script>
 
 @endsection
