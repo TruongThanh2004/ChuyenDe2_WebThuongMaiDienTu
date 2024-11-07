@@ -1,0 +1,33 @@
+.blog-detail {
+    max-width: 800px; /* Giới hạn chiều rộng tối đa của blog */
+    margin: 20px auto; /* Căn giữa */
+    padding: 20px; /* Padding cho không gian bên trong */
+    border: 1px solid #ddd; /* Đường viền cho blog detail */
+    border-radius: 8px; /* Bo góc cho blog detail */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng cho blog detail */
+    background-color: white; /* Màu nền trắng */
+}
+
+.blog-detail h1 {
+    font-size: 2rem; /* Kích thước font cho tiêu đề blog */
+    color: #333; /* Màu chữ tiêu đề */
+    margin-bottom: 15px; /* Khoảng cách dưới tiêu đề */
+}
+
+.blog-detail img {
+    width: 100%; /* Đảm bảo hình ảnh chiếm 100% chiều rộng của container */
+    height: auto; /* Tự động điều chỉnh chiều cao để giữ tỷ lệ */
+    margin-bottom: 15px; /* Khoảng cách dưới hình ảnh */
+}
+
+.blog-detail p {
+    font-size: 1rem; /* Kích thước font cho nội dung blog */
+    color: #555; /* Màu chữ cho nội dung */
+    line-height: 1.6; /* Khoảng cách dòng cho dễ đọc */
+}
+
+.blog-detail h3 {
+    font-size: 1.2rem; /* Kích thước font cho ngày đăng */
+    color: #777; /* Màu chữ cho ngày đăng */
+    margin-top: 20px; /* Khoảng cách phía trên cho ngày đăng */
+}

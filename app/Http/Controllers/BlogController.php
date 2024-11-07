@@ -6,21 +6,45 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+
 
 class BlogController extends Controller
 {
      // Hiển thị danh sách blog
      public function index(Request $request)
      {
-         $search = $request->input('search', ''); // Lấy giá trị tìm kiếm từ request
- 
-         // Tìm kiếm và phân trang
-         $blogs = Blog::when($search, function ($query) use ($search) {
-             return $query->where('title', 'LIKE', "%{$search}%");
-         })->paginate(5); // Phân trang với 5 bài viết mỗi trang
- 
-         // Trả về view kèm biến $blogs và $search
-         return view('admin.blogs.index', compact('blogs', 'search'));
+        $search = $request->input('search', '');
+
+        // Ràng buộc và kiểm tra từ khóa tìm kiếm
+        $validator = Validator::make($request->all(), [
+            'search' => [
+                'nullable',
+                'string',
+                'max:100',
+                'regex:/^[a-zA-Z0-9\s]+$/', // Không cho phép ký tự đặc biệt
+            ],
+        ]);
+    
+        // Xử lý lỗi nếu có
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
+    
+        // Tìm kiếm và phân trang
+        $blogs = Blog::when($search, function ($query) use ($search) {
+            return $query->where('title', 'LIKE', "%{$search}%"); // Tìm kiếm không phân biệt hoa thường
+        })->paginate(10);
+    
+        if ($blogs->isEmpty()) {
+            // Nếu không tìm thấy blog nào
+            return view('admin.blogs.index', compact('blogs', 'search'))
+                   ->with('message', 'Không tìm thấy bài viết');
+        }
+    
+        return view('admin.blogs.index', compact('blogs', 'search'));
      }
  
      // Hiển thị form thêm bài viết
@@ -142,7 +166,24 @@ class BlogController extends Controller
          return view('admin.blogs.show', compact('blog'));
      }
 
-        
+     public function showBlogsForHome(Request $request)
+    {
+        $search = $request->input('search');
+        $blogs = Blog::when($search, function ($query, $search) {
+            return $query->where('title', 'like', "%{$search}%");
+        })->paginate(10); // Sử dụng phân trang
+
+        return view('home.blog', compact('blogs', 'search'));
+    }
+
+
+     
+    public function showFullBlogs($post_id)
+    {
+        $blog = Blog::findOrFail($post_id); // Sử dụng post_id để tìm kiếm
+        return view('home.showbl', compact('blog')); // Truyền biến blog cho view
+    }
+
 
     }
     
