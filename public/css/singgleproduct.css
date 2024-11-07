@@ -3,7 +3,37 @@
         width: 300px;
         cursor: pointer;
     }
-
+    .single-pro-image {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    #MainImg {
+        width: 100%;
+        transition: transform 0.5s ease-in-out; /* Hiệu ứng chuyển động */
+    }
+    
+    .small-image-group {
+        display: flex;
+        margin-top: 10px;
+    }
+    
+    .small-img-col {
+        width: 20%;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    
+    .small-img-col img {
+        width: 100%;
+        transition: opacity 0.3s; /* Hiệu ứng nhấp */
+    }
+    
+    .small-img-col img:hover {
+        opacity: 0.8; /* Đổi độ mờ khi hover */
+    }
+    
     .select-trigger {
         display: flex;
         justify-content: space-between;
