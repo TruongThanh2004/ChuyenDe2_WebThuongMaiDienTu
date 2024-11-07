@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- custom css file link -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">   
 
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
@@ -34,7 +36,7 @@
         <div>
             <ul id="navbar">
                 <li><a class="active" href="/">Home</a></li>
-                <li><a href="shop">Shop</a></li>
+                <li><a href="{{ route('shop') }}">Shop</a></li>
                 <li><a href="blog">Blog</a></li>
                 <li><a href="about">About</a></li>
                 <li><a href="contact">Contact</a></li>
