@@ -8,12 +8,6 @@
     <link rel="stylesheet" href="css/register.css">
     <title>register</title>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <style>
-        .error_mess{
-            color: red;
-            font-size: 15px;
-        }
-    </style>
 </head>
 
 <body>
@@ -34,56 +28,28 @@
             <div class="form">
                 <h2>đăng ký</h2>
                 <div class="inputBox">
-                    <input type="text" id="username" name="username" required value="{{old('username')}}">
-                    <span>User Name</span>
+                    <input type="text" id="username" name="username" required>
+                    <span>tên đăng nhập</span>
                     <i></i>
                 </div>
-
-                <div class="error_mess">
-                        @if ($errors->has('username'))
-                            <span class="text-danger">{{ $errors->first('username') }}</span>
-                        @endif
-                    </div>
-
                 <div class="inputBox">
-                    <input type="email" id="email" name="email" required value="{{old('email')}}">
+                    <input type="email" id="email" name="email" required>
                     <span>email</span>
                     <i></i>
                 </div>
-
-
-                <div class="error_mess">
-                        @if ($errors->has('email'))
-                            <span class="text-danger">{{ $errors->first('email') }}</span>
-                        @endif
-                    </div>
-
                 <div class="inputBox">
-                    <input type="password" id="password" name="password1" required  value="{{old('password1')}}">
+                    <input type="password" id="password" name="password1" required>
                     <span>mật khẩu</span>
                     <i></i>
                 </div>
-
-                <div class="error_mess">
-                        @if ($errors->has('password1'))
-                            <span class="text-danger">{{ $errors->first('password1') }}</span>
-                        @endif
-                    </div>
-
                 <div class="inputBox">
                     <input type="password" id="password" name="password2" required>
                     <span> nhập lại mật khẩu</span>
                     <i></i>
                 </div>
-
-                <div class="error_mess">
-                        @if ($errors->has('password2'))
-                            <span class="text-danger">{{ $errors->first('password2') }}</span>
-                        @endif
-                    </div>
-
                 <input type="submit" value="đăng ký">
                 <div class="links">
+                    <a href="#">quên mật khẩu</a>
                     <a href="login">Đăng nhập</a>
                 </div>
             </div>

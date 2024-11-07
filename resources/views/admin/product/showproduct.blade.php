@@ -75,7 +75,7 @@
             <p><strong>Số lượng:</strong> {{ $product->quantity }}</p>
             <p><strong>Thể loại:</strong> {{ $product->category->category_name ?? 'Không có thể loại' }}</p>
             <p><strong>Màu sắc:</strong> {{ $product->color->name ?? 'Không có màu sắc' }}</p>
-            <p><strong>Đánh giá:</strong> {{ $product->rating ?? 'Không có màu sắc' }}</p>
+
             <!-- Hiển thị các hình ảnh sản phẩm -->
             <div class="product-images">
                 @if ($product->image1)

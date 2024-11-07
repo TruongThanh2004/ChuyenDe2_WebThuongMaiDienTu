@@ -57,6 +57,12 @@
                     <div class="add-product">
                         <a href="{{route('user-list.create')}}">Add New User</a>
                     </div>
+                    @if (session('success'))    
+                   <span><p> <p style="color:red"> {{session('success')}}</></p></span>   
+                                
+                    @endif
+
+                  
                     <table>
                         <tr>
                             <th>ID</th>

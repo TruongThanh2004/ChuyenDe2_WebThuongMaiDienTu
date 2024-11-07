@@ -15,7 +15,7 @@
         </div>
     @endif
 
-        <button class="toggle-button" id="toggleFormButton">Thêm sản phẩm</button> <!-- Nút để mở form -->
+    <button class="toggle-button" id="toggleFormButton">Thêm sản phẩm</button> <!-- Nút để mở form -->
     
     <div class="form-container" id="productForm"> <!-- Thêm container cho form -->
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
