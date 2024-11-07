@@ -17,10 +17,6 @@
     <link rel="stylesheet" href="style.css">   
 
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-
-
-
-
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </head>
