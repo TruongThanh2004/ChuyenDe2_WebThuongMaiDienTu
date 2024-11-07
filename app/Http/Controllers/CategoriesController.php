@@ -21,14 +21,6 @@ class CategoriesController extends Controller
             ->paginate(5);
             
         }
-
-
-        if ($category->isEmpty()) {
-            return redirect()->route('category-list')->with([
-                'category' => $category, 
-                'error' => 'Không tìm thấy danh mục bạn cần tìm'
-            ]);
-        } 
         return view('admin.category')->with('category',$category);
     }
 
