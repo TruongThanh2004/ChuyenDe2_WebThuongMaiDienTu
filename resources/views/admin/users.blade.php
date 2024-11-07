@@ -96,7 +96,7 @@
                                 <td>
 
                                     <form action="{{ route('user-list.destroy', $data_user->id) }}" method="POST"
-                                        onsubmit="return confirm('Bạn có muốn xóa loại sản phẩm này?')">
+                                        onsubmit="return confirm('Bạn có muốn xóa loại user này?')">
                                         @csrf
                                         @method('DELETE')
                                         <button data-toggle="tooltip" title="Xóa" class="pd-setting-ed"><i
