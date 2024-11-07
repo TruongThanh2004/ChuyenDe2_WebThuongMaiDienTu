@@ -250,9 +250,7 @@ body {
 }
 
 #product1 .pro img {
-    width: 277px;
-    height: 277px;
-    object-fit: cover;
+    width: 100%;
     border-radius: 20px;   
 }
 
@@ -586,16 +584,10 @@ footer .copyright {
     display: flex;
     justify-content: space-between;
 }
-.small-img {
-    width: 126px;
-    height: 126px;
-    object-fit: cover;
-}
+
 .small-img-col {
     flex-basis: 24%;
     cursor: pointer;
-    width: 126px;
-    height: 126px;
 }
 
 #productdetails .single-pro-details {
@@ -681,6 +673,7 @@ footer .copyright {
 }
 
 #blog .blog-details a::after {
+    content: "";
     width: 50px;
     height: 1px;
     background-color: #000;
@@ -1305,34 +1298,4 @@ css Dang Nhap
 
 .icon {
     margin-right: 5px; 
-}
-#sortForm{
-    margin: 0 auto;
-    padding-top: 20px;
-    padding-left: 20px;
-}
-#sortForm select {
-    padding: 8px 12px;
-    font-size: 16px;
-    color: #333;
-    background-color: #f5f5f5;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-#sortForm select:hover {
-    background-color: #eaeaea;
-    border-color: #888;
-    cursor: pointer;
-}
-
-#sortForm select:focus {
-    outline: none;
-    border-color: #007bff;
-    background-color: #ffffff;
-}
-
-#sortForm option {
-    color: #333;
 }

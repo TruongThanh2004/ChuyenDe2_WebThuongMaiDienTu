@@ -57,125 +57,64 @@
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="username"
-                                                        placeholder="Nhập User Name" id="username"
-                                                        value="{{ old('username') }}">
+                                                        placeholder="Nhập User Name" id="username">
+                                                        <div>
+                                                        <small class="error-message"></small>
+                                                        </div>                                                    
                                                 </div>
-
-                                                <div class="error_mess">
-                                                    @if ($errors->has('username'))
-                                                        <span class="text-danger">{{ $errors->first('username') }}</span>
-                                                    @endif
-                                                </div>
-
+                                               
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="fullname"
-                                                        placeholder=" Nhập Full Name" id="fullname"
-                                                        value="{{ old('fullname') }}">
-                                                        
+                                                        placeholder=" Nhập Full Name" id="fullname">
+                                                        <small class="error-message" ></small>
                                                 </div>
-
-                                                <div class="error_mess">
-                                                    @if ($errors->has('fullname'))
-                                                        <span class="text-danger">{{ $errors->first('fullname') }}</span>
-                                                    @endif
-                                                </div>
-
+                                                
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-key" aria-hidden="true"></i>
                                                     </span>
                                                     <input type="password" class="form-control" id="password"
-                                                        name="password" placeholder="Nhập Password"
-                                                         value="{{ old('password') }}"
-                                                        >
+                                                        name="password" placeholder="Nhập Password">
                                                     <span class="input-group-addon" onclick="togglePassword()">
                                                         <i class="fa fa-eye" id="toggleEye" aria-hidden="true"></i>
                                                     </span>
-                                                   
+                                                    <small class="error-message"></small>
                                                 </div>
-
-                                                <div class="error_mess">
-                                                @if ($errors->has('password'))
-                                                        <span class="text-danger">{{ $errors->first('password') }}</span>
-                                                    @endif
-                                                </div>
-
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-envelope-o"
                                                             aria-hidden="true"></i></span>
                                                     <input type="email" class="form-control" name="email"
-                                                        placeholder="Nhập Email" id="email"
-                                                         value="{{ old('email') }}"
-                                                        >
-                                                   
+                                                        placeholder="Nhập Email" id="email">
+                                                    <small class="error-message"></small>
                                                 </div>
-
-                                                <div class="error_mess">
-                                                @if ($errors->has('email'))
-                                                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                                                    @endif
-                                                </div>
-
-
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-location-arrow"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="address"
-                                                        placeholder="Nhập Address" id="address"
-                                                           value="{{ old('address') }}"
-                                                        >
-                                                  
+                                                        placeholder="Nhập Address" id="address">
+                                                    <small class="error-message"></small>
                                                 </div>
-
-                                                <div class="error_mess">
-                                                @if ($errors->has('address'))
-                                                        <span class="text-danger">{{ $errors->first('address') }}</span>
-                                                    @endif
-                                                </div>
-
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-phone"
                                                             aria-hidden="true"></i></span>
                                                     <input type="tel" class="form-control" name="phone"
-                                                        placeholder="Nhập Phone" id="phone"
-                                                           value="{{ old('phone') }}"
-                                                        >
-                                                  
+                                                        placeholder="Nhập Phone" id="phone">
+                                                    <small class="error-message"></small>
                                                 </div>
-
-                                                <div class="error_mess">
-                                                @if ($errors->has('phone'))
-                                                        <span class="text-danger">{{ $errors->first('phone') }}</span>
-                                                    @endif
-                                                </div>
-
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="role"
-                                                        placeholder="Nhập role" id="role"
-                                                             value="{{ old('role') }}"
-                                                        >
-                                                    
-                                                </div>
-
-                                                <div class="error_mess">
-                                                @if ($errors->has('role'))
-                                                        <span class="text-danger">{{ $errors->first('role') }}</span>
-                                                    @endif
+                                                        placeholder="Nhập role" id="role">
+                                                    <small class="error-message"></small>
                                                 </div>
 
 
-                                                <input type="file" name="fileUpload" id="fileUpload"    value="{{ old('role') }}">
 
+                                                <input type="file" name="fileUpload" id="fileUpload">
 
-                                                <div class="error_mess">
-                                                @if ($errors->has('fileUpload'))
-                                                        <span class="text-danger">{{ $errors->first('fileUpload') }}</span>
-                                                    @endif
-                                                </div> 
                                             </div>
                                         </div>
 
@@ -197,6 +136,6 @@
                                 </div>
                             </div>
                         </form>
-
+                       
 
                         @endsection

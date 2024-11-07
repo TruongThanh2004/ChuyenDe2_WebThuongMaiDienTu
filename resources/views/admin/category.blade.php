@@ -59,11 +59,7 @@
                     @if (session('success'))    
                    <span><p> <p style="color:red"> {{session('success')}}</></p></span>                  
                     @endif
-
-
-                        @if($category->isEmpty())
-                            <p style="color: yellow; font-size: 30px; font-weight: bold;">Không có sản phẩm nào để hiển thị.</p>
-                        @endif
+                    
                     <table>
                         <tr>
                             <th>ID</th>                   
