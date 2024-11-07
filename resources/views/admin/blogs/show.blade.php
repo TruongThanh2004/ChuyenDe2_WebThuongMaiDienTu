@@ -1,10 +1,13 @@
-@extends('blog-admin')
+@extends('admin.nav')
 
-@section('content')
-<div class="container mt-4">
-    <h1>Chi tiết bài viết</h1>
+@section('text')
+<div class="container mt-4" style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    <br><h1 style="color: black; padding: 20px; text-align: center;">Chi tiết Blog</h1> <!-- Đổi màu chữ thành đen để dễ đọc -->
+
     <h2>{{ $blog->title }}</h2>
-    <p><strong>Tác giả:</strong> {{ $blog->user->name }}</p> <!-- Hiển thị tên người dùng -->
+    <p><strong>ID tác giả:</strong> {{ $blog->user_id }}</p>
+    <p><strong>Tên tác giả:</strong> {{ $blog->user ? $blog->user->username : 'Không có người dùng' }}</p>
+ <!-- Hiển thị tên người dùng -->
     
     <div class="row">
     <div class="col-md-8">

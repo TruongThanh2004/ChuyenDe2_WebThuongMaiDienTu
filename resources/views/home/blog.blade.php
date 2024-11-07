@@ -1,84 +1,50 @@
-@extends('home.index')
+@extends('home.index') <!-- Hoặc layout mà bạn đang sử dụng cho trang home -->
 @section('content')
-
+<style>
+    h1{
+        margin-top: -20px !important;
+        
+    }
+    .blog-img{
+        margin-top: 30px;
+    }
+    .blog-details h4 a{
+        font-size: 50px !important; /* Thay đổi kích thước chữ tại đây */
+        
+    }
+</style>
 
 <section id="page-header" class="blog-header">
-        <h2>#readmore</h2>
-        <p>Read all case studies about our products!</p>
-    </section>
+    <h2>#readmore</h2>
+    <p>Read all case studies about our products!</p>
+</section>
 
-    <section id="blog">
-        <div class="blog-box">
-            <div class="blog-img">
-                <img src="images/blog/b1.jpg" alt="">
-            </div>
-            <div class="blog-details">
-                <h4>The Cotton-Jersey Zip-Up Hoodie</h4>
-                <p>Kickstarter man braid godard coloring book. Raclette waistcoat selfies
-                    yr wolf chartreuse hexagon irony, godard...
-                </p>
-                <a href="#">CONTINUE READING</a>
-            </div>
-            <h1>13/01</h1>
-        </div>
-        <div class="blog-box">
-            <div class="blog-img">
-                <img src="images/blog/b2.jpg" alt="">
-            </div>
-            <div class="blog-details">
-                <h4>How to Style a Quiff</h4>
-                <p>Kickstarter man braid godard coloring book. Raclette waistcoat selfies
-                    yr wolf chartreuse hexagon irony, godard...
-                </p>
-                <a href="#">CONTINUE READING</a>
-            </div>
-            <h1>13/04</h1>
-        </div>
-        <div class="blog-box">
-            <div class="blog-img">
-                <img src="images/blog/b3.jpg" alt="">
-            </div>
-            <div class="blog-details">
-                <h4>Must-Have Skater Girl Items</h4>
-                <p>Kickstarter man braid godard coloring book. Raclette waistcoat selfies
-                    yr wolf chartreuse hexagon irony, godard...
-                </p>
-                <a href="#">CONTINUE READING</a>
-            </div>
-            <h1>12/01</h1>
-        </div>
-        <div class="blog-box">
-            <div class="blog-img">
-                <img src="images/blog/b4.jpg" alt="">
-            </div>
-            <div class="blog-details">
-                <h4>Runway-Inspired Trends</h4>
-                <p>Kickstarter man braid godard coloring book. Raclette waistcoat selfies
-                    yr wolf chartreuse hexagon irony, godard...
-                </p>
-                <a href="#">CONTINUE READING</a>
-            </div>
-            <h1>16/01</h1>
-        </div>
-        <div class="blog-box">
-            <div class="blog-img">
-                <img src="images/blog/b6.jpg" alt="">
-            </div>
-            <div class="blog-details">
-                <h4>AW20 Menswear Trends</h4>
-                <p>Kickstarter man braid godard coloring book. Raclette waistcoat selfies
-                    yr wolf chartreuse hexagon irony, godard...
-                </p>
-                <a href="#">CONTINUE READING</a>
-            </div>
-            <h1>10/03</h1>
-        </div>
-    </section>
 
-    <section id="pagination" class="section-p1">
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#"><i class="fas fa-long-arrow-alt-right"></i></a>
-    </section>
+<section id="blog">
+    <div class="container">
+        @if($blogs->isEmpty())
+            <div class="alert alert-warning" role="alert">
+                Không có Blog nào để hiển thị.
+            </div>
+        @else
+            @foreach($blogs as $blog)
+                <div class="blog-box">
+                    <div class="blog-img">
+                    <img src="{{ asset('images/blog/' . $blog->image) }}" alt="Hình ảnh blog">
+                    </div>
+                    <div class="blog-details">
+                        <h4><a href="{{ route('home.showbl', $blog->post_id) }}">{{ $blog->title }}</a></h4>
+                        <p>{{ Str::limit($blog->content, 100) }}</p>
+                    </div>
+                    <h1>{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y') }}</h1>
+                </div>
+            @endforeach
+        @endif
+    </div>
+</section>
 
-    @endsection
+<section id="pagination" class="section-p1">
+    {{ $blogs->links('pagination::bootstrap-4') }} <!-- Sử dụng phân trang Bootstrap -->
+</section>
+
+@endsection

@@ -10,6 +10,8 @@ use Auth;
 use Hash;
 use Mail;
 use Password;
+use App\Helpers\ValidationHelper;
+use Illuminate\Support\Facades\Crypt;
 class AccountController extends Controller
 {
     public function login(){
@@ -23,22 +25,35 @@ class AccountController extends Controller
     }
 
     public function check_forgot_password(Request $request){
+        
+        
         $request->validate([
-            'email' => 'required|exists:users',
+            'email' => 'required|email',
+        ], [
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
         ]);
-       
+        
+
        $user = User::where('email',$request->email)->first();
-       
-       $token = \Str::random(50);
+        if($user==null){
+            return redirect()->route('forgot_password')->with('error','Email chưa đăng ký tài khoản !!!');
+        }
+        
+    
+        $random_token =str_pad(mt_rand(0, 9999), 6, '0', STR_PAD_LEFT);
+        $token =  Crypt::encrypt($random_token);
        $tokenData = [
             'email'=>$request->email,
-            'token'=>$token,
+            'token'=>$token,          
        ];   
+
        if(Password_reset_token::create($tokenData)){
        
-        Mail::to($request->email)->send(new ForgotPassword($user,$token));
-    
+        $change_token = Crypt::decrypt($token);
+        Mail::to($request->email)->send(new ForgotPassword($user,  $change_token));    
        }
+       return redirect()->route('reset-password',$token);
     }
 
     public function reset_password($token)
@@ -50,21 +65,48 @@ class AccountController extends Controller
         return view('account.reset_password');
     }
     public function check_reset_password($token,Request $request){
-        request()->validate([
-            'password'=>'required|min:4',
-            'confirm_password'=>'required|same:password',
-        ]);
+        $change_token = Crypt::decrypt($token);
+       
+        $validator = ValidationHelper::Change_passowrd($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('reset-password-code',$token)
+                ->withErrors($validator)
+                ->withInput();
+        }
         $tokenData = Password_reset_token::where('token',$token)->firstOrFail();
         $user = User::where('email',$tokenData->email)->firstOrFail();
 
-        $data = [
-            'password'=>Hash::make($request->password),
-        ];
-        $check = $user->update($data);
+        
+      
+       
+        if($request->code == $change_token){
+            $data = [
+                'password'=>Hash::make($request->password),
+            ];
+            $check = $user->update($data);
+        }else{
+            return redirect()->route('reset-password-code',$token)->with('error','Mã code không đúng');
+        }
+       
         return redirect()->route('login')->with('success','Lấy lại mật khẩu thành công');
     }
 
     public function save(Request $request)  {
+
+
+        $validator = ValidationHelper::register($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('register')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+
+
+
         $user = new User();
         $error = null;
         $user->username = $request->username;
@@ -123,4 +165,8 @@ class AccountController extends Controller
         Auth::logout();
         return redirect()->route('home');
     }
+
+
+   
+    
 }

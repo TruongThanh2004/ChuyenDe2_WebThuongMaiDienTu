@@ -1,15 +1,27 @@
-@extends('blog-admin') <!-- Đảm bảo rằng bạn đang sử dụng đúng tên file layout -->
+@extends('admin.nav') <!-- Đảm bảo rằng bạn đang sử dụng đúng tên file layout -->
+@section('text')
+<div class="container mt-4" style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <br><h1 style="color: black; padding: 20px; text-align: center;"> Blog</h1> <!-- Đổi màu chữ thành đen để dễ đọc -->
 
-@section('content')
-    <div class="container mt-4">
-        <h1 class="mb-4">Danh sách Blog</h1>
-        
-        <form action="{{ route('blogs.index') }}" method="GET" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm blog" value="{{ isset($search) ? $search : '' }}">
-                <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-            </div>
+        <!-- Hiển thị thông báo thành công nếu có -->
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        <form action="{{ route('blogs.index') }}" method="GET" class="form-inline mb-3">
+            <input type="text" name="search" class="form-control mr-2" placeholder="Tìm kiếm blog" value="{{ old('search', $search ?? '') }}">
+            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            @if ($errors->has('search'))
+                <div class="text-danger mt-2">{{ $errors->first('search') }}</div>
+            @endif
         </form>
+
+        <!-- Hiển thị message nếu không tìm thấy blog -->
+        @if(session('message'))
+            <div class="alert alert-warning">{{ session('message') }}</div>
+        @endif
 
         <!-- Nút Thêm Blog -->
         <a href="{{ route('blogs.create') }}" class="btn btn-primary mb-3">Thêm Blog</a>
@@ -22,19 +34,19 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Tiêu đề</th>
-                        <th>Nội dung</th>
-                        <th>Hình ảnh</th>
-                        <th>Hành động</th>
+                        <th style="color: black;">ID</th>
+                        <th style="color: black;">Tiêu đề</th>
+                        <th style="color: black;">Nội dung</th>
+                        <th style="color: black;">Hình ảnh</th>
+                        <th style="color: black;">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($blogs as $blog)
                         <tr>
-                            <td>{{ $blog->post_id }}</td>
-                            <td>{{ $blog->title }}</td>
-                            <td>{{ $blog->content }}</td>
+                            <td style="color: black;">{{ $blog->post_id }}</td>
+                            <td style="color: black;">{{ $blog->title }}</td>
+                            <td style="color: black;">{{ $blog->content }}</td>
                             <td>
                                 @if($blog->image)
                                     <img src="{{ asset('images/blog/' . $blog->image) }}" alt="Hình ảnh 1" width="200" height="150">

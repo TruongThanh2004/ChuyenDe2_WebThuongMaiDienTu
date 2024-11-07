@@ -15,15 +15,9 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('style.css') }}">
-     <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"> -->
+     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <!-- custom css file link -->
-   
-
-   
-   
-
-
-
+    <link rel="stylesheet" href="style.css">   
 
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
