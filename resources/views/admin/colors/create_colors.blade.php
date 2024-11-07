@@ -1,15 +1,6 @@
 @extends('admin.nav')
 
 @section('text')
-
-<head>
-    <!-- CSS colors
-		============================================ -->
-    <link rel="stylesheet" href="{{ asset('css/color/form-list.css') }}">
-
-
-
-</head>
 <div class="form-add">
     <div class="color-panner">Tạo Màu Mới</div>
     <div class="form-body">
@@ -39,11 +30,9 @@
                 </div>
             @endif
 
-            <br>
+<br>
             <button type="submit" class="btn btn-success">Thêm Màu</button>
         </form>
     </div>
 </div>
-<!-- js admin color -->
-<script src="{{ asset('js/color/colors-index.js') }}"></script>
 @endsection

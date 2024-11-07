@@ -1,15 +1,21 @@
 @extends('admin.nav')
 
 @section('text')
-
-<head>
-  <!-- CSS colors
-		============================================ -->
-  <link rel="stylesheet" href="{{ asset('css/color/form-list.css') }}">
-</head>
 <div class="form-update">
-<div class="color-panner">Sửa Bảng Màu</div>
+  <h1 class="title-h1">Sửa Bảng Màu</h1>
   <div class="body-form">
+
+ 
+  <!-- @if ($errors->has('update_failed'))
+            <div class="alert alert-danger" role="alert" id="update-failed">
+                {{ $errors->first('update_failed') }}
+                <button onclick="window.location.href='{{ route('admin_colors.index') }}'" class="btn btn-primary btn-sm mt-2">
+                    Quay lại danh sách
+                </button>
+            </div>
+        @endif -->
+
+
     <form action="{{ route('admin_colors.update', $color->color_id) }}" method="POST" enctype="multipart/form-data">
       @csrf
       @method('PUT')
@@ -17,7 +23,7 @@
       <div class="form-group">
         <label for="name">Tên Màu:</label>
         <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $color->name) }}" required>
-        <br>
+<br>
         @if ($errors->has('name'))
       <div class="text-danger">
         {{ $errors->first('name') }}
@@ -28,7 +34,7 @@
       <div class="form-group">
         <label for="images">Ảnh Màu:</label>
         <input type="file" name="images" id="images" class="form-control">
-        <br>
+<br>
         @if ($errors->has('images'))
       <div class="text-danger">
         {{ $errors->first('images') }}
@@ -38,7 +44,7 @@
         <!-- Hiển thị ảnh hiện tại nếu có -->
         @if ($color->images)
       <div class="mt-2">
-        <img src="{{ asset('images/colors/' . $color->images) }}" alt="Hình ảnh màu" class="form-img"
+        <img src="{{ asset('images/colors/' . $color->images) }}" alt="Hình ảnh màu"class="form-img"
         style="max-width: 100px; height: 50px;"> : ảnh hiện tại
       </div>
     @endif
@@ -46,9 +52,8 @@
 
       <button type="submit" class="btn btn-success">Cập Nhật</button>
     </form>
+
   </div>
 </div>
-
-<!-- js admin color -->
-<script src="{{ asset('js/color/colors-index.js') }}"></script>
 @endsection
+

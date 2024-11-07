@@ -57,12 +57,26 @@
                                                     <input type="text" class="form-control" name="username"
                                                         value="{{$user->username}}">
                                                 </div>
+
+                                                <div class="error_mess">
+                                                    @if ($errors->has('username'))
+                                                        <span class="text-danger">{{ $errors->first('username') }}</span>
+                                                    @endif
+                                                </div>
+
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="fullname"
                                                         value="{{$user->fullname}}">
                                                 </div>
+
+                                                <div class="error_mess">
+                                                    @if ($errors->has('fullname'))
+                                                        <span class="text-danger">{{ $errors->first('fullname') }}</span>
+                                                    @endif
+                                                </div>
+
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-key" aria-hidden="true"></i>
@@ -73,33 +87,78 @@
                                                         <i class="fa fa-eye" id="toggleEye" aria-hidden="true"></i>
                                                     </span>
                                                 </div>
+                                                
+                                                <div class="error_mess">
+                                                @if ($errors->has('password'))
+                                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                                    @endif
+                                                </div>
+
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-envelope-o"
                                                             aria-hidden="true"></i></span>
                                                     <input type="email" class="form-control" name="email"
                                                         value="{{$user->email}}">
                                                 </div>
+
+                                                <div class="error_mess">
+                                                @if ($errors->has('email'))
+                                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                    @endif
+                                                </div>
+
+
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-location-arrow"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="address"
                                                         value="{{$user->address}}">
                                                 </div>
+
+                                                <div class="error_mess">
+                                                @if ($errors->has('address'))
+                                                        <span class="text-danger">{{ $errors->first('address') }}</span>
+                                                    @endif
+                                                </div>
+
+
                                                 <div class="input-group mg-b-pro-edt">
                                                     <span class="input-group-addon"><i class="fa fa-phone"
                                                             aria-hidden="true"></i></span>
                                                     <input type="tel" class="form-control" name="phone"
                                                         value="{{$user->phone}}">
                                                 </div>
+
+                                                <div class="error_mess">
+                                                @if ($errors->has('phone'))
+                                                        <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                                    @endif
+                                                </div>
+
                                                 <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
                                                         <input type="text" class="form-control" name="role" value="{{$user->role}}">
                                                 </div>
+                                                
+                                                <div class="error_mess">
+                                                @if ($errors->has('role'))
+                                                        <span class="text-danger">{{ $errors->first('role') }}</span>
+                                                    @endif
+                                                </div>
+
+
                                                 <div class="input-group mg-b-pro-edt">
                                                 <img src="{{asset('images/user/' . $user->image)}}" alt="" width="150px" height="150px" >
                                                 </div>
                                                 
                                                 <input type="file" name="fileUpload">
+
+
+                                                <div class="error_mess">
+                                                @if ($errors->has('fileUpload'))
+                                                        <span class="text-danger">{{ $errors->first('fileUpload') }}</span>
+                                                    @endif
+                                                </div> 
                                             </div>
                                         </div>
                                        

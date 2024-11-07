@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Helpers\ValidationHelper;
 
 class ProfileController extends Controller
 {
@@ -54,38 +55,37 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $mess =null;
-        if($request->password==null){
+        $validator = ValidationHelper::updateProfileValidation($request);
+        if ($validator->fails()) {
+            return redirect()->route('profile')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $mess = null;
+        if ($request->password == null) {
             $mess = "Không được để trống trường password!!";
-            return redirect()->route('profile')->with('error',$mess);
+            return redirect()->route('profile')->with('error', $mess);
         }
         $updateUser = User::findOrFail($id);
-       
+
         $olaImage = $updateUser->image;
-        if($request->has('fileUpload')){
+        if ($request->has('fileUpload')) {
             $file = $request->fileUpload;
             $file_name = $file->getClientoriginalName();
-            $file->move(public_path('images/user/'),$file_name);
-        }else{
+            $file->move(public_path('images/user/'), $file_name);
+        } else {
             $file_name = $olaImage;
         }
-      
-       
-
-        if(Hash::check($request->password,$updateUser->password)){
+        if (Hash::check($request->password, $updateUser->password)) {
             $mess = "Update thành công";
             $password = Hash::make($request->password);
-            $request->merge(['image'=>$file_name,'password'=>$password]);
+            $request->merge(['image' => $file_name, 'password' => $password]);
             $updateUser->update($request->all());
-            return redirect()->route('profile')->with('success',$mess);
-        }else{
+            return redirect()->route('profile')->with('success', $mess);
+        } else {
             $mess = "Mật khẩu không chính xác";
-            return redirect()->route('profile')->with('error',$mess);
-        } 
-
-       
-        
-        
+            return redirect()->route('profile')->with('error', $mess);
+        }
     }
 
     /**
@@ -94,6 +94,30 @@ class ProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+
+    public function change_password(Request $request, string $id){
+        $user = User::findOrFail($id);
+        $mess = '';
+
+      if(Hash::check($request->current_password,$user->password)){
+        if($request->new_password == $request->repeat_password){
+            $passwordNew  = Hash::make($request->new_password);
+            $request->merge(['password'=>$passwordNew]);
+            $user->update($request->all());
+            $mess = "Đổi mật khẩu thành công";
+            return redirect()->route('profile')->with('success',$mess);
+        }else{
+            $mess = "Mật khẩu không giống nhau";
+            return redirect()->route('profile')->with('error',$mess);
+        }
+
+      }else{
+        $mess = "Mật khẩu không đúng";
+        return redirect()->route('profile')->with('error',$mess);
+      }
     }
 
 
