@@ -210,9 +210,7 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
     Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
-    Route::delete('/admin/colors/delete-selected', [ColorController::class, 'deleteSelected'])->name('admin_colors.deleteSelected');// xóa tất cả 
-    Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors'); // tim kiếm theo fullText
-    Route::get('/admin/colors/sort-toggle', [ColorController::class, 'sortToggle'])->name('admin_colors.sortToggle');// sắp xếp A->Z theo name
+    Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors');
 });
 // Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 // Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');

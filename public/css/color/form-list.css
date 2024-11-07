@@ -1,4 +1,3 @@
-
 .container {
     margin-top: 50px;
 
@@ -18,47 +17,37 @@
 .title-name {
     padding: auto;
     margin-top: 10px;
-    text-align: center;
+  text-align: center;
 }
 
 .form-update {
     background-color: blanchedalmond !important;
 
     display: flex;
+
+    height: 500px;
     margin-top: 100px;
     margin-left: 300px;
     margin-right: 300px;
     margin-bottom: 100px;
     border-radius: 10px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.form-update .btn-success {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 180px;
 }
 
 .title-h1 {
     margin-top: 50px;
-    margin-left: 400px;
+    margin-left:400px;
 }
 
 .body-form {
     margin-top: 150px;
-
+    margin-left: -250px;
 }
-
-.form-control {
+.form-control{
     background-color: aliceblue !important;
     color: black !important;
     border-radius: 10px !important;
-    max-width: 500px;
 }
-
-.form-img {
+.form-img{
     margin-top: 10px;
     border-radius: 5px;
 }
@@ -73,93 +62,25 @@
     border-radius: 10px;
 
     background-color: blanchedalmond;
-
+   
 
 }
-.form-add .btn-success{
-   margin-left:130px !important;
-}
-
-.color-panner {
+.color-panner{
     color: black;
     text-align: center;
     font-weight: bold;
     font-size: 1.5rem;
 }
-.form-body {
-    margin-top: 50px;
-    margin-left: 400px;
-}
+  .form-control {
+        max-width: 500px;
 
-.form-body .form-control {
-    max-width: 400px;
-}
-
-.text-name {
-    margin-top: 20px;
-}
-
-.btn-success {
-
-    margin-right: 20px;
-}
-
-
-
-.table-responsive {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-right: 20px;
-    margin-top: 12px;
-}
-
-.hd-search-rp {
-    display: flex;
-    align-items: center;
-    margin-left: 600px;
-}
-
-.hd-search-rp .btn-primary {
-    margin-left: 600px;
-}
-
-.hd-search-rp form {
-    display: flex;
-    align-items: center;
-    /* margin-right: 70px; */
-}
-
-.hd-search-rp .form-control {
-    margin-right: 5px;
-
-}
-
-.btn-success {
-    margin-left: 15px;
-}
-
-.sort-list .btn-success {
-
-    margin-right: 500px;
-    color: white;
-    background-color: #2dbac9;
-}
-
-.move-form-right {
-    padding-left: 900px;
-
-}
-
-.items-checkbox {
-
-    transform: scale(1.8);
-}
-
-.paginate {
-    display: flex;
-    justify-content: center;
-    /* Căn giữa theo chiều ngang */
-    margin-top: 20px;
-    /* Thêm một chút khoảng cách ở trên nếu cần */
-}
+    }
+    .form-body {
+        margin-top: 50px;
+        margin-left: 300px;
+    }
+  
+    .text-name {
+        margin-top: 20px;
+    }
+    

@@ -11,13 +11,9 @@
 
 
 
-<<<<<<< HEAD
     <!-- CSS colors
 		============================================ -->
     <!-- <link rel="stylesheet" href="css/color/form-list.css"> -->
-=======
- 
->>>>>>> Crud_color
     <!-- favicon
 		============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -202,7 +198,7 @@
                                     class="mini-click-non">Colors</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="User List" href="{{route('admin_colors.index')}}"><span
-                                            class="mini-sub-pro">colors List</span></a></li>
+                                            class="mini-sub-pro">User List</span></a></li>
 
 
                             </ul>
@@ -1096,11 +1092,8 @@
 
         <script src="js/checkUser.js"></script>
 
-<<<<<<< HEAD
         <!-- js admin color -->
         <script src="js/color/colors-index.js"></script>
-=======
->>>>>>> Crud_color
 
 </body>
 
