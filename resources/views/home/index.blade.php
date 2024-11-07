@@ -10,8 +10,12 @@
     <!-- font-awesome cdn link -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
 
-    <!-- <link rel="stylesheet" href="{{ url('css/bootstrap.min.css') }}"> -->
-    <link rel="stylesheet" href="{{ url('style.css') }}">
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url('style.css') }}"> -->
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+     <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"> -->
     <!-- custom css file link -->
    
 

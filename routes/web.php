@@ -179,10 +179,10 @@ Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.
 Route::delete('/home/cart/{order_id}', [CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::delete('/home/cart/{id}', [CartController::class, 'destroyAll'])->name('cart.destroyAll');
-
+Route::delete('/cart/destroy-selected', [CartController::class, 'destroySelected'])->name('cart.destroySelected');
 Route::post('/home/cart', [CartController::class, 'updateCart'])->name('cart.update');
-
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.Checkout');
+// Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 // Route::get('/cart', [CartController::class, 'showCart']);
 
 
