@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'image'=>'user.jpg',
             'username' => 'admin',
             'fullname' => 'Do Truong Thanh',
-            'password'=>Hash::make(2004),
+            'password'=>Hash::make('admin123'),
             'email' => 'thanhdoken113@gmail.com',
             'address'=>'abc',
             'phone'=>'123456789',

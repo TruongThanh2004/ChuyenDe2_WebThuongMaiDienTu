@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function(){
    Route::controller(ProfileController::class)->prefix('profile')->group(function(){
     Route::get('','index')->name('profile');
     Route::put('edit/{id}','update')->name('profile.update');
+    Route::put('change-password/{id}','change_password')->name('change_password');
    });
 
 
