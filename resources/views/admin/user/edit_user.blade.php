@@ -55,7 +55,7 @@
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="username"
-                                                        value="{{$user->username}}">
+                                                        value="{{$user->username}}" maxlength="40">
                                                 </div>
 
                                                 <div class="error_mess">
@@ -68,7 +68,7 @@
                                                     <span class="input-group-addon"><i class="icon nalika-user"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="fullname"
-                                                        value="{{$user->fullname}}">
+                                                        value="{{$user->fullname}}" maxlength="60">
                                                 </div>
 
                                                 <div class="error_mess">
@@ -82,7 +82,7 @@
                                                         <i class="fa fa-key" aria-hidden="true"></i>
                                                     </span>
                                                     <input type="password" class="form-control" id="password"
-                                                        name="password" value="{{$user->password}}">
+                                                        name="password" value="{{$user->password}}" maxlength="40">
                                                     <span class="input-group-addon" onclick="togglePassword()">
                                                         <i class="fa fa-eye" id="toggleEye" aria-hidden="true"></i>
                                                     </span>
@@ -98,7 +98,7 @@
                                                     <span class="input-group-addon"><i class="fa fa-envelope-o"
                                                             aria-hidden="true"></i></span>
                                                     <input type="email" class="form-control" name="email"
-                                                        value="{{$user->email}}">
+                                                        value="{{$user->email}}" maxlength="60">
                                                 </div>
 
                                                 <div class="error_mess">
@@ -112,7 +112,7 @@
                                                     <span class="input-group-addon"><i class="fa fa-location-arrow"
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="address"
-                                                        value="{{$user->address}}">
+                                                        value="{{$user->address}}"  maxlength="100">
                                                 </div>
 
                                                 <div class="error_mess">
@@ -126,7 +126,7 @@
                                                     <span class="input-group-addon"><i class="fa fa-phone"
                                                             aria-hidden="true"></i></span>
                                                     <input type="tel" class="form-control" name="phone"
-                                                        value="{{$user->phone}}">
+                                                        value="{{$user->phone}}" maxlength="10">
                                                 </div>
 
                                                 <div class="error_mess">
@@ -137,7 +137,7 @@
 
                                                 <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" name="role" value="{{$user->role}}">
+                                                        <input type="text" class="form-control" name="role" value="{{$user->role}}" maxlength="1">
                                                 </div>
                                                 
                                                 <div class="error_mess">
