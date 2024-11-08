@@ -34,7 +34,7 @@
             <div class="form">
                 <h2>đăng ký</h2>
                 <div class="inputBox">
-                    <input type="text" id="username" name="username" required value="{{old('username')}}">
+                    <input type="text" id="username" name="username" required value="{{old('username')}}" max="90">
                     <span>User Name</span>
                     <i></i>
                 </div>
@@ -46,7 +46,7 @@
                     </div>
 
                 <div class="inputBox">
-                    <input type="email" id="email" name="email" required value="{{old('email')}}">
+                    <input type="email" id="email" name="email" required value="{{old('email')}}" maxlength="50">
                     <span>email</span>
                     <i></i>
                 </div>
@@ -59,7 +59,7 @@
                     </div>
 
                 <div class="inputBox">
-                    <input type="password" id="password" name="password1" required  value="{{old('password1')}}">
+                    <input type="password" id="password" name="password1" required  value="{{old('password1')}}" maxlength="40">
                     <span>mật khẩu</span>
                     <i></i>
                 </div>
@@ -71,7 +71,7 @@
                     </div>
 
                 <div class="inputBox">
-                    <input type="password" id="password" name="password2" required>
+                    <input type="password" id="password" name="password2" required  maxlength="40">
                     <span> nhập lại mật khẩu</span>
                     <i></i>
                 </div>
