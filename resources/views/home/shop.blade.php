@@ -34,7 +34,9 @@
                             @endif
                         @endfor
                  </div>
+                 <h4> Số Lượng: {{ $product->quantity }}PCS </h4>
                     <h4>{{ $product->price }}VND</h4>
+
                 </div>
               
                 <form action="{{ route('cart.add', $product->product_id) }}" method="POST">

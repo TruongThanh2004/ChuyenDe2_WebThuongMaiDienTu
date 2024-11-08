@@ -104,8 +104,8 @@ Route::get('/product-list', function () {
 
 
 
-    return view('admin.products')  ;
-});
+//     return view('admin.products')  ;
+// });
 
 
 
