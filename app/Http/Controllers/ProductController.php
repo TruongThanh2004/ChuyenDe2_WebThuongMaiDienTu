@@ -19,16 +19,51 @@ class ProductController extends Controller
     {
         // Validate các trường, bao gồm việc kiểm tra file ảnh
         $request->validate([
-            'product_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'category_id' => 'required|integer',
-            'color_id' => 'required|integer',
+            'product_name' => 'required|string|regex:/^[a-zA-Z0-9\s]+$/|min:3|max:100',
+            'description' => 'nullable|string|min:10|max:500',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'category_id' => 'required|integer|exists:categories,category_id',
+            'color_id' => 'required|integer|exists:colors,color_id',
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'rating' => 'nullable|integer|min:0|max:5',
+        ], [
+            'product_name.required' => 'Tên sản phẩm không được bỏ trống.',
+            'product_name.string' => 'Tên sản phẩm không hợp lệ. Vui lòng nhập ký tự chữ hoặc số.',
+            'product_name.regex' => 'Tên sản phẩm không hợp lệ. Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
+            'product_name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự.',
+            'product_name.max' => 'Tên sản phẩm không được vượt quá 100 ký tự.',
+            
+            'description.required' => 'Mô tả sản phẩm không được bỏ trống.',
+            'description.min' => 'Mô tả phải có ít nhất 10 ký tự.',
+            'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
+        
+            'price.required' => 'Giá sản phẩm không được bỏ trống.',
+            'price.numeric' => 'Giá sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'price.min' => 'Giá sản phẩm phải là số dương.',
+        
+            'quantity.required' => 'Số lượng sản phẩm không được bỏ trống.',
+            'quantity.integer' => 'Số lượng sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'quantity.min' => 'Số lượng sản phẩm phải là số dương.',
+        
+            'category_id.required' => 'Danh mục sản phẩm không hợp lệ. Vui lòng chọn danh mục.',
+            'category_id.exists' => 'Danh mục không tồn tại, vui lòng thêm danh mục.',
+        
+            'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
+            'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
+        
+            'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image2.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image2.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image3.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image3.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+        
+            'rating.integer' => 'Đánh giá phải là một số nguyên.',
+            'rating.min' => 'Đánh giá phải là một số từ 0 đến 5.',
+            'rating.max' => 'Đánh giá phải là một số từ 0 đến 5.',
         ]);
     
         // Khởi tạo mảng dữ liệu sản phẩm
@@ -71,18 +106,53 @@ class ProductController extends Controller
         
         // Validate các trường, bao gồm file ảnh
         $request->validate([
-            'product_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'category_id' => 'required|integer',
-            'color_id' => 'required|integer',
+            'product_name' => 'required|string|regex:/^[a-zA-Z0-9\s]+$/|min:3|max:100',
+            'description' => 'nullable|string|min:10|max:500',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'category_id' => 'required|integer|exists:categories,category_id',
+            'color_id' => 'required|integer|exists:colors,color_id',
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'rating' => 'nullable|integer|min:0|max:5',
+        ], [
+            'product_name.required' => 'Tên sản phẩm không được bỏ trống.',
+            'product_name.string' => 'Tên sản phẩm không hợp lệ. Vui lòng nhập ký tự chữ hoặc số.',
+            'product_name.regex' => 'Tên sản phẩm không hợp lệ. Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
+            'product_name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự.',
+            'product_name.max' => 'Tên sản phẩm không được vượt quá 100 ký tự.',
+            
+            'description.required' => 'Mô tả sản phẩm không được bỏ trống.',
+            'description.min' => 'Mô tả phải có ít nhất 10 ký tự.',
+            'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
+        
+            'price.required' => 'Giá sản phẩm không được bỏ trống.',
+            'price.numeric' => 'Giá sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'price.min' => 'Giá sản phẩm phải là số dương.',
+        
+            'quantity.required' => 'Số lượng sản phẩm không được bỏ trống.',
+            'quantity.integer' => 'Số lượng sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'quantity.min' => 'Số lượng sản phẩm phải là số dương.',
+        
+            'category_id.required' => 'Danh mục sản phẩm không hợp lệ. Vui lòng chọn danh mục.',
+            'category_id.exists' => 'Danh mục không tồn tại, vui lòng thêm danh mục.',
+        
+            'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
+            'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
+        
+            'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image2.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image2.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image3.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image3.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+        
+            'rating.integer' => 'Đánh giá phải là một số nguyên.',
+            'rating.min' => 'Đánh giá phải là một số từ 0 đến 5.',
+            'rating.max' => 'Đánh giá phải là một số từ 0 đến 5.',
         ]);
-    
+        
         // Khởi tạo mảng dữ liệu sản phẩm
         $data = $request->except(['image1', 'image2', 'image3']); // Loại trừ ảnh từ $request->all()
     
