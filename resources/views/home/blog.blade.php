@@ -13,7 +13,9 @@
         
     }
 </style>
-
+<head>
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+</head>
 <section id="page-header" class="blog-header">
     <h2>#readmore</h2>
     <p>Read all case studies about our products!</p>
