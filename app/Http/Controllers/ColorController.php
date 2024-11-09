@@ -54,20 +54,27 @@ class ColorController extends Controller
         ]);
         $color = new Color();
         $color->name = $request->input('name');
-        if ($request->hasFile('images')) {          // Xử lý upload ảnh nếu có
+        if ($request->hasFile('images')) { // Xử lý upload ảnh nếu có
             $image = $request->file('images');
-            //kiểm tra Thông báo lỗi nếu tệp không hợp lệ
+    
+            // Kiểm tra kích thước tệp ảnh một lần nữa (tính bằng byte)
+            if ($image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->withErrors(['images' => 'Kích thước ảnh không được vượt quá 5MB.']);
+            }
+    
             if (!$image->isValid()) {
                 return redirect()->back()->withInput()->withErrors(['images' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.']);
             }
-            $imageName = time() . '.' . $image->getClientOriginalExtension();   // Tạo tên file duy nhất cho ảnh
+    
+            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Tạo tên file duy nhất cho ảnh
             $image->move(public_path('images/colors'), $imageName);
-            $color->images = $imageName;    // Lưu chỉ tên file vào database
+            $color->images = $imageName; // Lưu chỉ tên file vào database
         }
+    
         $color->save();
+    
         return redirect()->route('admin_colors.index')->with('success', 'Màu được thêm thành công!');
     }
-
 
 
     // đường dẫn vào update
@@ -118,6 +125,10 @@ class ColorController extends Controller
             if (!$image->isValid()) {
                 return redirect()->back()->withInput()
                     ->withErrors(['images' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.']);
+            }
+              // Kiểm tra kích thước tệp ảnh một lần nữa (tính bằng byte)
+              if ($image->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->withInput()->withErrors(['images' => 'Kích thước ảnh không được vượt quá 5MB.']);
             }
             // Xóa ảnh cũ nếu có
             if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
