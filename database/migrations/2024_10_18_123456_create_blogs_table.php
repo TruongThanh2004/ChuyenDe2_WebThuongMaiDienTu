@@ -9,19 +9,20 @@ class CreateBlogsTable extends Migration
     public function up(): void
     {
         Schema::create('blogs', function (Blueprint $table) {
-            $table->bigIncrements('post_id');
-            $table->unsignedInteger('user_id'); // hoặc bigInteger nếu id của users là bigIncrements
-            $table->string('title');
-            $table->text('content');
-            $table->string('image')->nullable();
-            $table->timestamps();
+            $table->bigIncrements('post_id'); // Khóa chính tự động tăng
+            $table->unsignedInteger('user_id'); // Khóa ngoại tới bảng users
+            $table->string('title'); // Tiêu đề bài viết
+            $table->text('content'); // Nội dung bài viết
+            $table->string('image')->nullable(); // Hình ảnh bài viết (có thể rỗng)
+            $table->timestamps(); // Thời gian tạo và cập nhật bài viết
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Đảm bảo khóa ngoại
+            // Khóa ngoại tới bảng users
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('blogs'); // Xóa bảng blogs khi rollback
     }
 }
