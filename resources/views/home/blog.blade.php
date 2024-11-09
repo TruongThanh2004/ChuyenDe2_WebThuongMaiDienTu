@@ -41,10 +41,8 @@
             @endforeach
         @endif
     </div>
+    <div class="custom-pagination" style="margin: 0px auto">
+    {{ $blogs->links() }}
+    </div>
 </section>
-
-<section id="pagination" class="section-p1">
-    {{ $blogs->links('pagination::bootstrap-4') }} <!-- Sử dụng phân trang Bootstrap -->
-</section>
-
 @endsection
