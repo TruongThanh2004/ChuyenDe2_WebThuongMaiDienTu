@@ -1,5 +1,8 @@
 @extends('home.index')
 @section('content')
+<head>
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+</head>
 <link rel="stylesheet" href="{{ asset('style.css') }}">
 <section id="page-header">
         <h2>#stayhome</h2>

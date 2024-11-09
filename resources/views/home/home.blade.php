@@ -1,6 +1,8 @@
 @extends('home.index')
 @section('content')
-
+<head>
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+</head>
 <section id="hero">
     <h4>Trade-in-offer</h4>
     <h2>Super value deals</h2>
