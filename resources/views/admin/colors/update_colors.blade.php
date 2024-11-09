@@ -10,7 +10,7 @@
 <div class="form-update">
 <div class="color-panner">Sửa Bảng Màu</div>
   <div class="body-form">
-    <form action="{{ route('admin_colors.update', $color->color_id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin_colors.update', $color->color_id) }}" method="POST" enctype="multipart/form-data" novalidate>
       @csrf
       @method('PUT')
 

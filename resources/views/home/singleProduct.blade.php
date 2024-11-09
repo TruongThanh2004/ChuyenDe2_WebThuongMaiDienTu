@@ -65,7 +65,17 @@
 
         <input type="hidden" name="selected_color" id="selectedColor">
         <input type="number" value="1">
-        <button class="normal">Add to Cart</button>
+
+        <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                    @if (auth()->check())
+                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                    @endif
+                    <button class="normal">Add to Cart</button>
+                </form>
+
+        <!-- <button class="normal">Add to Cart</button> -->
         <h4>Product Details</h4>
         <span>{{ $product->description}}</span>
     </div>

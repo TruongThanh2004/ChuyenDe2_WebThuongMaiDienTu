@@ -85,6 +85,12 @@ Route::get('/contact', function () {
 Route::get('/cart', function () {
     return view('cart');
 });
+// Route::get('/cart', function () {
+//     return view('home.blog');
+// });
+// Route::get('/home', function () {
+//     return view('cart');
+// });
 
 Route::get('/singleProduct', function () {
     return view('home.singleProduct');
@@ -93,8 +99,13 @@ Route::get('/singleProduct', function () {
 
 
 Route::get('/product-list', function () {
-    return view('admin.products')  ;
+    return view('admin.products');
 });
+
+
+
+//     return view('admin.products')  ;
+// });
 
 
 
@@ -214,12 +225,22 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors'); // tim kiếm theo fullText
     Route::get('/admin/colors/sort-toggle', [ColorController::class, 'sortToggle'])->name('admin_colors.sortToggle');// sắp xếp A->Z theo name
 });
-// Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
+Route::get('/cart', function () {
+    return view('cart');
+});
+// Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::get('/home/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 
-// Route::POST('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
-// Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::delete('/home/cart/{order_id}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+Route::delete('/home/cart/{id}', [CartController::class, 'destroyAll'])->name('cart.destroyAll');
+Route::delete('/cart/destroy-selected', [CartController::class, 'destroySelected'])->name('cart.destroySelected');
+Route::post('/home/cart', [CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.Checkout');
+// Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+// Route::get('/cart', [CartController::class, 'showCart']);
+
 
 //blogs
 //blogs

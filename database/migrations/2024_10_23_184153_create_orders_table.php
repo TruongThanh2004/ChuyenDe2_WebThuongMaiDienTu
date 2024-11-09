@@ -12,18 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id('order_id');  // Khóa chính tự tăng
-            $table->unsignedInteger('user_id');  // Khóa ngoại tới users(id)
-            $table->unsignedBigInteger('product_id');  // Khóa ngoại tới products(product_id)
+            $table->id('order_id'); // Khóa chính
+            $table->unsignedBigInteger('user_id'); // Khóa ngoại tới bảng Users
             $table->enum('status', ['pending', 'shipped', 'delivered', 'cancelled'])->default('pending');
-            $table->double('total_amount');
-            $table->timestamps();  // Tạo các cột created_at và updated_at tự động
+            $table->double('total_amount', 10, 2)->default(0);
+            $table->timestamps(); // Tạo cột created_at và updated_at
     
-            // Khóa ngoại tới bảng users
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
-            // Khóa ngoại tới bảng products
-            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
+            // Định nghĩa khóa ngoại
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 
