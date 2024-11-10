@@ -23,7 +23,7 @@
 					@csrf
 					<div class="login__field">
 						<i class="login__icon fas fa-user"></i>
-						<input type="text" class="login__input" placeholder="User name" name="username" value="{{old('username')}}">
+						<input type="text" class="login__input" placeholder="User name" name="username" value="{{old('username')}}" maxlength="40">
 					</div>
 
 					<div class="error_mess">
@@ -34,7 +34,7 @@
 
 					<div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
-						<input type="password" class="login__input" placeholder="Password" name="password"  >
+						<input type="password" class="login__input" placeholder="Password" name="password" maxlength="30" >
 					</div>
 
 					<div class="error_mess">

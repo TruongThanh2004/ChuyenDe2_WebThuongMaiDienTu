@@ -171,7 +171,7 @@ class BlogController extends Controller
         $search = $request->input('search');
         $blogs = Blog::when($search, function ($query, $search) {
             return $query->where('title', 'like', "%{$search}%");
-        })->paginate(10); // Sử dụng phân trang
+        })->paginate(4); // Sử dụng phân trang
 
         return view('home.blog', compact('blogs', 'search'));
     }

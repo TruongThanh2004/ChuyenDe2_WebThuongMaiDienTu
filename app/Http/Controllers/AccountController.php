@@ -133,6 +133,17 @@ class AccountController extends Controller
 
 
     public function doLogin(Request $request){
+
+        $validator = ValidationHelper::login($request);
+
+        if ($validator->fails()) {
+            return redirect()->route('login')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+
+
         $login = [  
             'username' => $request->username,           
             'password' =>$request->password,

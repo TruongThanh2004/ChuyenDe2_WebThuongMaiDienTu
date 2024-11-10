@@ -1253,6 +1253,14 @@ ul.two-part-sp li{
 	color:#fff;
 	font-size:14px;
 }
+.product-status-wrap td {
+    white-space: nowrap;       
+    overflow: hidden;          
+    text-overflow: ellipsis;    
+    max-width: 150px;         
+}
+
+
 .product-status-wrap img {
     width: 60px;
 }
