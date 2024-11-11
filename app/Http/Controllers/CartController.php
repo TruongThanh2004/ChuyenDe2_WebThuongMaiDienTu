@@ -91,24 +91,24 @@ class CartController extends Controller
             'id' => 'required|exists:order_items,order_items_id',
             'quantity' => 'required|integer|min:1',
         ]);
-    
+
         $cartItem = OrderItem::findOrFail($request->id);
-    
+
         if ($cartItem->product->stock < $request->quantity) {
             return response()->json(['success' => false, 'message' => 'Sản phẩm không đủ trong kho.']);
         }
-    
+
         $cartItem->quantity = $request->quantity;
         $cartItem->price = $cartItem->product->price * $request->quantity;
         $cartItem->save();
-    
+
         if ($cartItem->save()) {
             return response()->json(['success' => true, 'message' => 'Cập nhật thành công']);
         } else {
             return response()->json(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu']);
         }
     }
-    
+
     // hàm xóa 1 sản phâm
     public function destroy($id)
     {
@@ -184,19 +184,17 @@ class CartController extends Controller
 
         return redirect()->route('cart.index')->with('success', 'Các sản phẩm được chọn đã được xóa khỏi giỏ hàng.');
     }
-// hàm tính tổng giá
+    // hàm tính tổng giá
     public function calculateCartTotal($cartItems)
     {
         $total = 0;
-
         foreach ($cartItems as $item) {
             $total += $item['quantity'] * $item['price'];
             // $total +=  $item['price'];
-           
         }
-
         return $total;
     }
+
     // thanh toan
     public function Checkout(Request $request)
     {
@@ -212,19 +210,32 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn hiện đang trống.');
         }
 
+        // Kiểm tra xem tất cả sản phẩm đã chọn có tồn tại trong giỏ hàng hay không
+        foreach ($selectedItems as $itemId) {
+            $orderItem = OrderItem::where('order_id', $order->order_id)
+                ->where('order_items_id', $itemId)
+                ->first();
+            if (!$orderItem) {
+                return redirect()->route('cart.index')
+                    ->with('error', 'sản phẩm không tồn tại trong giỏ hàng. Vui lòng tải lại trang.');
+            }
+        }
+
         $totalAmount = 0; // Biến để lưu tổng số tiền của các sản phẩm đã chọn
 
-        // Tính tổng số tiền của các sản phẩm đã chọn
+        // Tính tổng số tiền của các sản phẩm đã chọn và cập nhật số lượng
         foreach ($selectedItems as $itemId) {
-            $orderItem = OrderItem::where('order_id', $order->order_id)->where('order_items_id', $itemId)->first();
+            $orderItem = OrderItem::where('order_id', $order->order_id)
+                ->where('order_items_id', $itemId)
+                ->first();
+
             if ($orderItem) {
-                $totalAmount += $orderItem->price ;
-                // $totalAmount += $orderItem->price ;
+                $totalAmount += $orderItem->price;
 
                 // Cập nhật số lượng sản phẩm trong bảng products
-                $product = Product::find($orderItem->product_id); // Giả sử OrderItem có trường product_id
+                $product = Product::find($orderItem->product_id);
                 if ($product) {
-                    $product->quantity -= $orderItem->quantity; // Giảm số lượng theo số lượng đã thanh toán
+                    $product->quantity -= $orderItem->quantity;
                     $product->save();
                 }
             }
@@ -234,18 +245,22 @@ class CartController extends Controller
         $newOrder = Order::create([
             'user_id' => $userId,
             'status' => 'shipped',
-            'total_amount' => $totalAmount // Lưu tổng số tiền vào đơn hàng mới
+            'total_amount' => $totalAmount
         ]);
 
         // Chuyển các sản phẩm đã chọn sang đơn hàng mới và xóa khỏi giỏ hàng
         foreach ($selectedItems as $itemId) {
-            $orderItem = OrderItem::where('order_id', $order->order_id)->where('order_items_id', $itemId)->first();
+            $orderItem = OrderItem::where('order_id', $order->order_id)
+                ->where('order_items_id', $itemId)
+                ->first();
+
             if ($orderItem) {
                 $orderItem->order_id = $newOrder->order_id;
                 $orderItem->save();
-                $orderItem->delete(); // Xóa mục khỏi bảng order_items của giỏ hàng gốc
+                $orderItem->delete(); // Xóa mục khỏi giỏ hàng
             }
         }
+
         // Kiểm tra nếu giỏ hàng gốc không còn sản phẩm nào thì xóa đơn hàng `pending`
         $remainingItems = OrderItem::where('order_id', $order->order_id)->count();
         if ($remainingItems === 0) {
@@ -256,4 +271,60 @@ class CartController extends Controller
     }
 
 
+    // hàm kiểm tra sản phẩm có tồn tại trong giỏ hàng hay không
+    public function checkItemsExist(Request $request)
+    {
+        $selectedItems = $request->input('selected_items', []);
+        $userId = Auth::id();
+        $order = Order::where('user_id', $userId)->where('status', 'pending')->first();
+
+        if (!$order) {
+            return response()->json(['success' => false, 'message' => 'Giỏ hàng của bạn hiện đang trống.']);
+        }
+
+        foreach ($selectedItems as $itemId) {
+            $orderItem = OrderItem::where('order_id', $order->order_id)
+                ->where('order_items_id', $itemId)
+                ->first();
+
+            if (!$orderItem) {
+                return response()->json(['success' => false, 'message' => 'Sản phẩm không tồn tại trong giỏ hàng. Vui lòng tải lại trang.']);
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+
+    // tìm kiếm fulltext 
+    public function searchCart(Request $request)
+    {
+        $query = $request->input('keyword');
+
+        // Kiểm tra xem người dùng đã nhập từ khóa tìm kiếm chưa
+        if (empty($query)) {
+            return redirect()->back()->with('error', 'Vui lòng nhập từ khóa tìm kiếm.');
+        }
+
+        // Kiểm tra độ dài của chuỗi tìm kiếm
+        if (strlen($query) > 255) {
+            return redirect()->back()->with('error', 'Chuỗi tìm kiếm không được vượt quá 255 ký tự.');
+        }
+
+        // Tìm kiếm sản phẩm theo từ khóa
+        $searchResults = OrderItem::join('products', 'order_items.product_id', '=', 'products.product_id')
+            ->whereRaw("MATCH(products.name) AGAINST(? IN BOOLEAN MODE)", [$query])
+            ->orWhere('products.price', 'LIKE', '%' . $query . '%')
+            ->select('products.name as product_name', 'products.price', 'order_items.*')
+            ->get();
+
+        // Kiểm tra nếu không có kết quả tìm kiếm
+        if ($searchResults->isEmpty()) {
+            return view('cart.search_results', ['searchResults' => $searchResults])
+                ->with('message', 'Không có kết quả nào.');
+        } else {
+            return view('cart.search_results', ['searchResults' => $searchResults])
+                ->with('message', 'Kết quả tìm kiếm');
+        }
+    }
 }

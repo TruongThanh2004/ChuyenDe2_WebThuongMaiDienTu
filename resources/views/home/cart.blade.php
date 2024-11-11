@@ -1,15 +1,40 @@
 @extends('home.index')
-
 @section('content')
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  
+
 </head>
+
 
 <section id="page-header" class="about-header">
     <h2>#cart</h2>
     <p>Add your coupon code & SAVE up to 70%!</p>
 </section>
+<!-- form tìm kiếm -->
+<br>
+<br>
+<div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
+    <div class="header-top-menu tabl-d-n hd-search-rp">
+        <div class="breadcome-heading">
+            <form role="search" class="" action="{{ route('cart.search') }}" method="GET" novalidate>
+                <input type="text" placeholder="Search..." class="form-control" id="search" name="keyword">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Hiển thị thông báo kết quả tìm kiếm -->
+@if(session('message'))
+    <div class="alert alert-info">
+        {{ session('message') }}
+    </div>
+@endif
+
 
 <section id="cart" class="section-p1">
     <table width="100%">
@@ -36,7 +61,8 @@
                                 value="{{ $item->quantity }}" data-price="{{ $item->product->price }}" min="1">
                             <button class="btn btn-outline-secondary quantity-btn increase-btn">+</button>
                         </td>
-                        <td class="product-price">{{ number_format($item->product->price*$item->quantity, 2, ',', '.') }} VNĐ</td>
+                        <td class="product-price">{{ number_format($item->product->price * $item->quantity, 2, ',', '.') }} VNĐ
+                        </td>
                         <td>
                             <form action="{{ route('cart.destroy', $item->order_items_id) }}" method="POST" class="delete-form">
                                 @csrf
@@ -180,6 +206,84 @@
 
 
 
+
+
+
+    // Cập nhật tổng tiền khi trang được tải lại
+    document.addEventListener('DOMContentLoaded', () => {
+        updateCartTotal();
+    });
+
+
+
+    function confirmDeleteAll() {
+        const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked'))
+            .map(item => item.dataset.id);
+
+        if (selectedItems.length === 0) {
+            alert('Vui lòng chọn ít nhất một sản phẩm để xóa.');
+            return;
+        }
+
+        document.getElementById('selected-items').value = JSON.stringify(selectedItems);
+
+        if (confirm('Bạn có chắc chắn muốn xóa các sản phẩm đã chọn không?')) {
+            document.getElementById('delete-selected-form').submit();
+        }
+    }
+
+
+    
+   // thanh toán
+    document.querySelector('form[action="{{ route('cart.Checkout') }}"]').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked')).map(item => item.dataset.id);
+
+    if (selectedItems.length === 0) {
+        Swal.fire({
+            icon: 'error',
+            // title: 'Lỗi!',
+            text: 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.',
+        });
+        return;
+    }
+
+ // Kiểm tra tồn tại sản phẩm qua AJAX
+ fetch("{{ route('cart.checkItems') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ selected_items: selectedItems })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            Swal.fire({
+                icon: 'error',
+                text: data.message,
+            });
+        } else {
+            // Tạo input ẩn và gửi form nếu tất cả sản phẩm tồn tại
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'selected_items';
+            hiddenInput.value = JSON.stringify(selectedItems);
+            this.appendChild(hiddenInput);
+            this.submit();
+        }
+    })
+    .catch(error => console.error('Lỗi kiểm tra tồn tại sản phẩm:', error));
+});
+
+
+
+
+
+
+
+
     //  Cập nhật số lượng khi nhấn nút tăng
     document.querySelectorAll('.increase-btn').forEach(button => {
         button.addEventListener('click', function () {
@@ -256,53 +360,7 @@
             });
     }
 
-
-
-
-    // Cập nhật tổng tiền khi trang được tải lại
-    document.addEventListener('DOMContentLoaded', () => {
-        updateCartTotal();
-    });
-
-
-
-    function confirmDeleteAll() {
-        const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked'))
-            .map(item => item.dataset.id);
-
-        if (selectedItems.length === 0) {
-            alert('Vui lòng chọn ít nhất một sản phẩm để xóa.');
-            return;
-        }
-
-        document.getElementById('selected-items').value = JSON.stringify(selectedItems);
-
-        if (confirm('Bạn có chắc chắn muốn xóa các sản phẩm đã chọn không?')) {
-            document.getElementById('delete-selected-form').submit();
-        }
-    }
-    //thanh toán
-    document.querySelector('form[action="{{ route('cart.Checkout') }}"]').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked')).map(item => item.dataset.id);
-
-        if (selectedItems.length === 0) {
-            alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
-            return;
-        }
-
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'selected_items';
-        hiddenInput.value = JSON.stringify(selectedItems);
-        this.appendChild(hiddenInput);
-
-        this.submit();
-    });
-
-
-
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 @endsection
