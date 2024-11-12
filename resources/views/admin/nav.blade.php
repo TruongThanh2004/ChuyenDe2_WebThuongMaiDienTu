@@ -75,6 +75,9 @@
 </head>
 <body>
 
+
+
+
    <div>
    @if (Session::has('successLogin'))
         <script>
@@ -82,6 +85,30 @@
         </script>
     @endif
    </div>
+
+
+   <div>
+        @if (Session::has('error'))
+            <script>
+                swal("", "{{Session::get('error')}}", "error");
+            </script>
+        @endif
+    </div>
+ 
+
+
+    <div>
+        @if (Session::has('successUser'))
+            <script>
+                swal("", "{{Session::get('successUser')}}", "success");
+            </script>
+        @endif
+    </div>
+
+
+
+
+
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
