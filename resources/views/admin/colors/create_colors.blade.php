@@ -13,7 +13,7 @@
 <div class="form-add">
     <div class="color-panner">Tạo Màu Mới</div>
     <div class="form-body">
-        <form action="{{ route('admin_colors.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin_colors.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
 
             <!-- Tên Màu -->
