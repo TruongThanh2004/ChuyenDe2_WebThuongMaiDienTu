@@ -168,7 +168,7 @@ class ColorController extends Controller
     }
 
 
-    // hàm tìm kiếm theo ap dụng Full-Text Search cho cột name
+    // hàm tìm kiếm theo  name ap dụng Full-Text Search
     public function timkiemcolors(Request $request)
     {
         $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
@@ -197,7 +197,8 @@ class ColorController extends Controller
             ]);
         }
 
-        return view('admin.colors.index', compact('colordm', 'keyword'));
+        // return view('admin.colors.index', compact('colordm', 'keyword'));
+        return view('admin.colors.index', compact('colordm', 'keyword'))->with('notification', 'Kết quả tìm kiếm cho từ khóa: ' . $keyword);
     }
 
 // hàm xóa nhiều bảng màu 

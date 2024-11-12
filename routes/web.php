@@ -240,7 +240,8 @@ Route::post('/home/cart', [CartController::class, 'updateCart'])->name('cart.upd
 Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.Checkout');
 // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 // Route::get('/cart', [CartController::class, 'showCart']);
-
+Route::post('/cart/check-items', [CartController::class, 'checkItemsExist'])->name('cart.checkItems');// kiểm tra sp trong cart có tồn tại không
+Route::get('/cart/search', [CartController::class, 'searchCart'])->name('cart.search'); // tìm kiếm fulltexxt
 
 //blogs
 //blogs

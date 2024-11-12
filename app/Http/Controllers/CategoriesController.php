@@ -7,29 +7,29 @@ use App\Models\Category;
 
 class CategoriesController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $category = Category::paginate(5);     
-        if(isset($request->keyword) && $request->keyword != ''){
-            $category = Category::where('category_name','like','%' .$request->keyword.'%')
-                                ->orWhere('category_id','like','%' .$request->keyword.'%')
-            ->paginate(5);
-            
+        $category = Category::paginate(5);
+        if (isset($request->keyword) && $request->keyword != '') {
+            $category = Category::where('category_name', 'like', '%' . $request->keyword . '%')
+                ->orWhere('category_id', 'like', '%' . $request->keyword . '%')
+                ->paginate(5);
+
         }
 
 
         if ($category->isEmpty()) {
             return redirect()->route('category-list')->with([
-                'category' => $category, 
+                'category' => $category,
                 'error' => 'Không tìm thấy danh mục bạn cần tìm'
             ]);
-        } 
-        return view('admin.category')->with('category',$category);
+        }
+        return view('admin.category')->with('category', $category);
     }
 
     /**
@@ -81,8 +81,8 @@ class CategoriesController extends Controller
     public function edit($id)
     {
         $category = Category::findOrFail($id);
-        return view('admin.category.edit_category',compact('category'));
-        
+        return view('admin.category.edit_category', compact('category'));
+
     }
 
     /**
@@ -110,7 +110,7 @@ class CategoriesController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         return redirect()->route('category-list');
-     
+
     }
-    
+
 }
