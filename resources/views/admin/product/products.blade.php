@@ -110,7 +110,7 @@
                                         <img src="{{ asset('images/products/' . $product->image1) }}" alt="{{ $product->product_name }}" />
                                     </td>
                                     <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->description }}</td>
+                                    <td>{{ Str::limit($product->description, 50) }}</td>
                                     <td>{{ number_format($product->price, 3, ',', '.') }}VND</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
