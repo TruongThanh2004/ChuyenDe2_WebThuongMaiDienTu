@@ -64,12 +64,12 @@ class UserSeeder extends Seeder
             ],[
                 'image' => 'user.jpg',
                 'username' => 'user',
-                'fullname' => 'Do Truong Thanh',
+                'fullname' => 'admin',
                 'password' => Hash::make('admin123'),
-                'email' => 'thanhdo3@gmail.com',
+                'email' => 'admin@gmail.com',
                 'address' => 'abc',
                 'phone' => '1234567890',
-                'role' => 1,
+                'role' => 2,
             ]
         ]);
     }
