@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps(); // Tạo cột created_at và updated_at
     
             // Định nghĩa khóa ngoại
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            // $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 
