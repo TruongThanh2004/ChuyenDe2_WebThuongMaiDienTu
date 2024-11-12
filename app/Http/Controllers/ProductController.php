@@ -107,7 +107,7 @@ class ProductController extends Controller
         // Validate các trường, bao gồm file ảnh
         $request->validate([
             'product_name' => 'required|string|regex:/^[a-zA-Z0-9\s]+$/|min:3|max:100',
-            'description' => 'nullable|string|min:10|max:500',
+            'description' => 'required|nullable|string|min:10|max:500',
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|integer|exists:categories,category_id',
