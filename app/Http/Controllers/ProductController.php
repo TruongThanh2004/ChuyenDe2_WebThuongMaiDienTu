@@ -264,10 +264,10 @@ class ProductController extends Controller
     
             // Nếu không có sản phẩm, trả về view với thông báo
             if ($products->isEmpty()) {
-                return view('home.shop', compact('products', 'categories'))
+                return view('home.shop', compact('products', 'categories', 'searchTerm'))
                     ->with('message', 'Không tìm thấy sản phẩm nào.');
             }
-            return view('home.shop', compact('products', 'categories'));
+            return view('home.shop', compact('products', 'categories', 'searchTerm'));
         }
     
         // Nếu không có từ khóa tìm kiếm, trả về danh sách sản phẩm đầy đủ

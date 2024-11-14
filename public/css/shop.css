@@ -76,3 +76,7 @@
         width: 100%;
     }
 }
+.search-result-message{
+    font-size: 30px;
+    margin: 0 auto;
+}
