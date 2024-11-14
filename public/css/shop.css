@@ -1,44 +1,78 @@
-.formCN{
-    position: relative;
-}
-.sortShop{
-    position: absolute;
-}
-.searchShop{
-position: absolute;
-right: 0;
-top: 20px;
-}
-
-   
-form[role="search"] {
+.formCN-container {
     display: flex;
-    align-items: center;
+    gap: 20px;
+    padding: 20px;
 }
 
+.form-column {
+    flex: 1;
+    max-width: 300px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
 
-form[role="search"] button[type="submit"] {
-    background-color: #007bff; 
-    color: white; 
-    border: none;
-    padding: 8px 12px;
-    font-size: 16px;
+.product-column {
+    flex: 3;
+}
+
+/* Định dạng cho form lọc */
+.formTX {
+    margin-bottom: 20px;
+}
+
+/* Định dạng cho form tìm kiếm */
+.searchShop {
+    display: flex;
+    gap: 5px;
+}
+
+/* Định dạng cho phần sản phẩm */
+.pro-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.pro {
+    width: calc(25% - 20px);
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.pro img {
+    width: 100%;
+    object-fit: cover;
     cursor: pointer;
-    transition: background-color 0.3s ease; 
 }
 
-form[role="search"] button[type="submit"]:hover {
-    background-color: #0056b3; 
+.des {
+    padding: 10px;
+    text-align: center;
 }
 
-form[role="search"] button[type="submit"] i {
-    font-size: 14px; 
+.custom-pagination {
+    text-align: center;
+    margin-top: 20px;
 }
 
-form[role="search"] input[type="text"] {
-    width: 200px;
-    padding: 8px;
-    border-radius: 4px 0 0 4px;
-    border: 1px solid #ccc;
-    outline: none;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .formCN-container {
+        flex-direction: column;
+    }
+    
+    .pro {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .pro {
+        width: 100%;
+    }
 }
