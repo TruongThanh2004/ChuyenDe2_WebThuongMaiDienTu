@@ -333,10 +333,16 @@ public function ShowProductShop()
         // Trả về view với thông báo nếu bảng không tồn tại
         return view('home.shop')->with('message', 'Một trong các bảng không tồn tại.');
     }
+    
 
     $products = Product::paginate(10); // Lấy sản phẩm với phân trang 10 sản phẩm mỗi trang
     $categories = Category::all(); // Lấy tất cả danh mục
     $colors = Color::all(); // Lấy tất cả màu sắc
+    if ($products->isEmpty()) {
+        return view('home.shop', compact('products', 'categories'))
+            ->with('message', 'Không có sản phẩm nào.');
+    }
+
 
     return view('home.shop', compact('products', 'categories', 'colors'));
 }

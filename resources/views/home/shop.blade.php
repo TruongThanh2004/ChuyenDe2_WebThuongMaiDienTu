@@ -49,7 +49,7 @@
             @if(session('error'))
                 <p class="alert alert-danger">{{ session('error') }}</p>
             @endif
-
+    
             <!-- Kiểm tra nếu có thông báo không tìm thấy sản phẩm -->
             @if(session('message'))
                 <p class="alert alert-warning">{{ session('message') }}</p>
@@ -61,6 +61,9 @@
             @endif
 
             <div class="pro-container">
+                @if($products->isEmpty())
+                    <p class="alert alert-warning" style="margin: 0 auto;font-size: 30px;">Không có sản phẩm nào.</p>
+                @else
                 @foreach ($products as $product)
                     <div class="pro">
                         <img src="{{ asset('images/products/' . $product->image1) }}" alt="{{ $product->product_name }}"
@@ -93,6 +96,7 @@
                     </div>
                 @endforeach
             </div>
+            @endif
             <div class="custom-pagination">
                 {{ $products->appends(['sort' => $sort])->links() }}
             </div>
