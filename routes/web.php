@@ -182,7 +182,7 @@ Route::middleware(['auth','checkrole'])->group(function () {
 
 Route::get('/shop', [ProductController::class, 'ShowProductShop'])->name('shop');
 Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->name('product.details');
-
+Route::get('/shop/search', [ProductController::class, 'searchShop'])->name('home.search');
 
 //Register - Login
 

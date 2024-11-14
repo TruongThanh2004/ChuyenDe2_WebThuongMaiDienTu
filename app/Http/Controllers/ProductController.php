@@ -243,6 +243,35 @@ class ProductController extends Controller
 
 
 
+
+    public function searchShop(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $searchTerm = $request->input('search');
+        if ($searchTerm) {
+            $products = Product::where('product_name', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('price', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhereHas('category', function($query) use ($searchTerm) {
+                    $query->where('category_name', 'LIKE', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('color', function($query) use ($searchTerm) {
+                    $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+                })
+                ->paginate(10); 
+
+            // Nếu không có sản phẩm, trả về view với thông báo
+            if ($products->isEmpty()) {
+                return view('home.shop', compact('products'))->with('message', 'Không tìm thấy sản phẩm nào.');
+            }
+            return view('home.shop', compact('products'));
+        }
+
+        // Nếu không có từ khóa tìm kiếm, trả về danh sách sản phẩm đầy đủ
+        return redirect()->route('home.shop')->with('error', 'Vui lòng nhập từ khóa để tìm kiếm.');
+    }
+
+
     public function index()
     {
         // Kiểm tra xem bảng products có tồn tại không
