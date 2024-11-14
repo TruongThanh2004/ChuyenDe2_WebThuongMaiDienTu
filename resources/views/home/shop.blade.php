@@ -45,13 +45,21 @@
     <!-- Cột sản phẩm -->
     <div class="product-column">
         <section id="product1" class="section-p1">
-        @if(isset($searchTerm))
-        <h2 class="search-result-message">Kết quả tìm kiếm cho: "{{ $searchTerm }}"</h2>
-        @endif
-        <!-- Hiển thị thông báo nếu không tìm thấy sản phẩm nào -->
-        @if(session('message'))
-            <p class="alert alert-warning">{{ session('message') }}</p>
-        @endif
+                    <!-- Kiểm tra nếu có thông báo lỗi -->
+            @if(session('error'))
+                <p class="alert alert-danger">{{ session('error') }}</p>
+            @endif
+
+            <!-- Kiểm tra nếu có thông báo không tìm thấy sản phẩm -->
+            @if(session('message'))
+                <p class="alert alert-warning">{{ session('message') }}</p>
+            @endif
+
+            <!-- Kiểm tra nếu có từ khóa tìm kiếm -->
+            @if(isset($searchTerm))
+                <p class="search-result-message">Kết quả tìm kiếm cho: "{{ $searchTerm }}"</p>
+            @endif
+
             <div class="pro-container">
                 @foreach ($products as $product)
                     <div class="pro">
