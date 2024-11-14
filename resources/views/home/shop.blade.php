@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 </head>
 <link rel="stylesheet" href="{{ asset('style.css') }}">
+<link rel="stylesheet" href="{{ asset('css/shop.css') }}">
+<style>
+
+</style>
 <section id="page-header">
         <h2>#stayhome</h2>
         <p>Save more with coupons & up to 70% off!</p>
@@ -11,14 +15,19 @@
         @php
         $sort = $sort ?? 'nosort';
     @endphp
-
-    <form method="GET" action="{{ route('sortPrice') }}" id="sortForm">
+    <div class="formCN">
+    <form method="GET" action="{{ route('sortPrice') }}" id="sortForm" class="sortShop">
         <select name="sort" onchange="document.getElementById('sortForm').submit()">
             <option value="nosort">Sắp xếp giá</option>
             <option value="asc" {{ $sort === 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
             <option value="desc" {{ $sort === 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
         </select>
     </form>
+    <form role="search" class="searchShop" action="{{ route('home.search') }}">
+            <input type="text" placeholder="Search..." class="form-control" id="search"name="search">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+    </form>
+    </div>
     <section id="product1" class="section-p1">
         <div class="pro-container">
         @foreach ($products as $product)

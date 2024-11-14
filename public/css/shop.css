@@ -1,0 +1,44 @@
+.formCN{
+    position: relative;
+}
+.sortShop{
+    position: absolute;
+}
+.searchShop{
+position: absolute;
+right: 0;
+top: 20px;
+}
+
+   
+form[role="search"] {
+    display: flex;
+    align-items: center;
+}
+
+
+form[role="search"] button[type="submit"] {
+    background-color: #007bff; 
+    color: white; 
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+form[role="search"] button[type="submit"]:hover {
+    background-color: #0056b3; 
+}
+
+form[role="search"] button[type="submit"] i {
+    font-size: 14px; 
+}
+
+form[role="search"] input[type="text"] {
+    width: 200px;
+    padding: 8px;
+    border-radius: 4px 0 0 4px;
+    border: 1px solid #ccc;
+    outline: none;
+}
