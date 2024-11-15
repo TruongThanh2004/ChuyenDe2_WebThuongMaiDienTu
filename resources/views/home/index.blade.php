@@ -138,14 +138,37 @@
         </div>
     </footer>
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <style>
+
+    df-messenger {
+        --df-messenger-bot-message: #ececec; /* Màu nền tin nhắn bot */
+        --df-messenger-button-titlebar-color: #4caf50; /* Màu tiêu đề */
+        --df-messenger-chat-background-color: #ffffff; /* Màu nền */
+        --df-messenger-width: 200px; /* Độ rộng khung chat */
+        --df-messenger-height: 200px; /* Chiều cao khung chat */
+    }
+
+    </style>
     <df-messenger
     intent="WELCOME"
     chat-title="Chat_shop_online"
     agent-id="3d5dc63b-bd31-4565-a42e-1f0998016657"
-    language-code="vi"
-    ></df-messenger>
+    language-code="vi"></df-messenger>
     <!-- javascript script file link -->
     <script src="script.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+    const messenger = document.querySelector('df-messenger');
+    if (messenger) {
+        messenger.style.transform = 'scale(0.8)';
+        messenger.style.transformOrigin = 'bottom right';
+        messenger.style.position = 'fixed';
+        messenger.style.bottom = '20px';
+        messenger.style.right = '20px';
+        messenger.style.zIndex = '1000';
+        }
+    });
+    </script>
 </body>
 
 </html>
