@@ -137,7 +137,13 @@
             <p>Created By Muhammad Awais | All Rights Reserved | &#169; 2023</p>
         </div>
     </footer>
-
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+    intent="WELCOME"
+    chat-title="Chat_shop_online"
+    agent-id="3d5dc63b-bd31-4565-a42e-1f0998016657"
+    language-code="vi"
+    ></df-messenger>
     <!-- javascript script file link -->
     <script src="script.js"></script>
 </body>
