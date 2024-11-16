@@ -139,7 +139,6 @@
     </footer>
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
     <style>
-
     df-messenger {
         --df-messenger-bot-message: #ececec; /* Màu nền tin nhắn bot */
         --df-messenger-button-titlebar-color: #4caf50; /* Màu tiêu đề */
@@ -147,7 +146,6 @@
         --df-messenger-width: 200px; /* Độ rộng khung chat */
         --df-messenger-height: 200px; /* Chiều cao khung chat */
     }
-
     </style>
     <df-messenger
     intent="WELCOME"
