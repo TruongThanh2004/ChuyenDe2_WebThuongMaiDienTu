@@ -87,9 +87,11 @@
                         <div class="add-product">
                             <a href="{{ route('products.create') }}">Thêm sản phẩm</a>
                         </div>
+
                         @if($products->isEmpty())
                             <p style="color: yellow; font-size: 30px; font-weight: bold;">Không có sản phẩm nào để hiển thị.</p>
                         @else
+                        
                         <table>
                             <thead>
                                 <tr>

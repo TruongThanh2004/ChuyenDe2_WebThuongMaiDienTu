@@ -14,22 +14,22 @@ class CategoriesController extends Controller
      */
     public function index(Request $request)
     {
-        $category = Category::paginate(5);     
-        if(isset($request->keyword) && $request->keyword != ''){
-            $category = Category::where('category_name','like','%' .$request->keyword.'%')
-                                ->orWhere('category_id','like','%' .$request->keyword.'%')
-            ->paginate(5);
-            
+        $category = Category::paginate(5);
+
+        if (isset($request->keyword) && $request->keyword != '') {
+            $category = Category::where('category_name', 'like', '%' . $request->keyword . '%')
+                                ->orWhere('category_id', 'like', '%' . $request->keyword . '%')
+                                ->paginate(5);
         }
-
-
+    
         if ($category->isEmpty()) {
-            return redirect()->route('category-list')->with([
-                'category' => $category, 
+            return view('admin.category', [
+                'category' => $category,
                 'error' => 'Không tìm thấy danh mục bạn cần tìm'
             ]);
-        } 
-        return view('admin.category')->with('category',$category);
+        }
+    
+        return view('admin.category')->with('category', $category);
     }
 
     /**
@@ -51,14 +51,16 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-
-        $category = Category::create([
-            'category_name' => $request->input('category_name'),
+         $request->validate([
+        'category_name' => 'required|string|max:255',
+         ], [
+        'category_name.required' => 'Vui lòng nhập tên danh mục.',
+        ]);
+        Category::create([
+        'category_name' => $request->input('category_name'),
         ]);
         return redirect()->route('category-list')->with('success', 'Thêm danh mục sản phẩm thành công');
-
-
-    }
+        }
 
     /**
      * Display the specified resource.
@@ -96,7 +98,7 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->update($request->all());
-        return redirect()->route('category-list')->with('success');
+        return redirect()->route('category-list')->with('success','Sửa danh mục thành công!');
     }
 
     /**
@@ -109,7 +111,7 @@ class CategoriesController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect()->route('category-list');
+        return redirect()->route('category-list')->with('success', 'Xoá danh mục thành công!');
      
     }
     
