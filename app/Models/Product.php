@@ -77,10 +77,15 @@ class Product extends Model
             'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
             'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
         
+            'image1.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+
+            'image2.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image2.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image2.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+
+            'image3.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image3.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image3.max' => 'Kích thước ảnh không được vượt quá 2MB.',
         
@@ -100,6 +105,10 @@ class Product extends Model
         // Lưu ảnh vào thư mục
         foreach ($images as $key => $image) {
             if ($image) {
+                $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                if (!in_array($image->getMimeType(), $allowedMimeTypes)) {
+                    return redirect()->back()->withErrors(["$key" => 'File không đúng định dạng được phép.']);
+                }
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 $image->move(public_path('images/products'), $imageName);
                 $data[$key] = $imageName;
@@ -152,10 +161,15 @@ class Product extends Model
             'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
             'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
         
+            'image1.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+
+            'image2.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image2.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image2.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+
+            'image3.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image3.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image3.max' => 'Kích thước ảnh không được vượt quá 2MB.',
         
@@ -174,6 +188,10 @@ class Product extends Model
         // Xử lý ảnh và xóa ảnh cũ nếu có
         foreach ($images as $key => $image) {
             if ($image) {
+                $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'];
+                if (!in_array($image->getMimeType(), $allowedMimeTypes)) {
+                    return redirect()->back()->withErrors(["$key" => 'File không đúng định dạng được phép.']);
+                }
                 // Xóa ảnh cũ nếu có
                 if ($this->$key) {
                     Storage::delete('public/images/products/' . $this->$key);
