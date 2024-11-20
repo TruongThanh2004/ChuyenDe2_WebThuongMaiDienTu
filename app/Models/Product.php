@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Http\Request;
 
 class Product extends Model
 {
@@ -25,13 +24,13 @@ class Product extends Model
         'image1',
         'image2',
         'image3',
-        'rating',
+        'rating'
     ];
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
-
+    
     public function color()
     {
         return $this->belongsTo(Color::class, 'color_id', 'color_id');
@@ -59,25 +58,25 @@ class Product extends Model
             'product_name.regex' => 'Tên sản phẩm không hợp lệ. Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
             'product_name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự.',
             'product_name.max' => 'Tên sản phẩm không được vượt quá 100 ký tự.',
-
+            
             'description.required' => 'Mô tả sản phẩm không được bỏ trống.',
             'description.min' => 'Mô tả phải có ít nhất 10 ký tự.',
             'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
-
+        
             'price.required' => 'Giá sản phẩm không được bỏ trống.',
             'price.numeric' => 'Giá sản phẩm không hợp lệ. Vui lòng nhập số dương.',
             'price.min' => 'Giá sản phẩm phải là số dương.',
-
+        
             'quantity.required' => 'Số lượng sản phẩm không được bỏ trống.',
             'quantity.integer' => 'Số lượng sản phẩm không hợp lệ. Vui lòng nhập số dương.',
             'quantity.min' => 'Số lượng sản phẩm phải là số dương.',
-
+        
             'category_id.required' => 'Danh mục sản phẩm không hợp lệ. Vui lòng chọn danh mục.',
             'category_id.exists' => 'Danh mục không tồn tại, vui lòng thêm danh mục.',
-
+        
             'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
             'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
-
+        
             'image1.image' => 'Tệp tải lên phải là một ảnh hợp lệ.',
             'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
             'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
