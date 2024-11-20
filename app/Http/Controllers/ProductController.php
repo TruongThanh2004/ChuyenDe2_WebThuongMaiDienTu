@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
 
 class ProductController extends Controller
 {
@@ -43,20 +44,28 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
+        // Lấy search term và sort từ request
         $searchTerm = $request->input('search');
+        $sort = $request->input('sort', 'asc'); // Default là 'asc' nếu không có lựa chọn
 
-        if ($searchTerm) {
-            // Gọi phương thức tìm kiếm từ model
-            $products = Product::searchProducts($searchTerm)->paginate(10);
+        // Tìm kiếm sản phẩm
+        $query = Product::searchProducts($searchTerm);
 
-            if ($products->isEmpty()) {
-                return view('admin.product.products', compact('products'))->with('message', 'Không tìm thấy sản phẩm nào.');
-            }
-
-            return view('admin.product.products', compact('products'));
+        // Sắp xếp sản phẩm nếu có
+        if ($sort) {
+            $query = $query->orderBy('price', $sort);
         }
 
-        return redirect()->route('admin.products')->with('error', 'Vui lòng nhập từ khóa để tìm kiếm.');
+        // Paginate kết quả
+        $products = $query->paginate(10)->appends(['search' => $searchTerm, 'sort' => $sort]);
+
+        // Nếu không tìm thấy sản phẩm
+        if ($products->isEmpty()) {
+            return view('admin.product.products', compact('products'))
+                ->with('message', 'Không tìm thấy sản phẩm nào.');
+        }
+
+        return view('admin.product.products', compact('products'));
     }
 
     public function searchShop(Request $request)
@@ -92,26 +101,30 @@ class ProductController extends Controller
 
         return view('admin.product.products', compact('products', 'categories', 'colors'));
     }
-    public function edit($id)
+    public function show($hashid)
     {
-        $product = Product::findOrFail($id);
-        $categories = Category::all(); // Lấy tất cả các thể loại
-        $colors = Color::all(); // Lấy tất cả các màu sắc
-
-        return view('admin.product.update', compact('product', 'categories', 'colors'));
-    }
-    public function show($id)
-    {
-        // Lấy sản phẩm theo ID
-        $product = Product::findOrFail($id);
-
-        // Lấy thể loại và màu sắc
+        $id = Hashids::decode($hashid);
+        if (empty($id)) {
+            return redirect()->route('admin.products')->with('error', 'ID không hợp lệ.');
+        }
+        $product = Product::where('product_id', $id[0])->firstOrFail();
         $categories = Category::all();
         $colors = Color::all();
-
-        // Nếu bạn muốn chỉ hiển thị sản phẩm mà không cần chỉnh sửa
         return view('admin.product.showproduct', compact('product', 'categories', 'colors'));
     }
+
+    public function edit($hashid)
+    {
+        $id = Hashids::decode($hashid);
+        if (empty($id)) {
+            return redirect()->route('admin.products')->with('error', 'ID không hợp lệ.');
+        }
+        $product = Product::where('product_id', $id[0])->firstOrFail();
+        $categories = Category::all();
+        $colors = Color::all();
+        return view('admin.product.update', compact('product', 'categories', 'colors'));
+    }
+
 // ProductController.php (Controller)
     public function showProduct($id)
     {
@@ -138,9 +151,6 @@ class ProductController extends Controller
     {
         $products = Product::getLatestProducts();
 
-        return view('home.home', compact('products'));
-    }
-
     public function SortPrice(Request $request)
     {
         $categories = Category::all();
@@ -149,6 +159,7 @@ class ProductController extends Controller
         $products = Product::getSortedProducts($sort);
 
         return view('home.shop', compact('categories', 'products', 'sort'));
+        return view('home.home', compact('products'));
     }
 
     // Hàm tìm sản phẩm theo danh mục
@@ -162,23 +173,19 @@ class ProductController extends Controller
 
         return view('home.shop', compact('products'));
     }
-    public function filter(Request $request)
-    {
-        $selectedCategories = $request->input('categories', []);
-
-        $products = Product::getFilteredProducts($selectedCategories);
-
-        return view('home.shop', compact('products', 'selectedCategories'));
-    }
     public function filterByCategories(Request $request)
     {
         $categories = Category::all();
         $selectedCategories = $request->input('categories', []);
         $sort = $request->input('sort', 'asc'); // Mặc định là tăng dần
+        $searchTerm = $request->input('search', ''); // Từ khóa tìm kiếm
+        if ($request->isMethod('get') && $searchTerm === '') {
+            return redirect()->route('shop.filter')
+                             ->with('error', 'Vui lòng nhập từ khóa tìm kiếm.');
+        }
+        $products = Product::getFilteredAndSortedProducts($searchTerm,$selectedCategories, $sort);
 
-        $products = Product::getFilteredAndSortedProducts($selectedCategories, $sort);
-
-        return view('home.shop', compact('categories', 'products', 'selectedCategories', 'sort'));
+        return view('home.shop', compact('categories', 'products', 'selectedCategories', 'sort','searchTerm'));
     }
 
 }
