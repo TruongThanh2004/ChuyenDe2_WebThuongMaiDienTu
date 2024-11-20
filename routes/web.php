@@ -207,21 +207,17 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('/', [ColorController::class, 'index'])->name('admin_colors.index');  // Danh sách màu
     Route::get('create', [ColorController::class, 'create'])->name('admin_colors.create');  // Form tạo mới
     Route::post('store', [ColorController::class, 'AddNewcolors'])->name('admin_colors.store');  // Thêm mới
-    Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
-    Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
+    Route::get('edit/{hashed_id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
     Route::delete('/admin/colors/delete-selected', [ColorController::class, 'deleteSelected'])->name('admin_colors.deleteSelected');// xóa tất cả 
     Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors'); // tim kiếm theo fullText
     Route::get('/admin/colors/sort-toggle', [ColorController::class, 'sortToggle'])->name('admin_colors.sortToggle');// sắp xếp A->Z theo name
+    Route::put('update/{hashed_id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
 });
-// Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
 
-// Route::POST('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
-// Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
-//blogs
+
+
 //blogs
 Route::prefix('admin/blogs')->group(function () {
     Route::get('/', [BlogController::class, 'index'])->name('blogs.index'); // Hiển thị danh sách blog

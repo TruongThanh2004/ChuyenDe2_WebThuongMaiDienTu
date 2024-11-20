@@ -4,251 +4,135 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Color;
-
+use Hashids\Hashids;
 
 class ColorController extends Controller
 {
 
-    // hàm hiển thị 5 bảng màu trên 1 trang
+    // Hiển thị 5 bảng màu trên 1 trang
     public function index()
     {
-        $perPage = 5;
-        $colordm = Color::paginate($perPage);
-
+        $colordm = Color::paginate(5);
         return view('admin.colors.index', compact('colordm'));
     }
 
-    // đường dẫn vào form thêm bảng màu mới
+    // Hiển thị form thêm bảng màu mới
     public function create()
     {
         return view('admin.colors.create_colors');
     }
 
+    // Hiển thị form chỉnh sửa bảng màu
+    public function edit($encryptedId)
+    {
 
-    // hàm thêm một màu sắc mới
+        $color = Color::findByHashedId($encryptedId); 
+
+        if (!$color) {
+            return redirect()->route('admin_colors.index')->withErrors(['message' => 'Bảng màu không tồn tại!']);
+        }
+        return view('admin.colors.edit', compact('color'));
+    }
+
+    // Thêm bảng màu mới
     public function AddNewcolors(Request $request)
     {
-        $request->validate([        // Xác thực dữ liệu từ yêu cầu
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:30',
-                'regex:/^[\p{L}0-9]+(?:\s[\p{L}0-9]+)*$/u', // Cho phép chữ cái (có dấu), số và khoảng trắng, không cho phép khoảng trắng ở đầu
-            ],
-            'images' => [
-                'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,gif',
-                'max:5120',
-            ],
-        ], [
-            'name.required' => 'Tên bảng màu không được bỏ trống.',
-            'name.regex' => 'Tên bảng màu không hợp lệ, hãy nhập ký tự chữ hoặc số , không nhập khoảng trắng đầu dòng , không nhập ký tự đặt biệt',
-            'name.min' => 'Tên quá ngắn, vui lòng nhập ít nhất 3 ký tự.',
-            'name.max' => 'Tên quá dài, tối đa 30 ký tự.',
-            'images.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif.',
-            'images.max' => 'Kích thước ảnh không được vượt quá 5MB.',
-            'images.image' => 'Trường này phải là một tệp hình ảnh.',
-            'images.uploaded' => 'Upload ảnh thất bại, vui lòng kiểm tra kích thước tệp và thử lại.',
-        ]);
-        $color = new Color();
-        $color->name = $request->input('name');
-        if ($request->hasFile('images')) { // Xử lý upload ảnh nếu có
-            $image = $request->file('images');
-    
-            // Kiểm tra kích thước tệp ảnh một lần nữa (tính bằng byte)
-            if ($image->getSize() > 5 * 1024 * 1024) {
-                return redirect()->back()->withInput()->withErrors(['images' => 'Kích thước ảnh không được vượt quá 5MB.']);
+       
+        $validatedData = $request->validate(Color::getValidationRules(), trans('validation_colors'));
+
+        if ($request->hasFile('images')) {
+            $imageFile = $request->file('images');
+
+            // Kiểm tra nếu tệp không phải là hình ảnh hoặc không hợp lệ
+
+            if (!$imageFile->isValid() || !in_array($imageFile->getMimeType(), ['image/jpeg', 'image/png', 'image/gif'])) {
+                return redirect()->back()->withErrors(['images' => trans('validation_colors.images.invalid')]);
             }
-    
-            if (!$image->isValid()) {
-                return redirect()->back()->withInput()->withErrors(['images' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.']);
-            }
-    
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); // Tạo tên file duy nhất cho ảnh
-            $image->move(public_path('images/colors'), $imageName);
-            $color->images = $imageName; // Lưu chỉ tên file vào database
+
+            $validatedData['images'] = $imageFile;
         }
-    
-        $color->save();
-    
+
+        // Tiến hành thêm màu mới
+        try {
+            $color = Color::createNewColor($validatedData, $request->file('images'));
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['images' => $e->getMessage()]);
+        }
+
         return redirect()->route('admin_colors.index')->with('success', 'Màu được thêm thành công!');
     }
 
+    // hàm update
 
-    // đường dẫn vào update
-    public function edit($id)
+    public function update(Request $request, $encryptedId)
     {
-        $color = Color::findOrFail($id);
-        return view('admin.colors.update_colors', compact('color'));
-    }
+        // Giải mã ID
+        $color = Color::findByHashedId($encryptedId);
 
-
-    // hàm update bảng màu
-    public function update(Request $request, $id)
-    {
-        $color = Color::find($id);  // Kiểm tra xem đối tượng còn tồn tại hay không
         if (!$color) {
-            return redirect()->route('admin_colors.index')         // Nếu không tìm thấy, trả về thông báo lỗi và yêu cầu tải lại trang
-                ->withErrors(['message' => ' update thất bại !!!Đối tượng không tồn tại. Vui lòng tải lại trang.']);
+            return redirect()->route('admin_colors.index')->withErrors(['message' => 'Bảng màu không tồn tại!']);
         }
-        // Xác thực dữ liệu từ yêu cầu
-        $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:30',
-                'regex:/^[\p{L}0-9]+(?:\s[\p{L}0-9]+)*$/u',
-            ],
-            'images' => [
-                'nullable',
-                'image',
-                'mimes:jpg,jpeg,png,gif',
-                'max:5120',
-            ],
-        ], [
-            'name.required' => 'Tên bảng màu không được bỏ trống.',
-            'name.regex' => 'Tên bảng màu không hợp lệ, hãy nhập ký tự chữ hoặc số, không nhập khoảng trắng đầu dòng hoặc ký tự đặc biệt.',
-            'name.min' => 'Tên quá ngắn, vui lòng nhập ít nhất 3 ký tự.',
-            'name.max' => 'Tên quá dài, tối đa 30 ký tự.',
-            'images.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif.',
-            'images.max' => 'Kích thước ảnh không được vượt quá 5MB.',
-            'images.image' => 'Trường này phải là một tệp hình ảnh.',
-            'images.uploaded' => 'Upload ảnh thất bại, vui lòng kiểm tra kích thước tệp và thử lại.',
-        ]);
-        // Cập nhật thông tin màu sắc
-        $color->name = $request->input('name');       
+
+        // Xác thực dữ liệu đầu vào và sử dụng thông báo từ file validation_colors.php
+        $validatedData = $request->validate(Color::getValidationRules(), trans('validation_colors'));
+
+        // Kiểm tra tệp hình ảnh
         if ($request->hasFile('images')) {
-            $image = $request->file('images');
-            if (!$image->isValid()) {
-                return redirect()->back()->withInput()
-                    ->withErrors(['images' => 'Tệp hình ảnh không hợp lệ, vui lòng kiểm tra lại.']);
+            $imageFile = $request->file('images');
+
+            // Kiểm tra nếu tệp không phải là hình ảnh hoặc không hợp lệ
+            if (!$imageFile->isValid() || !in_array($imageFile->getMimeType(), ['image/jpeg', 'image/png', 'image/gif'])) {
+                return redirect()->back()->withErrors(['images' => trans('validation_colors.images.invalid')]);
             }
-              // Kiểm tra kích thước tệp ảnh một lần nữa (tính bằng byte)
-              if ($image->getSize() > 5 * 1024 * 1024) {
-                return redirect()->back()->withInput()->withErrors(['images' => 'Kích thước ảnh không được vượt quá 5MB.']);
-            }
-            // Xóa ảnh cũ nếu có
-            if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
-                unlink(public_path('images/colors/' . $color->images));
-            }
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/colors'), $imageName);
-            $color->images = $imageName;
-        }
-        $color->save();
-        return redirect()->route('admin_colors.index')->with('success', 'Màu đã được cập nhật thành công!');
-    }
 
-
-
-    // hàm xóa một bảng màu
-    public function destroy($id)
-    {
-        $color = Color::find($id);
-
-        if (!$color) {
-            return redirect()->route('admin_colors.index')
-                ->withErrors(['message' => ' xóa thất bại !!!Đối tượng không tồn tại! ']);
+            $validatedData['images'] = $imageFile;
         }
 
+        // Tiến hành cập nhật màu
         try {
-            if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
-                unlink(public_path('images/colors/' . $color->images));
-            }
-
-            $color->delete();
-            return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
+            $color->updateColor($validatedData, $request->file('images'));
         } catch (\Exception $e) {
-            return redirect()->route('admin_colors.index')
-                ->withErrors(['message' => 'Xóa thất bại. Vui lòng thử lại!']);
+            return redirect()->back()->withErrors(['images' => $e->getMessage()]);
         }
+
+        return redirect()->route('admin_colors.index')->with('success', 'Màu được cập nhật thành công!');
     }
-
-
-    // hàm tìm kiếm theo ap dụng Full-Text Search cho cột name
+    // Xóa bảng màu
+    public function destroy($encryptedId)
+    {
+        $color = Color::findByHashedId($encryptedId); // Giải mã ID
+        if (!$color) {
+            return redirect()->route('admin_colors.index')->withErrors(['message' => 'Bảng màu không tồn tại!']);
+        }
+        $color->delete();
+        return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
+    }
+    // Tìm kiếm bảng màu
     public function timkiemcolors(Request $request)
     {
-        $keyword = $request->input('keyword'); // Nhận từ khóa từ người dùng
-
-        // Kiểm tra độ dài từ khóa
+        $keyword = $request->input('keyword');
         if (strlen($keyword) > 255) {
             return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
         }
 
-        // Kiểm tra nếu người dùng không nhập từ khóa
-        if (empty($keyword)) {
-            return redirect()->back()->with('notification', 'Bạn chưa nhập từ khóa để tìm kiếm.');
-        }
-
-        // Sử dụng Full-Text Search cho cột `name`
-        $colordm = Color::whereRaw("MATCH(name) AGAINST(? IN NATURAL LANGUAGE MODE)", [$keyword])
-            ->orWhere('color_id', $keyword)
-            ->paginate(5);
-
-        // Kiểm tra nếu không có kết quả
-        if ($colordm->isEmpty()) {
-            return view('admin.colors.index')->with([
-                'colordm' => $colordm,
-                'keyword' => $keyword,
-                'message' => 'Không có kết quả nào.'
-            ]);
-        }
-
+        $colordm = Color::searchColors($keyword, 5);
         return view('admin.colors.index', compact('colordm', 'keyword'));
     }
-
-// hàm xóa nhiều bảng màu 
-    public function deleteSelected(Request $request)
-    {
-        // Lấy danh sách ID từ request
-        $selectedItems = $request->input('selected_items');
-
-        // Chia nhỏ chuỗi ID thành mảng
-        $ids = explode(',', $selectedItems);
-
-        // Khởi tạo mảng để lưu các thông báo
-        $messages = [];
-        foreach ($ids as $id) {
-            $color = Color::find($id);
-            if (!$color) {
-                $messages[] = "Màu với ID $id không tồn tại!";
-                continue; // Bỏ qua ID này và tiếp tục với ID tiếp theo
-            }
-            try {
-                // Xóa ảnh nếu tồn tại
-                if ($color->images && file_exists(public_path('images/colors/' . $color->images))) {
-                    unlink(public_path('images/colors/' . $color->images));
-                }
-                // Xóa màu
-                $color->delete();
-                $messages[] = "Màu với ID $id đã được xóa thành công!";
-            } catch (\Exception $e) {
-                $messages[] = "Xóa màu với ID $id thất bại. Vui lòng thử lại!";
-            }
-        }
-        // Chuyển hướng về trang danh sách với thông báo
-        return redirect()->route('admin_colors.index')->with('success', implode(' ', $messages));
-    }
-
-
-
-    
-    // sắp xếp từ A ->Z và ngượi lại  theo name
-
+    // Sắp xếp bảng màu
     public function sortToggle(Request $request)
     {
-        // Lấy tham số sort từ request, mặc định là 'asc' nếu không có
         $direction = $request->get('sort', 'asc');
+        $colordm = Color::sortColorsByName($direction, 5);
 
-        // Thực hiện sắp xếp theo tham số direction
-        $colordm = Color::orderBy('name', $direction)->paginate(5);
-
-        return view('admin.colors.index', compact('colordm'))->with('success', $direction === 'asc' ? 'Sắp xếp từ A → Z thành công!' : 'Sắp xếp từ Z → A thành công!');
+        return view('admin.colors.index', compact('colordm'))
+            ->with('success', $direction === 'asc' ? 'Sắp xếp từ A → Z thành công!' : 'Sắp xếp từ Z → A thành công!');
     }
+    // Xóa nhiều bảng màu
+    public function deleteSelected(Request $request)
+    {
+        $selectedItems = explode(',', $request->input('selected_items', ''));
+        $messages = Color::deleteSelectedColors($selectedItems);
 
-
-
+        return redirect()->route('admin_colors.index')->with('success', implode(' ', $messages));
+    }
 }

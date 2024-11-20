@@ -6,7 +6,8 @@
     <!-- CSS colors
 		============================================ -->
     <link rel="stylesheet" href="{{ asset('css/color/form-list.css') }}">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 
 </head>
@@ -25,10 +26,9 @@
 
             @if ($errors->has('name'))
                 <div class="text-danger">
-                    {{ $errors->first('name') }}
+                    {!! $errors->first('name') !!}
                 </div>
             @endif
-
             <!-- Ảnh Màu -->
             <label for="images" class="text-name">Ảnh Màu:</label>
             <input type="file" name="images" id="images" class="form-control"><br>
@@ -47,3 +47,4 @@
 <!-- js admin color -->
 <script src="{{ asset('js/color/colors-index.js') }}"></script>
 @endsection
+
