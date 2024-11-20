@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Vinkla\Hashids\Facades\Hashids;
 
 class Product extends Model
 {
@@ -300,6 +301,4 @@ public static function searchProducts($searchTerm)
     return self::where('product_name', 'like', "%$searchTerm%")
                ->orWhere('description', 'like', "%$searchTerm%");
 }
-}
->>>>>>> Stashed changes
 }

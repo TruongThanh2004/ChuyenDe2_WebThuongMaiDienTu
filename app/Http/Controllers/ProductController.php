@@ -150,6 +150,7 @@ class ProductController extends Controller
     public function shop()
     {
         $products = Product::getLatestProducts();
+    }
 
     public function SortPrice(Request $request)
     {
@@ -159,7 +160,6 @@ class ProductController extends Controller
         $products = Product::getSortedProducts($sort);
 
         return view('home.shop', compact('categories', 'products', 'sort'));
-        return view('home.home', compact('products'));
     }
 
     // Hàm tìm sản phẩm theo danh mục
