@@ -149,7 +149,9 @@
                                 class="move-form-right">
                                 @csrf
                                 @method('DELETE')
-
+                                <input type="hidden" name="selected_items" id="selected-items">
+                                <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">Xóa màu
+                                    đã chọn</button>
                                 <br>
                                 <div class="paginate">
                                     {{ $colordm->links() }}
