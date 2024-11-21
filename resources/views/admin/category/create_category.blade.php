@@ -1,6 +1,8 @@
 @extends('admin.nav')
 @section('text')
 
+
+
 <div class="breadcome-area">
     <div class="container-fluid">
         <div class="row">
@@ -30,7 +32,7 @@
         </div>
     </div>
 </div>
-
+</div>
 <!-- Single pro tab start-->
 <div class="single-product-tab-area mg-b-30">
     <!-- Single pro tab review Start-->
@@ -40,7 +42,9 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="review-tab-pro-inner">
                         <ul id="myTab3" class="tab-review-design">
-                            <li class="active"><a href="#description"><i class="icon nalika-edit" aria-hidden="true"></i> Category add</a></li>
+                            <li class="active"><a href="#description"><i class="icon nalika-edit"
+                                        aria-hidden="true"></i> Category add</a></li>
+
                         </ul>
                         <form action="{{route('category-list.store')}}" method="POST">
                             @csrf
@@ -50,22 +54,27 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <div class="review-content-section">
                                                 <div class="input-group mg-b-pro-edt">
-                                                    <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                                    <input type="text" class="form-control" name="category_name" placeholder="Nhập Category Name" id="name">
+                                                    <span class="input-group-addon"><i class="icon nalika-user"
+                                                            aria-hidden="true"></i></span>
+                                                    <input type="text" class="form-control" name="category_name"
+                                                        placeholder="Nhập Category Name" id="name">
+                                                 
+                                                 <small class="error-message"></small>
+                                             
                                                 </div>
+                                               
 
-                                                <!-- Display Validation Error -->
-                                                @if ($errors->has('category_name'))
-                                                    <div class="alert alert-danger">
-                                                        <strong>{{ $errors->first('category_name') }}</strong>
-                                                    </div>
-                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="text-center custom-pro-edt-ds">
-                                                    <button type="submit" class="btn btn-ctl-bt waves-effect waves-light m-r-10" id="submit_user">Add Category</button>
+                                                    <button type="submit"
+                                                        class="btn btn-ctl-bt waves-effect waves-light m-r-10"
+                                                        id="submit_user">Add Category
+                                                    </button>
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -73,11 +82,10 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                       
 
-@endsection
+                        @endsection
+
+
+
+

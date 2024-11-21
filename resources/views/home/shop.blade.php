@@ -34,10 +34,8 @@
                 <option value="asc" {{ $sort === 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
                 <option value="desc" {{ $sort === 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
             </select>
-        </form>
-        <h3>Tìm kiếm sản phẩm</h3>
-        <form role="search" class="searchShop" action="{{ route('home.search') }}">
-            <input type="text" placeholder="Search..." class="form-control" id="search" name="search">
+            <h3>Tìm kiếm sản phẩm</h3>
+            <input type="text" placeholder="Search..." class="form-control" id="search" name="search" value="{{ request('search') }}">
             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
         </form>
     </div>

@@ -91,11 +91,9 @@
                         <div class="add-product">
                             <a href="{{ route('products.create') }}">Thêm sản phẩm</a>
                         </div>
-
                         @if($products->isEmpty())
                             <p style="color: yellow; font-size: 30px; font-weight: bold;">Không có sản phẩm nào để hiển thị.</p>
                         @else
-                        
                         <table>
                             <thead>
                                 <tr>
@@ -122,13 +120,13 @@
                                     <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
                                     <td>{{ $product->color->name ?? 'Không có màu sắc' }}</td>
                                     <td>
-                                        <a href="{{ route('products.show', $product->product_id) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
+                                        <a href="{{ route('products.show', ['id' => Hashids::encode($product->product_id)]) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
-                                        <a href="{{ route('products.edit', $product->product_id) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
+                                        <a href="{{ route('products.edit', ['id' => Hashids::encode($product->product_id)]) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
-                                        <form action="{{ route('products.destroy', $product->product_id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('products.destroy', ['id' => Hashids::encode($product->product_id)]) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" data-toggle="tooltip" title="Xóa" class="pd-setting-ed">
