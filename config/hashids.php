@@ -42,4 +42,8 @@ return [
 
     ],
 
+    
+    'salt' => env('HASHIDS_SALT', 'secret-salt'),
+
+
 ];
