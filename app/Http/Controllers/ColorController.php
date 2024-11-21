@@ -97,6 +97,7 @@ class ColorController extends Controller
 
         return redirect()->route('admin_colors.index')->with('success', 'Màu được cập nhật thành công!');
     }
+<<<<<<< HEAD
     // Xóa bảng màu
     public function destroy($encryptedId)
     {
@@ -108,6 +109,11 @@ class ColorController extends Controller
         return redirect()->route('admin_colors.index')->with('success', 'Màu đã được xóa thành công!');
     }
     // Tìm kiếm bảng màu
+=======
+
+
+    // hàm tìm kiếm theo  name ap dụng Full-Text Search
+>>>>>>> main
     public function timkiemcolors(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -115,8 +121,32 @@ class ColorController extends Controller
             return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
         }
 
+<<<<<<< HEAD
         $colordm = Color::searchColors($keyword, 5);
         return view('admin.colors.index', compact('colordm', 'keyword'));
+=======
+        // Kiểm tra nếu người dùng không nhập từ khóa
+        if (empty($keyword)) {
+            return redirect()->back()->with('notification', 'Bạn chưa nhập từ khóa để tìm kiếm.');
+        }
+
+        // Sử dụng Full-Text Search cho cột `name`
+        $colordm = Color::whereRaw("MATCH(name) AGAINST(? IN NATURAL LANGUAGE MODE)", [$keyword])
+            ->orWhere('color_id', $keyword)
+            ->paginate(5);
+
+        // Kiểm tra nếu không có kết quả
+        if ($colordm->isEmpty()) {
+            return view('admin.colors.index')->with([
+                'colordm' => $colordm,
+                'keyword' => $keyword,
+                'message' => 'Không có kết quả nào.'
+            ]);
+        }
+
+        // return view('admin.colors.index', compact('colordm', 'keyword'));
+        return view('admin.colors.index', compact('colordm', 'keyword'))->with('notification', 'Kết quả tìm kiếm cho từ khóa: ' . $keyword);
+>>>>>>> main
     }
     // Sắp xếp bảng màu
     public function sortToggle(Request $request)

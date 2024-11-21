@@ -30,7 +30,7 @@
         <h6>{{ $product->category->category_name ?? 'Không có thể loại' }}</h6>
         <h4>{{ $product->product_name }}</h4>
         <h2>{{ $product->price }} VND</h2>
-        
+        <h2>Số lượng: {{ $product->quantity }}</h2>
         <!-- <select>
             <option>Select Color</option>
             @foreach ($colors as $color)
@@ -59,18 +59,48 @@
             </ul>
         </div>
         <input type="hidden" name="selected_color" id="selectedColor">
-
-
-
-
         <input type="hidden" name="selected_color" id="selectedColor">
-        <input type="number" value="1">
-        <button class="normal">Add to Cart</button>
+        <input type="number" id="quantityInput" value="1" max="{{ $product->quantity }}" min="1">
+
+        <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                    @if (auth()->check())
+                        <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                    @endif
+                    <button class="normal">Add to Cart</button>
+                </form>
+
+        <!-- <button class="normal">Add to Cart</button> -->
         <h4>Product Details</h4>
         <span>{{ $product->description}}</span>
     </div>
 </section>
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const quantityInput = document.getElementById('quantityInput');
+    const maxQuantity = parseInt(quantityInput.getAttribute('max'), 10);
+
+    quantityInput.addEventListener('input', () => {
+        const value = parseInt(quantityInput.value, 10);
+
+        if (isNaN(value) || value < 1 || value > maxQuantity) {
+            swal({
+                title: "Số lượng không hợp lệ!",
+                text: `Số lượng phải phù hợp với số lượng đang có từ 1 đến ${maxQuantity}.`,
+                icon: "error",
+                button: "OK",
+            }).then(() => {
+                if (value < 1) {
+                    quantityInput.value = 1;
+                } else if (value > maxQuantity) {
+                    quantityInput.value = maxQuantity;
+                }
+            });
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const selectTrigger = document.querySelector('.select-trigger');
     const options = document.querySelector('.options');

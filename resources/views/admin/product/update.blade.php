@@ -35,33 +35,36 @@
 </div>
 
 <div class="form-container" id="productForm"> 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <form action="{{ route('products.update', $product->product_id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group">
             <label for="product_name">Tên sản phẩm:</label>
             <input type="text" id="product_name" name="product_name" value="{{ old('product_name', $product->product_name) }}" required>
+            @error('product_name')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label for="description">Mô tả:</label>
             <textarea id="description" name="description">{{ old('description', $product->description) }}</textarea>
+            @error('description')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label for="price">Giá:</label>
             <input type="number" id="price" name="price" value="{{ old('price', $product->price) }}" required>
+            @error('price')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label for="quantity">Số lượng:</label>
             <input type="number" id="quantity" name="quantity" value="{{ old('quantity', $product->quantity) }}" required>
+            @error('quantity')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>        
         <div class="form-group">
             <label for="category_id">Thể loại:</label>
@@ -71,8 +74,11 @@
                     <option value="{{ $category->category_id }}" {{ $category->category_id == $product->category_id ? 'selected' : '' }}>
                         {{ $category->category_name }}
                     </option>
-                @endforeach
+                @endforeach               
             </select>
+            @error('category_id')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label for="color_id">Màu sắc:</label>
@@ -84,6 +90,9 @@
                     </option>
                 @endforeach
             </select>
+            @error('color_id')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label>Hình ảnh hiện tại 1:</label><br>
@@ -93,6 +102,9 @@
                 <p>Không có hình ảnh nào</p>
             @endif
             <input type="file" name="image1" accept="image/*">
+            @error('image1')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label>Hình ảnh hiện tại 2:</label><br>
@@ -102,6 +114,9 @@
                 <p>Không có hình ảnh nào</p>
             @endif
             <input type="file" name="image2" accept="image/*">
+            @error('image2')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label>Hình ảnh hiện tại 3:</label><br>
@@ -111,6 +126,9 @@
                 <p>Không có hình ảnh nào</p>
             @endif
             <input type="file" name="image3" accept="image/*">
+            @error('image3')
+                <span class="error">{{ $message }}</span>
+            @enderror
         </div>
         <div class="form-group">
             <label for="rating">Đánh giá:</label>

@@ -41,7 +41,10 @@ return [
         ],
 
     ],
+<<<<<<< HEAD
     
     'salt' => env('HASHIDS_SALT', 'secret-salt'),
+=======
+>>>>>>> main
 
 ];

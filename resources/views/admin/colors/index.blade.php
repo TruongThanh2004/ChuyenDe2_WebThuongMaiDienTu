@@ -34,7 +34,11 @@
                         </div>
                     @endif
 
+<<<<<<< HEAD
 
+=======
+                  
+>>>>>>> main
                     <!-- Thông báo nếu có kết quả tìm kiếm -->
                     @if (request()->has('keyword') && $colordm->isNotEmpty())
                         <div class="alert alert-info">
@@ -52,8 +56,7 @@
                     <div class="header-top-menu tabl-d-n hd-search-rp">
                         <div class="breadcome-heading">
                             <form role="search" class="" action="{{ route('admin_colors.timkiemcolors') }}" novalidate>
-                                <input type="text" placeholder="Search..." class="form-control" id="search"
-                                    name="keyword">
+                                <input type="text" placeholder="Search..." class="form-control" id="search" name="keyword">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
@@ -68,8 +71,12 @@
 
                 <div class="sort-list">
                     <form action="{{ route('admin_colors.sortToggle') }}" method="GET">
+<<<<<<< HEAD
                         <input type="hidden" name="sort"
                             value="{{ request()->get('sort') === 'asc' ? 'desc' : 'asc' }}">
+=======
+                        <input type="hidden" name="sort" value="{{ request()->get('sort') === 'asc' ? 'desc' : 'asc' }}">
+>>>>>>> main
                         <button type="submit" class="btn btn-success">
                             @if (request()->get('sort') === 'asc')
                                 <i class="fas fa-sort-alpha-up"></i> Sắp xếp A → Z
@@ -86,14 +93,14 @@
                             <div class="alert alert-warning" role="alert">
                                 @if(request()->has('keyword'))
                                     Không tìm thấy kết quả cho từ khóa: "{{ request()->input('keyword') }}".
-                                    <a href="{{ route('admin_colors.index') }}" class="btn btn-primary btn-sm">Quay lại danh
-                                        sách</a>
+                                    <a href="{{ route('admin_colors.index') }}" class="btn btn-primary btn-sm">Quay lại danh sách</a>
                                 @else
                                     Hiện tại danh sách trống, vui lòng tạo màu mới.
                                     <a href="{{ route('admin_colors.create') }}" class="btn btn-primary btn-sm">Tạo màu mới</a>
                                 @endif
                             </div>
                         @else
+<<<<<<< HEAD
                                     <tr>
                                         <th>ID</th>
                                         <th>Tên</th>
@@ -143,17 +150,58 @@
                                 class="move-form-right">
                                 @csrf
                                 @method('DELETE')
+=======
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Ảnh</th>
+                                <th>Hành Động</th>
+                                <td class="items-checkbox"><input type="checkbox" id="remove-all" onclick="toggleAll(this)"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($colordm as $color)
+                                <tr>
+                                    <td>{{ $color->color_id }}</td>
+                                    <td>{{ $color->name }}</td>
 
-                                <input type="hidden" name="selected_items" id="selected-items">
-                                <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">Xóa màu
-                                    đã chọn</button>
-                            </form>
+                                    <td>
+                                        @if($color->images)
+                                            <img src="{{ asset('images/colors/' . $color->images) }}" width="70" height="100" alt="Color Image">
+                                        @else
+                                            <img src="{{ asset('images/colors/default.png') }}" width="70" height="100" alt="Default Image">
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin_colors.edit', $color->color_id) }}" class="btn btn-primary btn-sm">Sửa</a>
 
-                            <br>
-                            <div class="paginate">
-                                {{ $colordm->links() }}
-                            </div>
-                        @endif
+                                        <form action="{{ route('admin_colors.destroy', $color->color_id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
+                                        </form>
+                                    </td>
+                                    <td class="items-checkbox"><input type="checkbox" class="remove-item" data-id="{{ $color->color_id }}"></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <form id="delete-selected-form" action="{{ route('admin_colors.deleteSelected') }}" method="POST" class="move-form-right">
+                        @csrf
+                        @method('DELETE')
+
+                        <input type="hidden" name="selected_items" id="selected-items">
+                        <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">Xóa màu đã chọn</button>
+                    </form>
+>>>>>>> main
+
+                    <br>
+                    <div class="paginate">
+                        {{ $colordm->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -162,4 +210,8 @@
 <!-- js admin color -->
 <script src="{{ asset('js/color/colors-index.js') }}"></script>
 
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> main
