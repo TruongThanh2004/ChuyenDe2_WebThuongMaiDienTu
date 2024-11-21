@@ -7,7 +7,7 @@ use App\Models\Category;
 
 class CategoriesController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -114,5 +114,5 @@ class CategoriesController extends Controller
         return redirect()->route('category-list')->with('success', 'Xoá danh mục thành công!');
      
     }
-    
+
 }

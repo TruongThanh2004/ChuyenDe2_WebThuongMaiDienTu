@@ -19,16 +19,51 @@ class ProductController extends Controller
     {
         // Validate các trường, bao gồm việc kiểm tra file ảnh
         $request->validate([
-            'product_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'category_id' => 'required|integer',
-            'color_id' => 'required|integer',
+            'product_name' => 'required|string|regex:/^[a-zA-Z0-9\s]+$/|min:3|max:100',
+            'description' => 'nullable|string|min:10|max:500',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'category_id' => 'required|integer|exists:categories,category_id',
+            'color_id' => 'required|integer|exists:colors,color_id',
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'rating' => 'nullable|integer|min:0|max:5',
+        ], [
+            'product_name.required' => 'Tên sản phẩm không được bỏ trống.',
+            'product_name.string' => 'Tên sản phẩm không hợp lệ. Vui lòng nhập ký tự chữ hoặc số.',
+            'product_name.regex' => 'Tên sản phẩm không hợp lệ. Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
+            'product_name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự.',
+            'product_name.max' => 'Tên sản phẩm không được vượt quá 100 ký tự.',
+            
+            'description.required' => 'Mô tả sản phẩm không được bỏ trống.',
+            'description.min' => 'Mô tả phải có ít nhất 10 ký tự.',
+            'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
+        
+            'price.required' => 'Giá sản phẩm không được bỏ trống.',
+            'price.numeric' => 'Giá sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'price.min' => 'Giá sản phẩm phải là số dương.',
+        
+            'quantity.required' => 'Số lượng sản phẩm không được bỏ trống.',
+            'quantity.integer' => 'Số lượng sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'quantity.min' => 'Số lượng sản phẩm phải là số dương.',
+        
+            'category_id.required' => 'Danh mục sản phẩm không hợp lệ. Vui lòng chọn danh mục.',
+            'category_id.exists' => 'Danh mục không tồn tại, vui lòng thêm danh mục.',
+        
+            'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
+            'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
+        
+            'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image2.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image2.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image3.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image3.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+        
+            'rating.integer' => 'Đánh giá phải là một số nguyên.',
+            'rating.min' => 'Đánh giá phải là một số từ 0 đến 5.',
+            'rating.max' => 'Đánh giá phải là một số từ 0 đến 5.',
         ]);
     
         // Khởi tạo mảng dữ liệu sản phẩm
@@ -71,18 +106,53 @@ class ProductController extends Controller
         
         // Validate các trường, bao gồm file ảnh
         $request->validate([
-            'product_name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'category_id' => 'required|integer',
-            'color_id' => 'required|integer',
+            'product_name' => 'required|string|regex:/^[a-zA-Z0-9\s]+$/|min:3|max:100',
+            'description' => 'required|nullable|string|min:10|max:500',
+            'price' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
+            'category_id' => 'required|integer|exists:categories,category_id',
+            'color_id' => 'required|integer|exists:colors,color_id',
             'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'rating' => 'nullable|integer|min:0|max:5',
+        ], [
+            'product_name.required' => 'Tên sản phẩm không được bỏ trống.',
+            'product_name.string' => 'Tên sản phẩm không hợp lệ. Vui lòng nhập ký tự chữ hoặc số.',
+            'product_name.regex' => 'Tên sản phẩm không hợp lệ. Vui lòng chỉ nhập ký tự chữ, số và khoảng trắng.',
+            'product_name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự.',
+            'product_name.max' => 'Tên sản phẩm không được vượt quá 100 ký tự.',
+            
+            'description.required' => 'Mô tả sản phẩm không được bỏ trống.',
+            'description.min' => 'Mô tả phải có ít nhất 10 ký tự.',
+            'description.max' => 'Mô tả không được vượt quá 500 ký tự.',
+        
+            'price.required' => 'Giá sản phẩm không được bỏ trống.',
+            'price.numeric' => 'Giá sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'price.min' => 'Giá sản phẩm phải là số dương.',
+        
+            'quantity.required' => 'Số lượng sản phẩm không được bỏ trống.',
+            'quantity.integer' => 'Số lượng sản phẩm không hợp lệ. Vui lòng nhập số dương.',
+            'quantity.min' => 'Số lượng sản phẩm phải là số dương.',
+        
+            'category_id.required' => 'Danh mục sản phẩm không hợp lệ. Vui lòng chọn danh mục.',
+            'category_id.exists' => 'Danh mục không tồn tại, vui lòng thêm danh mục.',
+        
+            'color_id.required' => 'Màu sắc sản phẩm không hợp lệ. Vui lòng chọn màu sắc.',
+            'color_id.exists' => 'Không tìm thấy màu sắc, vui lòng thêm màu sắc.',
+        
+            'image1.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image1.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image2.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image2.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            'image3.mimes' => 'Chỉ chấp nhận ảnh định dạng: jpg, jpeg, png, gif, svg.',
+            'image3.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+        
+            'rating.integer' => 'Đánh giá phải là một số nguyên.',
+            'rating.min' => 'Đánh giá phải là một số từ 0 đến 5.',
+            'rating.max' => 'Đánh giá phải là một số từ 0 đến 5.',
         ]);
-    
+        
         // Khởi tạo mảng dữ liệu sản phẩm
         $data = $request->except(['image1', 'image2', 'image3']); // Loại trừ ảnh từ $request->all()
     
@@ -173,6 +243,42 @@ class ProductController extends Controller
 
 
 
+
+    public function searchShop(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $searchTerm = $request->input('search');
+        $categories = Category::all(); // Lấy tất cả thể loại sản phẩm
+    
+        // Kiểm tra nếu không có từ khóa tìm kiếm
+        if (empty($searchTerm)) {
+            return redirect()->route('shop')->with('error', 'Vui lòng nhập từ khóa để tìm kiếm.');
+        }
+    
+        // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm sản phẩm
+        $products = Product::where('product_name', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('price', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhereHas('category', function($query) use ($searchTerm) {
+                $query->where('category_name', 'LIKE', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('color', function($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+            })
+            ->paginate(10);
+    
+        // Nếu không có sản phẩm, trả về view với thông báo
+        if ($products->isEmpty()) {
+            return view('home.shop', compact('products', 'categories', 'searchTerm'))
+                ->with('message', 'Không tìm thấy sản phẩm nào.');
+        }
+    
+        return view('home.shop', compact('products', 'categories', 'searchTerm'));
+    }
+    
+    
+
+
     public function index()
     {
         // Kiểm tra xem bảng products có tồn tại không
@@ -227,10 +333,16 @@ public function ShowProductShop()
         // Trả về view với thông báo nếu bảng không tồn tại
         return view('home.shop')->with('message', 'Một trong các bảng không tồn tại.');
     }
+    
 
     $products = Product::paginate(10); // Lấy sản phẩm với phân trang 10 sản phẩm mỗi trang
     $categories = Category::all(); // Lấy tất cả danh mục
     $colors = Color::all(); // Lấy tất cả màu sắc
+    if ($products->isEmpty()) {
+        return view('home.shop', compact('products', 'categories'))
+            ->with('message', 'Không có sản phẩm nào.');
+    }
+
 
     return view('home.shop', compact('products', 'categories', 'colors'));
 }
@@ -244,6 +356,7 @@ public function ShowProductShop()
 
     public function SortPrice(Request $request)
     {
+        $categories = Category::all(); // Lấy tất cả category từ database
         $sort = $request->input('sort', 'asc'); // Mặc định là tăng dần
     
         $query = Product::query();
@@ -256,6 +369,55 @@ public function ShowProductShop()
     
         $products = $query->paginate(10)->appends(['sort' => $sort]);
     
-        return view('home.shop', compact('products', 'sort'));
+        return view('home.shop', compact('categories','products', 'sort'));
     }
+
+    // Hàm tìm sản phẩm theo danh mục
+    public function searchByCategory($categoryId)
+    {
+        // Tìm sản phẩm thuộc danh mục chỉ định
+        $products = Product::where('category_id', $categoryId)->get();
+        
+        // Kiểm tra nếu không có sản phẩm nào thuộc danh mục này
+        if ($products->isEmpty()) {
+            return redirect()->route('home.shop')->with('error', 'Không có sản phẩm nào thuộc danh mục này.');
+        }
+
+        // Trả về view với danh sách sản phẩm đã tìm được
+        return view('home.shop', compact('products'));
+    }
+    public function filter(Request $request)
+    {
+        $selectedCategories = $request->input('categories', []);
+        
+        // Lọc sản phẩm theo danh mục đã chọn
+        $products = Product::whereIn('category_id', $selectedCategories)
+            ->paginate(10)
+            ->appends(['categories' => $selectedCategories]); // Truyền tham số đã chọn qua URL
+
+        return view('home.shop', compact('products', 'selectedCategories'));
+    }
+public function filterByCategories(Request $request)
+{
+    $categories = Category::all();
+    $selectedCategories = $request->input('categories', []);
+    $sort = $request->input('sort', 'asc'); // Lấy thông tin sắp xếp từ request, mặc định là tăng dần
+
+    // Lọc sản phẩm theo danh mục và sắp xếp giá
+    $products = Product::when($selectedCategories, function ($query) use ($selectedCategories) {
+        return $query->whereIn('category_id', $selectedCategories);
+    });
+
+    // Sắp xếp theo giá
+    if ($sort === 'asc') {
+        $products = $products->orderBy('price', 'asc');
+    } elseif ($sort === 'desc') {
+        $products = $products->orderBy('price', 'desc');
+    }
+
+    $products = $products->paginate(10)->withQueryString(); // Truyền các tham số qua URL để giữ lại khi phân trang
+
+    return view('home.shop', compact('categories', 'products', 'selectedCategories', 'sort'));
+}
+
 }

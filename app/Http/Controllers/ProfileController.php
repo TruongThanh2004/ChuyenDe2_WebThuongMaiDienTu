@@ -9,6 +9,15 @@ use App\Helpers\ValidationHelper;
 
 class ProfileController extends Controller
 {
+
+
+    public $users ;
+
+
+    public function __construct(){
+        $this->users = new User();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -67,20 +76,10 @@ class ProfileController extends Controller
             return redirect()->route('profile')->with('error', $mess);
         }
         $updateUser = User::findOrFail($id);
-
-        $olaImage = $updateUser->image;
-        if ($request->has('fileUpload')) {
-            $file = $request->fileUpload;
-            $file_name = $file->getClientoriginalName();
-            $file->move(public_path('images/user/'), $file_name);
-        } else {
-            $file_name = $olaImage;
-        }
         if (Hash::check($request->password, $updateUser->password)) {
             $mess = "Update thành công";
-            $password = Hash::make($request->password);
-            $request->merge(['image' => $file_name, 'password' => $password]);
-            $updateUser->update($request->all());
+            $data = $request->all();
+            $this->users->updateUser($data,$id);
             return redirect()->route('profile')->with('success', $mess);
         } else {
             $mess = "Mật khẩu không chính xác";

@@ -40,6 +40,7 @@
                             href="#account-general">General</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-change-password">Change password</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-update-email">Update Email</a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -190,10 +191,34 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="account-update-email">
+                            <div class="card-body">
+                            <form action="{{ route('profile.updateEmail', Auth::user()->id) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label class="form-label">Current Email</label>
+                                    <input type="email" class="form-control" name="current_email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">New Email</label>
+                                    <input type="email" class="form-control" name="new_email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Confirm New Email</label>
+                                    <input type="email" class="form-control" name="new_email_confirmation" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Update Email</button>
+                            </form>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
+            
             <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
             <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -85,6 +85,12 @@ Route::get('/contact', function () {
 Route::get('/cart', function () {
     return view('cart');
 });
+// Route::get('/cart', function () {
+//     return view('home.blog');
+// });
+// Route::get('/home', function () {
+//     return view('cart');
+// });
 
 Route::get('/singleProduct', function () {
     return view('home.singleProduct');
@@ -93,8 +99,13 @@ Route::get('/singleProduct', function () {
 
 
 Route::get('/product-list', function () {
-    return view('admin.products')  ;
+    return view('admin.products');
 });
+
+
+
+//     return view('admin.products')  ;
+// });
 
 
 
@@ -171,6 +182,10 @@ Route::middleware(['auth','checkrole'])->group(function () {
 
 Route::get('/shop', [ProductController::class, 'ShowProductShop'])->name('shop');
 Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->name('product.details');
+Route::get('/shop/search', [ProductController::class, 'searchShop'])->name('home.search');
+Route::get('/shop/filter', [ProductController::class, 'filterByCategories'])->name('shop.filter');
+
+
 
 
 //Register - Login
@@ -210,14 +225,27 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
     Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
-    Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors');
+    Route::delete('/admin/colors/delete-selected', [ColorController::class, 'deleteSelected'])->name('admin_colors.deleteSelected');// xóa tất cả 
+    Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors'); // tim kiếm theo fullText
+    Route::get('/admin/colors/sort-toggle', [ColorController::class, 'sortToggle'])->name('admin_colors.sortToggle');// sắp xếp A->Z theo name
 });
-// Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
+Route::get('/cart', function () {
+    return view('cart');
+});
+// Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::get('/home/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
 
-// Route::POST('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-// Route::get('/cart', [CartController::class, 'viewCart'])->name('cart');
-// Route::post('/cart/update-quantity/{id}', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+Route::delete('/home/cart/{order_id}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+Route::delete('/home/cart/{id}', [CartController::class, 'destroyAll'])->name('cart.destroyAll');
+Route::delete('/cart/destroy-selected', [CartController::class, 'destroySelected'])->name('cart.destroySelected');
+Route::post('/home/cart', [CartController::class, 'updateCart'])->name('cart.update');
+Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.Checkout');
+// Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+// Route::get('/cart', [CartController::class, 'showCart']);
+Route::post('/cart/check-items', [CartController::class, 'checkItemsExist'])->name('cart.checkItems');// kiểm tra sp trong cart có tồn tại không
+Route::get('/cart/search', [CartController::class, 'searchCart'])->name('cart.search'); // tìm kiếm fulltexxt
 
 //blogs
 //blogs

@@ -58,7 +58,7 @@
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="username"
                                                         placeholder="Nhập User Name" id="username"
-                                                        value="{{ old('username') }}">
+                                                        value="{{ old('username') }}" maxlength="40">
                                                 </div>
 
                                                 <div class="error_mess">
@@ -72,7 +72,7 @@
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="fullname"
                                                         placeholder=" Nhập Full Name" id="fullname"
-                                                        value="{{ old('fullname') }}">
+                                                        value="{{ old('fullname') }}" maxlength="60">
                                                         
                                                 </div>
 
@@ -88,7 +88,7 @@
                                                     </span>
                                                     <input type="password" class="form-control" id="password"
                                                         name="password" placeholder="Nhập Password"
-                                                         value="{{ old('password') }}"
+                                                         value="{{ old('password') }}" maxlength="40"
                                                         >
                                                     <span class="input-group-addon" onclick="togglePassword()">
                                                         <i class="fa fa-eye" id="toggleEye" aria-hidden="true"></i>
@@ -107,7 +107,7 @@
                                                             aria-hidden="true"></i></span>
                                                     <input type="email" class="form-control" name="email"
                                                         placeholder="Nhập Email" id="email"
-                                                         value="{{ old('email') }}"
+                                                         value="{{ old('email') }}" maxlength="60"
                                                         >
                                                    
                                                 </div>
@@ -124,7 +124,7 @@
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="address"
                                                         placeholder="Nhập Address" id="address"
-                                                           value="{{ old('address') }}"
+                                                           value="{{ old('address') }}" maxlength="100"
                                                         >
                                                   
                                                 </div>
@@ -140,7 +140,7 @@
                                                             aria-hidden="true"></i></span>
                                                     <input type="tel" class="form-control" name="phone"
                                                         placeholder="Nhập Phone" id="phone"
-                                                           value="{{ old('phone') }}"
+                                                           value="{{ old('phone') }}" maxlength="10"
                                                         >
                                                   
                                                 </div>
@@ -156,7 +156,7 @@
                                                             aria-hidden="true"></i></span>
                                                     <input type="text" class="form-control" name="role"
                                                         placeholder="Nhập role" id="role"
-                                                             value="{{ old('role') }}"
+                                                             value="{{ old('role') }}" maxlength="1"
                                                         >
                                                     
                                                 </div>

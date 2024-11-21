@@ -1,0 +1,82 @@
+.formCN-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.form-column {
+    flex: 1;
+    max-width: 300px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-column {
+    flex: 3;
+}
+
+/* Định dạng cho form lọc */
+.formTX {
+    margin-bottom: 20px;
+}
+
+/* Định dạng cho form tìm kiếm */
+.searchShop {
+    display: flex;
+    gap: 5px;
+}
+
+/* Định dạng cho phần sản phẩm */
+.pro-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.pro {
+    width: calc(25% - 20px);
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.pro img {
+    width: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.des {
+    padding: 10px;
+    text-align: center;
+}
+
+.custom-pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .formCN-container {
+        flex-direction: column;
+    }
+    
+    .pro {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .pro {
+        width: 100%;
+    }
+}
+.search-result-message{
+    font-size: 30px;
+    margin: 0 auto;
+}

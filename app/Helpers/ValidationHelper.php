@@ -138,7 +138,7 @@ class ValidationHelper
     public static function register($request)
     {
         return Validator::make($request->all(), [
-            'username' => 'required|unique:users,username|max:255',
+            'username' => 'required|unique:users,username|max:255|min:5',
             'email' => 'required|email|unique:users,email|max:255',
             'password1' => 'required|min:6|max:255',
             'password2' => 'required|same:password1',
@@ -146,13 +146,31 @@ class ValidationHelper
         ], [
             'username.unique' => 'Tên đã được sử dụng',
             'username.max' => 'Tên không được vượt quá 255 ký tự.',
-             'email.unique' => 'Email đã được sử dụng.',
+            'username.min' => 'Tên không được ít hơn 5 kí tự',
+            'email.unique' => 'Email đã được sử dụng.',
             'email.max' => 'Email không được vượt quá 255 ký tự.',
             'password1.min' => 'Mật khẩu không được ít hơn 6 ký tự.',
             'password1.max' => 'Mật khẩu không được vượt quá 255 ký tự.',
             'password2.required' => 'Vui lòng xác nhận mật khẩu.',
             'password2.same' => 'Mật khẩu xác nhận không khớp với mật khẩu.',
-           
+
+        ]);
+    }
+
+
+    public static function login($request)
+    {
+        return Validator::make($request->all(), [
+
+            'username' => 'required|max:255|min:5',
+            'password' => 'required|min:6|max:255',
+        ], [
+            'username.required' => 'Vui lòng nhập tên của bạn.',
+            'username.max' => 'Tên không được vượt quá 255 ký tự.',
+            'username.min' => 'Tên không được ít hơn 5 kí tự',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.min' => 'Mật khẩu không được ít hơn 6 ký tự.',
+            'password.max' => 'Mật khẩu không được vượt quá 255 ký tự.',
         ]);
     }
 }

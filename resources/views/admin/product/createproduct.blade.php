@@ -33,41 +33,32 @@
 </div>
 
 <div class="form-container" id="productForm">
-    @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
     <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label for="product_name">Tên sản phẩm:</label>
-            <input type="text" id="product_name" name="product_name" required class="form-control">
+            <input type="text" id="product_name" name="product_name" required class="form-control" value="{{ old('product_name') }}" >
             @error('product_name')
                 <span class="error">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             <label for="description">Mô tả:</label>
-            <textarea id="description" name="description" class="form-control"></textarea>
+            <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
             @error('description')
                 <span class="error">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             <label for="price">Giá:</label>
-            <input type="number" id="price" name="price" required class="form-control">
+            <input type="number" id="price" name="price" required class="form-control" value="{{ old('price') }}">
             @error('price')
                 <span class="error">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" name="quantity" required class="form-control">
+            <input type="number" id="quantity" name="quantity" required class="form-control" value="{{ old('quantity') }}">
             @error('quantity')
                 <span class="error">{{ $message }}</span>
             @enderror
@@ -77,7 +68,7 @@
             <select id="category_id" name="category_id" required class="form-control">
                 <option value="">Chọn thể loại</option>
                 @foreach ($categories as $category)
-                    <option value="{{ $category->category_id }}">{{ $category->category_name }}</option>
+                    <option value="{{ $category->category_id }}" {{ old('category_id') == $category->category_id ? 'selected' : '' }}>{{ $category->category_name }}</option>
                 @endforeach
             </select>
             @error('category_id')
@@ -89,7 +80,7 @@
             <select id="color_id" name="color_id" required class="form-control">
                 <option value="">Chọn màu sắc</option>
                 @foreach ($colors as $color)
-                    <option value="{{ $color->color_id }}">{{ $color->name }}</option>
+                    <option value="{{ $color->color_id }}"{{ old('color_id') == $color->color_id ? 'selected' : '' }}>{{ $color->name }}</option>
                 @endforeach
             </select>
             @error('color_id')

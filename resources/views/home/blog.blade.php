@@ -12,8 +12,20 @@
         font-size: 50px !important; /* Thay đổi kích thước chữ tại đây */
         
     }
-</style>
+    .custom-pagination {
+    margin: 20px auto; /* Tạo khoảng cách trên và dưới */
+    text-align: center; /* Căn giữa nội dung phân trang */
+    width: 100%; /* Đảm bảo phân trang chiếm toàn bộ chiều rộng */
+    }
 
+    .custom-pagination ul {
+        justify-content: center; /* Căn giữa các nút phân trang nếu chúng là phần tử trong danh sách */
+    }
+
+</style>
+<head>
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+</head>
 <section id="page-header" class="blog-header">
     <h2>#readmore</h2>
     <p>Read all case studies about our products!</p>
@@ -34,17 +46,15 @@
                     </div>
                     <div class="blog-details">
                         <h4><a href="{{ route('home.showbl', $blog->post_id) }}">{{ $blog->title }}</a></h4>
-                        <p>{{ Str::limit($blog->content, 100) }}</p>
+                        <p>{{ Str::limit($blog->content, 50) }}</p>
                     </div>
                     <h1>{{ \Carbon\Carbon::parse($blog->created_at)->format('d/m/Y') }}</h1>
                 </div>
             @endforeach
         @endif
     </div>
+    <div class="custom-pagination text-center">
+        {{ $blogs->links() }}
+    </div>
 </section>
-
-<section id="pagination" class="section-p1">
-    {{ $blogs->links('pagination::bootstrap-4') }} <!-- Sử dụng phân trang Bootstrap -->
-</section>
-
 @endsection

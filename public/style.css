@@ -250,8 +250,8 @@ body {
 }
 
 #product1 .pro img {
-    width: 277px;
-    height: 277px;
+    width: 155px;
+    height: 155px;
     object-fit: cover;
     border-radius: 20px;   
 }

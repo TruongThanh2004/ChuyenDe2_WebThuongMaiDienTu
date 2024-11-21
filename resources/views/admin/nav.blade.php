@@ -11,9 +11,7 @@
 
 
 
-    <!-- CSS colors
-		============================================ -->
-    <!-- <link rel="stylesheet" href="css/color/form-list.css"> -->
+ 
     <!-- favicon
 		============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
@@ -66,8 +64,6 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="css/responsive.css">
-
-    <link rel="stylesheet" href="css/error/mess_error.css">
     <!-- modernizr JS
 		============================================ -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -75,22 +71,23 @@
 
     <!-- 
      -->
-
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
-
 <body>
 
-    <div>
-        @if (Session::has('successLogin'))
-            <script>
-                swal("{{Session::get('successLogin')}}", "Chào {{Auth::user()->username}}", "success");
-            </script>
-        @endif
-    </div>
 
-   
-    <div>
+
+
+   <div>
+   @if (Session::has('successLogin'))
+        <script>
+            swal("{{Session::get('successLogin')}}", "Chào {{Auth::user()->username}}", "success");
+        </script>
+    @endif
+   </div>
+
+
+   <div>
         @if (Session::has('error'))
             <script>
                 swal("", "{{Session::get('error')}}", "error");
@@ -107,6 +104,11 @@
             </script>
         @endif
     </div>
+
+
+
+
+
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
@@ -169,7 +171,7 @@
 
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i
-                                    class="icon nalika-shopping-cart icon-wrap"></i> <span
+                                    class="icon nalika-user icon-wrap"></i> <span
                                     class="mini-click-non">Product</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Product List" href="{{ route('admin.products') }}"><span
@@ -182,7 +184,7 @@
 
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i
-                                    class="icon nalika-menu-task icon-wrap"></i> <span
+                                    class="icon nalika-user icon-wrap"></i> <span
                                     class="mini-click-non">Category</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="Category List" href="{{ route('category-list') }}"><span
@@ -194,11 +196,11 @@
 
                         <li>
                             <a class="has-arrow" href="" aria-expanded="false"><i
-                                    class="icon nalika-diamond icon-wrap"></i> <span
+                                    class="icon nalika-user icon-wrap"></i> <span
                                     class="mini-click-non">Colors</span></a>
                             <ul class="submenu-angle" aria-expanded="false">
                                 <li><a title="User List" href="{{route('admin_colors.index')}}"><span
-                                            class="mini-sub-pro">User List</span></a></li>
+                                            class="mini-sub-pro">colors List</span></a></li>
 
 
                             </ul>
@@ -212,7 +214,6 @@
                                             class="mini-sub-pro">Blog List</span></a></li>
                             </ul>
                         </li>
-
 
 
 
@@ -329,7 +330,7 @@
                                                         <li><a href="{{route('profile')}}"><span
                                                                     class="icon nalika-user author-log-ic"></span> My
                                                                 Profile</a>
-                                                        </li>
+                                                        </li>                                              
                                                         <li><a href="{{route('logout')}}"><span
                                                                     class="icon nalika-unlocked author-log-ic"></span>
                                                                 Log Out</a>
@@ -1092,8 +1093,6 @@
 
         <script src="js/checkUser.js"></script>
 
-        <!-- js admin color -->
-        <script src="js/color/colors-index.js"></script>
 
 </body>
 
