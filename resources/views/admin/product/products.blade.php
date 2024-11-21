@@ -148,7 +148,6 @@
         </div>
     </div>
 @endsection
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('form[method="POST"]').forEach(form => {

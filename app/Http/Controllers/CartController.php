@@ -15,8 +15,6 @@ class CartController extends Controller
     // Thêm sản phẩm vào giỏ hàng
     public function addToCart(Request $request, $productId)
     {
-
-    
         if (!Auth::check()) {
             return redirect("login")->with('error', 'Bạn cần đăng nhập để thêm vào giỏ hàng.');
         }
