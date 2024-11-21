@@ -11,27 +11,29 @@ use Validator;
 use App\Helpers\ValidationHelper;
 class UserController extends Controller
 {
+   
+    public $users ;
+
+
+    public function __construct(){
+        $this->users = new User();
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $user = User::paginate(5);     
-        if(isset($request->keyword) && $request->keyword != ''){
-            $user = User::where('username','like','%' .$request->keyword.'%')
-                        ->orWhere('fullname','like','%' .$request->keyword.'%')
-                        ->orWhere('id','like','%' .$request->keyword.'%')
-                        ->orWhere('email','like','%' .$request->keyword.'%')
-                        ->orWhere('address','like','%' .$request->keyword.'%')
-            ->paginate(5);
-        }
+       
+        $user = $this->users->showList($request->keyword,5);
 
         if ($user->isEmpty()) {
             return redirect()->route('user-list')->with([
                 'user' => $user, 
                 'error' => 'Không tìm thấy user bạn cần tìm'
             ]);
-        }                        
+        }    
         return view('admin.users')->with('user',$user);
     }
 
@@ -50,26 +52,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = ValidationHelper::userValidation($request);
-
         if ($validator->fails()) {
             return redirect()->route('user-list.create')
                 ->withErrors($validator)
                 ->withInput();
         }
-        if($request->has('fileUpload')){
-            $file = $request->fileUpload;
-           
-            $file_name =$file->getClientoriginalName();
-            
-            $file->move(public_path('images/user/'),$file_name);
-        }
-  
-        $password = Hash::make($request->password);
-        $request->merge(['image'=>$file_name,'password'=>$password]);
-        $user = User::create($request->all());
-        
+        $data = $request->all();
+        $this->users::addUser($data);   
         return redirect()->route('user-list')->with('successUser','Thêm user thành côngg');
         
     }
@@ -88,7 +78,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
+        
+        $user = $this->users->findOrFail($id);
         return view('admin.user.edit_user')->with('user',$user);
     }
 
@@ -103,20 +94,9 @@ class UserController extends Controller
             return redirect()->route('user-list.edit',$id)
                 ->withErrors($validator)
                 ->withInput();
-        }
-
-        $updateUser = User::findOrFail($id);
-        $olaImage = $updateUser->image;
-        if($request->has('fileUpload')){
-            $file = $request->fileUpload;
-            $file_name = $file->getClientoriginalName();
-            $file->move(public_path('images/user/'),$file_name);
-        }else{
-            $file_name = $olaImage;
-        }
-        $password = Hash::make($request->password);
-        $request->merge(['image'=>$file_name,'password'=>$password]);
-        $updateUser->update($request->all());
+        }     
+        $data = $request->all();
+        $this->users::updateUser($data,$id);
         return redirect()->route('user-list')->with('successUser','Update user thành công');
     }
 
@@ -126,8 +106,8 @@ class UserController extends Controller
     public function destroy(string $id)
     {
       
-        $deleteUser = User::findOrFail($id);
-       $deleteUser->delete();
+        $deleteUser = $this->users->findOrFail($id);
+        $deleteUser->delete();
        return redirect()->route('user-list')->with('successUser','Xóa user thành công');
     }
     public function updateEmail(Request $request)
