@@ -6,6 +6,8 @@
   <!-- CSS colors
 		============================================ -->
   <link rel="stylesheet" href="{{ asset('css/color/form-list.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <div class="form-update">
 <div class="color-panner">Sửa Bảng Màu</div>
