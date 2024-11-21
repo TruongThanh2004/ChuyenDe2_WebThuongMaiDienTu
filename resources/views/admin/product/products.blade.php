@@ -43,12 +43,16 @@
                         </script>
                     @endif -->
                     <!-- Thông báo cập nhật thành công -->
+                    @if (Session::has('success'))
+                        <script>
+                            swal("{{Session::get('success')}}", "", "success");
+                        </script>
+                    @endif
                     @if (session('success'))
                         <div class="alert alert-success" role="alert" id="success-message">
                             {{ session('success') }}
                         </div>
                         <script>
-                            // Tự động ẩn thông báo sau 5 giây
                             setTimeout(function () {
                                 document.getElementById('success-message').style.display = 'none';
                             }, 3000);

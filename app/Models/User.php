@@ -89,7 +89,7 @@ class User extends Authenticatable
     }
 
     public static function updateUser($data,$id){
-       
+        
         $updateUser = User::findOrFail($id);
         $olaImage = $updateUser->image;
         if (isset($data['fileUpload']) && $data['fileUpload'] !== null) {

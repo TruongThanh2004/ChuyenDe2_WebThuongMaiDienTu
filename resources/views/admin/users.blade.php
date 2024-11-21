@@ -86,7 +86,7 @@
                                 <td>{{ $data_user->phone}}</td>
                                 <td>{{$data_user->role == 1 ? 'User':'Admin'}}</td>
                                 <td>
-                                    <form action="{{route('user-list.edit', $data_user->id)}}">
+                                    <form action="{{route('user-list.edit',  Hashids::encode($data_user->id))}}">
 
                                         <button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i
                                                 class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
