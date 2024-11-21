@@ -181,13 +181,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-<<<<<<< HEAD
 
-        Vinkla\Hashids\HashidsServiceProvider::class, // thu vien mahoa
 
-=======
+
+
         Vinkla\Hashids\HashidsServiceProvider::class,
->>>>>>> main
+
         /*
          * Package Service Providers...
          */
