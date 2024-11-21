@@ -37,15 +37,15 @@ use App\Http\Controllers\BlogController;
     
     Route::get('/blog', function () {
         return view('home.blog');
-    });
+    })->name('blog');
     
     Route::get('/about', function () {
         return view('home.about');
-    });
+    })->name('about');
     
     Route::get('/contact', function () {
         return view('home.contact');
-    });
+    })->name('contact');
     
     Route::get('/cart', function () {
         return view('cart');
@@ -66,25 +66,8 @@ use App\Http\Controllers\BlogController;
 
 
 
-Route::get('/shop', function () {
-    return view('home.shop');
-});
 
-Route::get('/blog', function () {
-    return view('home.blog');
-});
 
-Route::get('/about', function () {
-    return view('home.about');
-});
-
-Route::get('/contact', function () {
-    return view('home.contact');
-});
-
-Route::get('/cart', function () {
-    return view('cart');
-});
 // Route::get('/cart', function () {
 //     return view('home.blog');
 // });

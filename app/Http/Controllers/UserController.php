@@ -9,6 +9,7 @@ use App\Models\User;
 use PHPUnit\Framework\Constraint\IsEmpty;
 use Validator;
 use App\Helpers\ValidationHelper;
+use Vinkla\Hashids\Facades\Hashids;
 class UserController extends Controller
 {
    
@@ -79,8 +80,11 @@ class UserController extends Controller
     public function edit(string $id)
     {
         
-        $user = $this->users->findOrFail($id);
-        return view('admin.user.edit_user')->with('user',$user);
+        $id = Hashids::decode($id);
+        $user = $this->users->findOrFail($id)->first();
+        
+     
+         return view('admin.user.edit_user')->with('user',$user);
     }
 
     /**
@@ -88,6 +92,9 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
+    
+        
         $validator = ValidationHelper::userUpdateValidation($request,$request);
 
         if ($validator->fails()) {
