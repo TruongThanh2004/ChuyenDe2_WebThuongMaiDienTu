@@ -229,9 +229,7 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('/admin/colors/sort-toggle', [ColorController::class, 'sortToggle'])->name('admin_colors.sortToggle');// sắp xếp A->Z theo name
     Route::put('update/{hashed_id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
 });
-<<<<<<< HEAD
 
-=======
 Route::get('/cart', function () {
     return view('cart');
 });
@@ -249,7 +247,7 @@ Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.C
 // Route::get('/cart', [CartController::class, 'showCart']);
 Route::post('/cart/check-items', [CartController::class, 'checkItemsExist'])->name('cart.checkItems');// kiểm tra sp trong cart có tồn tại không
 Route::get('/cart/search', [CartController::class, 'searchCart'])->name('cart.search'); // tìm kiếm fulltexxt
->>>>>>> main
+
 
 
 
