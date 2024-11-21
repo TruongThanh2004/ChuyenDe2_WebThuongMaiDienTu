@@ -180,4 +180,5 @@ class ProductController extends Controller
         return view('home.shop', compact('categories', 'products', 'selectedCategories', 'sort','searchTerm'));
     }
 
+    
 }
