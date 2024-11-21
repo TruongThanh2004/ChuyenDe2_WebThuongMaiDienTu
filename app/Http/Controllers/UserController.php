@@ -78,6 +78,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
+        
         $user = $this->users->findOrFail($id);
         return view('admin.user.edit_user')->with('user',$user);
     }
