@@ -35,9 +35,9 @@
             <ul id="navbar">
                 <li><a class="active" href="/">Home</a></li>
                 <li><a href="{{ route('shop') }}">Shop</a></li>
-                <li><a href="blog">Blog</a></li>
-                <li><a href="about">About</a></li>
-                <li><a href="contact">Contact</a></li>
+                <li><a href="{{ route('home.blog') }}">Blog</a></li>
+                <li><a href="{{ route('about') }}">About</a></li>
+                <li><a href="{{ route('contact') }}">Contact</a></li>
                 <!-- <li id="lg-bag"><a href="cart"><i class="far fa-shopping-bag"></i></a></li> -->
                 <li id="lg-bag"><a href="{{ route('cart.index') }}"><i class="far fa-shopping-bag"></i></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
