@@ -2,7 +2,6 @@
 @section('content')
 <head>
 <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ asset('style.css') }}">
 </head>
 <section id="hero">
     <h4>Trade-in-offer</h4>
