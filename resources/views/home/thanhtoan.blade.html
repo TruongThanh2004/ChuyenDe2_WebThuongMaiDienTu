@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Thanh Toán</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    * {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #ff5722;
+    text-align: left;
+}
+
+.shipping-address, .product, .voucher, .shopee-xu, .payment-method {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+}
+
+.shipping-address h2, .product h2, .voucher h2, .shopee-xu h2, .payment-method h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.shipping-address p, .product-item p, .payment-info p, .order-summary p {
+    margin: 5px 0;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.product-info {
+    flex-grow: 1;
+}
+
+.price, .quantity, .total-price {
+    width: 80px;
+    text-align: center;
+}
+
+.shipping-method, .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.place-order {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #ff5722;
+    border: none;
+    cursor: pointer;
+}
+
+.place-order:hover {
+    background-color: #e64a19;
+}
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal */
+.modal {
+  background: white;
+  padding: 20px;
+  width: 450px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.modal h3 {
+  margin-top: 0;
+  color: #333;
+  font-weight: bold;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Input fields */
+.modal input[type="text"],
+.modal input[type="tel"],
+.modal input[type="text"]:disabled {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Disabled select field style */
+.modal select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+}
+
+/* Map container */
+.map-container {
+  width: 100%;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Address Type Buttons */
+.address-type-options {
+  display: flex;
+  gap: 10px;
+}
+
+.address-type {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.address-type.active {
+  border: 1px solid #ee4d2d;
+  color: #ee4d2d;
+  background-color: #fff5f5;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cancel-button, .complete-button {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.cancel-button {
+  background-color: #ddd;
+  color: #333;
+}
+
+.complete-button {
+  background-color: #ee4d2d;
+  color: white;
+}
+
+/* Checkbox and Label */
+.default-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.default-checkbox input[type="checkbox"] {
+  accent-color: #ee4d2d;
+}
+
+</style>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <h1> Thanh Toán</h1>
+    </header>
+
+    <!-- Địa Chỉ Nhận Hàng -->
+    <section class="shipping-address">
+        <h2>Địa Chỉ Nhận Hàng</h2>
+        <p>nxxxxx (+84) 938913069</p>
+        <p>Số Nhà 39, Đường 10, Phường Linh Trung, Thành Phố Thủ Đức, TP. Hồ Chí Minh</p>
+        <button onclick="openModal()" class="change-button">Thay Đổi</button>
+    </section>
+
+
+
+    <!-- Modal cập nhật địa chỉ -->
+    <div class="modal-overlay" id="addressModal">
+        <div class="modal">
+          <h3>Cập nhật địa chỉ</h3>
+          <form>
+            <label for="name">Họ và tên</label>
+            <input type="text" id="name" value="nguyễn siêu">
+            
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" id="phone" value="+84 938 913 069">
+      
+            <label for="city">Tỉnh/Thành phố, Quận/Huyện, Phường/Xã</label>
+            <select id="city" disabled>
+              <option>TP. Hồ Chí Minh, Thành Phố Thủ Đức, Phường Linh Trung</option>
+            </select>
+      
+            <label for="specificAddress">Địa chỉ cụ thể</label>
+            <input type="text" id="specificAddress" value="Số Nhà 39, Đường 10">
+      
+            <!-- Map Container -->
+            <div class="map-container">
+              <!-- Placeholder for Map -->
+              <iframe src="https://maps.google.com/maps?q=10.8491,106.7710&hl=vi&z=14&output=embed" width="100%" height="100%"></iframe>
+            </div>
+      
+            <label>Loại địa chỉ:</label>
+            <div class="address-type-options">
+              <button type="button" class="address-type active">Nhà Riêng</button>
+              <button type="button" class="address-type">Văn Phòng</button>
+            </div>
+      
+            <div class="default-checkbox">
+              <input type="checkbox" id="defaultAddress">
+              <label for="defaultAddress">Đặt làm địa chỉ mặc định</label>
+            </div>
+      
+            <div class="modal-buttons">
+              <button type="button" class="cancel-button" onclick="closeModal()">Trở Lại</button>
+              <button type="submit" class="complete-button">Hoàn thành</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    <!-- Sản Phẩm -->
+    <section class="product">
+        <h2>Sản Phẩm</h2>
+        <div class="product-item">
+            <img src="product-image.jpg" alt="Chậu hoa đỗ quyên">
+            <div class="product-info">
+                <p>Chậu hoa đỗ quyên, rủ trang trí, hoa giả trang trí</p>
+                <p>Loại: Cam</p>
+            </div>
+            <div class="price">35.500₫</div>
+            <div class="quantity">1</div>
+            <div class="total-price">35.500₫</div>
+        </div>
+       
+        <div class="total">
+            <p>Tổng số tiền (1 sản phẩm): <span>40.500₫</span></p>
+        </div>
+    </section>
+
+    <!-- Voucher và Xu -->
+    <section class="voucher">
+        <h2>Shopee Voucher</h2>
+        <button>Chọn Voucher</button>
+    </section>
+    
+    <!-- Phương Thức Thanh Toán -->
+    <section class="payment-method">
+        <h2>Phương thức thanh toán</h2>
+        <div class="payment-info">
+            <p>Thanh toán khi nhận hàng</p>
+            <button>THAY ĐỔI</button>
+        </div>
+        <div class="order-summary">
+            <p>Tổng tiền hàng: <span>35.500₫</span></p>
+            <p>Tổng tiền phí vận chuyển: <span>5.000₫</span></p>
+            <p><strong>Tổng thanh toán: <span>40.500₫</span></strong></p>
+        </div>
+    </section>
+
+    <!-- Đặt Hàng Button -->
+    <button class="place-order">Đặt hàng</button>
+</div>
+
+</body>
+<script>
+    function openModal() {
+  document.getElementById("addressModal").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("addressModal").style.display = "none";
+}
+
+</script>
+</html>
