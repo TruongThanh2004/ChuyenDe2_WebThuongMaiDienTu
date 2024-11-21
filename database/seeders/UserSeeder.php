@@ -66,10 +66,10 @@ class UserSeeder extends Seeder
                 'username' => 'user3',
                 'fullname' => 'Do Truong Thanh',
                 'password' => Hash::make('admin123'),
-                'email' => 'thanhdo3@gmail.com',
+                'email' => 'admin@gmail.com',
                 'address' => 'abc',
                 'phone' => '1234567890',
-                'role' => 1,
+                'role' => 2,
             ]
         ]);
     }

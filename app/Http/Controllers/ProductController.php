@@ -107,7 +107,7 @@ class ProductController extends Controller
         // Validate các trường, bao gồm file ảnh
         $request->validate([
             'product_name' => 'required|string|regex:/^[a-zA-Z0-9\s]+$/|min:3|max:100',
-            'description' => 'nullable|string|min:10|max:500',
+            'description' => 'required|nullable|string|min:10|max:500',
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|integer|exists:categories,category_id',
@@ -243,6 +243,42 @@ class ProductController extends Controller
 
 
 
+
+    public function searchShop(Request $request)
+    {
+        // Lấy từ khóa tìm kiếm từ request
+        $searchTerm = $request->input('search');
+        $categories = Category::all(); // Lấy tất cả thể loại sản phẩm
+    
+        // Kiểm tra nếu không có từ khóa tìm kiếm
+        if (empty($searchTerm)) {
+            return redirect()->route('shop')->with('error', 'Vui lòng nhập từ khóa để tìm kiếm.');
+        }
+    
+        // Nếu có từ khóa tìm kiếm, thực hiện tìm kiếm sản phẩm
+        $products = Product::where('product_name', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhere('price', 'LIKE', '%' . $searchTerm . '%')
+            ->orWhereHas('category', function($query) use ($searchTerm) {
+                $query->where('category_name', 'LIKE', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('color', function($query) use ($searchTerm) {
+                $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+            })
+            ->paginate(10);
+    
+        // Nếu không có sản phẩm, trả về view với thông báo
+        if ($products->isEmpty()) {
+            return view('home.shop', compact('products', 'categories', 'searchTerm'))
+                ->with('message', 'Không tìm thấy sản phẩm nào.');
+        }
+    
+        return view('home.shop', compact('products', 'categories', 'searchTerm'));
+    }
+    
+    
+
+
     public function index()
     {
         // Kiểm tra xem bảng products có tồn tại không
@@ -297,10 +333,16 @@ public function ShowProductShop()
         // Trả về view với thông báo nếu bảng không tồn tại
         return view('home.shop')->with('message', 'Một trong các bảng không tồn tại.');
     }
+    
 
     $products = Product::paginate(10); // Lấy sản phẩm với phân trang 10 sản phẩm mỗi trang
     $categories = Category::all(); // Lấy tất cả danh mục
     $colors = Color::all(); // Lấy tất cả màu sắc
+    if ($products->isEmpty()) {
+        return view('home.shop', compact('products', 'categories'))
+            ->with('message', 'Không có sản phẩm nào.');
+    }
+
 
     return view('home.shop', compact('products', 'categories', 'colors'));
 }
@@ -314,6 +356,7 @@ public function ShowProductShop()
 
     public function SortPrice(Request $request)
     {
+        $categories = Category::all(); // Lấy tất cả category từ database
         $sort = $request->input('sort', 'asc'); // Mặc định là tăng dần
     
         $query = Product::query();
@@ -326,6 +369,55 @@ public function ShowProductShop()
     
         $products = $query->paginate(10)->appends(['sort' => $sort]);
     
-        return view('home.shop', compact('products', 'sort'));
+        return view('home.shop', compact('categories','products', 'sort'));
     }
+
+    // Hàm tìm sản phẩm theo danh mục
+    public function searchByCategory($categoryId)
+    {
+        // Tìm sản phẩm thuộc danh mục chỉ định
+        $products = Product::where('category_id', $categoryId)->get();
+        
+        // Kiểm tra nếu không có sản phẩm nào thuộc danh mục này
+        if ($products->isEmpty()) {
+            return redirect()->route('home.shop')->with('error', 'Không có sản phẩm nào thuộc danh mục này.');
+        }
+
+        // Trả về view với danh sách sản phẩm đã tìm được
+        return view('home.shop', compact('products'));
+    }
+    public function filter(Request $request)
+    {
+        $selectedCategories = $request->input('categories', []);
+        
+        // Lọc sản phẩm theo danh mục đã chọn
+        $products = Product::whereIn('category_id', $selectedCategories)
+            ->paginate(10)
+            ->appends(['categories' => $selectedCategories]); // Truyền tham số đã chọn qua URL
+
+        return view('home.shop', compact('products', 'selectedCategories'));
+    }
+public function filterByCategories(Request $request)
+{
+    $categories = Category::all();
+    $selectedCategories = $request->input('categories', []);
+    $sort = $request->input('sort', 'asc'); // Lấy thông tin sắp xếp từ request, mặc định là tăng dần
+
+    // Lọc sản phẩm theo danh mục và sắp xếp giá
+    $products = Product::when($selectedCategories, function ($query) use ($selectedCategories) {
+        return $query->whereIn('category_id', $selectedCategories);
+    });
+
+    // Sắp xếp theo giá
+    if ($sort === 'asc') {
+        $products = $products->orderBy('price', 'asc');
+    } elseif ($sort === 'desc') {
+        $products = $products->orderBy('price', 'desc');
+    }
+
+    $products = $products->paginate(10)->withQueryString(); // Truyền các tham số qua URL để giữ lại khi phân trang
+
+    return view('home.shop', compact('categories', 'products', 'selectedCategories', 'sort'));
+}
+
 }
