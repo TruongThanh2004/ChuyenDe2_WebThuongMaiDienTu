@@ -282,9 +282,14 @@ public static function getFilteredAndSortedProducts($searchTerm,$selectedCategor
         return $query->whereIn('category_id', $selectedCategories);
     });
     // Lọc theo từ khóa tìm kiếm trong tên sản phẩm và mô tả
+    
+    // Tìm kiếm toàn văn bản (Full Text Search)
     if ($searchTerm) {
-        $query = $query->where('product_name', 'like', "%$searchTerm%")
-                       ->orWhere('description', 'like', "%$searchTerm%");
+        $query->where(function ($query) use ($searchTerm) {
+            $query->whereRaw('MATCH(product_name, description) AGAINST (? IN BOOLEAN MODE)', [$searchTerm])
+                  ->orWhere('product_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+        });
     }
     if ($sort === 'asc') {
         $query->orderBy('price', 'asc');
