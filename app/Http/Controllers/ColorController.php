@@ -116,7 +116,8 @@ class ColorController extends Controller
         if (strlen($keyword) > 255) {
             return redirect()->back()->withErrors(['message' => 'Từ khóa không được vượt quá 255 ký tự.']);
         }
-
+        $colordm = Color::searchColors($keyword, 5);
+        return view('admin.colors.index', compact('colordm', 'keyword'));
     }
     // Sắp xếp bảng màu
     public function sortToggle(Request $request)
