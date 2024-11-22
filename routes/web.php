@@ -250,7 +250,7 @@ Route::prefix('admin/blogs')->group(function () {
     Route::post('/', [BlogController::class, 'store'])->name('blogs.store'); // Xử lý thêm blog
     Route::get('/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit'); // Hiển thị form sửa blog
     Route::put('/{id}', [BlogController::class, 'update'])->name('blogs.update'); // Xử lý sửa blog
-    Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
+    Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy');  // Sử dụng 'destroy' thay vì 'deleteBlog'
     Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Hiển thị chi tiết blog
 });
 Route::get('/blog', [BlogController::class, 'showBlogsForHome'])->name('home.blog');
