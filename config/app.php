@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'vi',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,6 +182,11 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
+
+
+        Vinkla\Hashids\HashidsServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -210,6 +215,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
     ])->toArray(),
 
 ];

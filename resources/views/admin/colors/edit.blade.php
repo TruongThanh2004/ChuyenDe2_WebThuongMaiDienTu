@@ -6,11 +6,13 @@
   <!-- CSS colors
 		============================================ -->
   <link rel="stylesheet" href="{{ asset('css/color/form-list.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <div class="form-update">
 <div class="color-panner">Sửa Bảng Màu</div>
   <div class="body-form">
-    <form action="{{ route('admin_colors.update', $color->color_id) }}" method="POST" enctype="multipart/form-data" novalidate>
+    <form action="{{ route('admin_colors.update', $color->hashed_id) }}" method="POST" enctype="multipart/form-data" novalidate>
       @csrf
       @method('PUT')
 
@@ -19,10 +21,10 @@
         <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $color->name) }}" required>
         <br>
         @if ($errors->has('name'))
-      <div class="text-danger">
-        {{ $errors->first('name') }}
-      </div>
-    @endif
+                <div class="text-danger">
+                    {!! $errors->first('name') !!}
+                </div>
+            @endif
       </div>
 
       <div class="form-group">

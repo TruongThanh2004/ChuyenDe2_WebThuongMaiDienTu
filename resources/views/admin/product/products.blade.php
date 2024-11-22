@@ -43,12 +43,16 @@
                         </script>
                     @endif -->
                     <!-- Thông báo cập nhật thành công -->
+                    @if (Session::has('success'))
+                        <script>
+                            swal("{{Session::get('success')}}", "", "success");
+                        </script>
+                    @endif
                     @if (session('success'))
                         <div class="alert alert-success" role="alert" id="success-message">
                             {{ session('success') }}
                         </div>
                         <script>
-                            // Tự động ẩn thông báo sau 5 giây
                             setTimeout(function () {
                                 document.getElementById('success-message').style.display = 'none';
                             }, 3000);
@@ -110,19 +114,19 @@
                                         <img src="{{ asset('images/products/' . $product->image1) }}" alt="{{ $product->product_name }}" />
                                     </td>
                                     <td>{{ $product->product_name }}</td>
-                                    <td>{{ $product->description }}</td>
+                                    <td>{{ Str::limit($product->description, 50) }}</td>
                                     <td>{{ number_format($product->price, 3, ',', '.') }}VND</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>{{ $product->category->category_name ?? 'Không có thể loại' }}</td>
                                     <td>{{ $product->color->name ?? 'Không có màu sắc' }}</td>
                                     <td>
-                                        <a href="{{ route('products.show', $product->product_id) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
+                                        <a href="{{ route('products.show', ['id' => Hashids::encode($product->product_id)]) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
-                                        <a href="{{ route('products.edit', $product->product_id) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
+                                        <a href="{{ route('products.edit', ['id' => Hashids::encode($product->product_id)]) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
-                                        <form action="{{ route('products.destroy', $product->product_id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('products.destroy', ['id' => Hashids::encode($product->product_id)]) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" data-toggle="tooltip" title="Xóa" class="pd-setting-ed">

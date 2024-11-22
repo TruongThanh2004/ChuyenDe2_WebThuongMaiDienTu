@@ -37,15 +37,15 @@ use App\Http\Controllers\BlogController;
     
     Route::get('/blog', function () {
         return view('home.blog');
-    });
+    })->name('blog');
     
     Route::get('/about', function () {
         return view('home.about');
-    });
+    })->name('about');
     
     Route::get('/contact', function () {
         return view('home.contact');
-    });
+    })->name('contact');
     
     Route::get('/cart', function () {
         return view('cart');
@@ -66,25 +66,8 @@ use App\Http\Controllers\BlogController;
 
 
 
-Route::get('/shop', function () {
-    return view('home.shop');
-});
 
-Route::get('/blog', function () {
-    return view('home.blog');
-});
 
-Route::get('/about', function () {
-    return view('home.about');
-});
-
-Route::get('/contact', function () {
-    return view('home.contact');
-});
-
-Route::get('/cart', function () {
-    return view('cart');
-});
 // Route::get('/cart', function () {
 //     return view('home.blog');
 // });
@@ -182,6 +165,10 @@ Route::middleware(['auth','checkrole'])->group(function () {
 
 Route::get('/shop', [ProductController::class, 'ShowProductShop'])->name('shop');
 Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->name('product.details');
+Route::get('/shop/search', [ProductController::class, 'searchShop'])->name('home.search');
+Route::get('/shop/filter', [ProductController::class, 'filterByCategories'])->name('shop.filter');
+
+
 
 
 //Register - Login
@@ -218,13 +205,14 @@ Route::prefix('admin/colors')->group(function () {
     Route::get('/', [ColorController::class, 'index'])->name('admin_colors.index');  // Danh sách màu
     Route::get('create', [ColorController::class, 'create'])->name('admin_colors.create');  // Form tạo mới
     Route::post('store', [ColorController::class, 'AddNewcolors'])->name('admin_colors.store');  // Thêm mới
-    Route::get('edit/{id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
-    Route::put('update/{id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
+    Route::get('edit/{hashed_id}', [ColorController::class, 'edit'])->name('admin_colors.edit');  // Form chỉnh sửa
     Route::delete('destroy/{id}', [ColorController::class, 'destroy'])->name('admin_colors.destroy');  // Xóa
     Route::delete('/admin/colors/delete-selected', [ColorController::class, 'deleteSelected'])->name('admin_colors.deleteSelected');// xóa tất cả 
     Route::get('timkiemcolors', [ColorController::class, 'timkiemcolors'])->name('admin_colors.timkiemcolors'); // tim kiếm theo fullText
     Route::get('/admin/colors/sort-toggle', [ColorController::class, 'sortToggle'])->name('admin_colors.sortToggle');// sắp xếp A->Z theo name
+    Route::put('update/{hashed_id}', [ColorController::class, 'update'])->name('admin_colors.update');  // Cập nhật
 });
+
 Route::get('/cart', function () {
     return view('cart');
 });
@@ -240,9 +228,12 @@ Route::post('/home/cart', [CartController::class, 'updateCart'])->name('cart.upd
 Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.Checkout');
 // Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
 // Route::get('/cart', [CartController::class, 'showCart']);
+Route::post('/cart/check-items', [CartController::class, 'checkItemsExist'])->name('cart.checkItems');// kiểm tra sp trong cart có tồn tại không
+Route::get('/cart/search', [CartController::class, 'searchCart'])->name('cart.search'); // tìm kiếm fulltexxt
 
 
-//blogs
+
+
 //blogs
 Route::prefix('admin/blogs')->group(function () {
     Route::get('/', [BlogController::class, 'index'])->name('blogs.index'); // Hiển thị danh sách blog
