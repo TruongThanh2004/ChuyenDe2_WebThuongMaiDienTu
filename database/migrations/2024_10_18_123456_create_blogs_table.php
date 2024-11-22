@@ -19,6 +19,8 @@ class CreateBlogsTable extends Migration
             // Khóa ngoại tới bảng users
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+        DB::statement('ALTER TABLE blogs ADD FULLTEXT(title, content)');
+
     }
 
     public function down(): void
