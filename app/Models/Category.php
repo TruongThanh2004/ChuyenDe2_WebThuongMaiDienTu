@@ -88,3 +88,4 @@ class Category extends Model
         return self::whereIn('category_id', $selectedCategoryIds)->paginate(10);
     }
 }
+
