@@ -44,45 +44,64 @@ class CartController extends Controller
                 'price' => $product->price,
             ]);
         }
-
-        return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
+        return back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
+       
     }
 
     // hiển thị giỏ hàng
     public function index()
     {
 
+       
         if (!Auth::check()) {
             return redirect("login")->with('error', 'Bạn cần đăng nhập.');
         }
-
+    
         $userId = Auth::id();
-
+    
+        // Lấy đơn hàng 'pending' của người dùng
         $order = Order::where('user_id', $userId)
             ->where('status', 'pending')
             ->with('orderItems.product')
             ->first();
-
+    
+        $hasInvalidItems = false; // Cờ kiểm tra sản phẩm không tồn tại
+    
         if ($order) {
             $cartItems = $order->orderItems;
-
-            // Tính tổng tiền
+    
+            // Kiểm tra từng sản phẩm trong giỏ hàng
+            foreach ($cartItems as $item) {
+               
+                if (!$item->product) {
+                    $item->delete(); 
+                    $hasInvalidItems = true; 
+                }
+            }
+    
+            $cartItems = $order->orderItems;
+    
+           
             $totalAmount = $cartItems->sum(function ($item) {
-                return $item->product->price;
+                return $item->product ? $item->product->price * $item->quantity : 0;
             });
-
-            // Định dạng tổng tiền để hiển thị
-            $totalAmountFormatted = number_format($totalAmount, 0, ',', '.'); // Định dạng không có số thập phân
+    
+        
+            $totalAmountFormatted = number_format($totalAmount, 0, ',', '.');
         } else {
             $cartItems = collect();
-            $totalAmount = 0; // Giỏ hàng trống, tổng tiền là 0
-            $totalAmountFormatted = number_format($totalAmount, 0, ',', '.'); // Định dạng cho giỏ hàng trống
+            $totalAmount = 0; 
+            $totalAmountFormatted = number_format($totalAmount, 0, ',', '.');
         }
-
+    
+        
+        if ($hasInvalidItems) {
+            return redirect()->route('cart.index')
+                ->with('error');
+        }
+    
         return view('home.cart', ['cartItems' => $cartItems, 'totalAmount' => $totalAmountFormatted]);
     }
-
-
 
     // hàm cập nhật số lượng 
     public function update(Request $request)
@@ -179,7 +198,7 @@ class CartController extends Controller
 
         if ($remainingItemsCount === 0) {
             $order->delete();
-            return redirect()->route('cart.index')->with('success', 'Tất cả sản phẩm được chọn đã được xóa khỏi giỏ hàng và giỏ hàng đã được xóa vì không còn sản phẩm nào.');
+            return redirect()->route('cart.index')->with('success', 'Tất cả sản phẩm được chọn đã được xóa khỏi giỏ hàng');
         }
 
         return redirect()->route('cart.index')->with('success', 'Các sản phẩm được chọn đã được xóa khỏi giỏ hàng.');

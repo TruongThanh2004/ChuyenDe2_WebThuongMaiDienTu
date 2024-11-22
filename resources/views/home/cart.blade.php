@@ -11,30 +11,16 @@
 
 
 <section id="page-header" class="about-header">
-    <h2>#cart</h2>
-    <p>Add your coupon code & SAVE up to 70%!</p>
+    <h2>Giỏ Hàng Của Bạn</h2>
+    <p>Mua Sắm Thôi Nào</p>
 </section>
-<!-- form tìm kiếm -->
-<br>
-<br>
-<div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
-    <div class="header-top-menu tabl-d-n hd-search-rp">
-        <div class="breadcome-heading">
-            <form role="search" class="" action="{{ route('cart.search') }}" method="GET" novalidate>
-                <input type="text" placeholder="Search..." class="form-control" id="search" name="keyword">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!-- Hiển thị thông báo kết quả tìm kiếm -->
-@if(session('message'))
-    <div class="alert alert-info">
-        {{ session('message') }}
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
     </div>
 @endif
-
 
 <section id="cart" class="section-p1">
     <table width="100%">
@@ -87,17 +73,16 @@
         @method('DELETE')
         <td><input type="checkbox" id="remove-all" onclick="toggleAll(this)"></td>
         <input type="hidden" name="selected_items" id="selected-items">
-        <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">Xóa các sản phẩm đã
-            chọn</button>
+        <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">delete check</button>
     </form>
 </section>
 
 <section id="cart-add" class="section-p1">
     <div class="coupon">
-        <h3>Apply Coupon</h3>
+        <!-- <h3>Apply Coupon</h3> -->
         <div>
-            <input type="text" placeholder="Enter Your Coupon">
-            <button class="normal">Apply</button>
+            <!-- <input type="text" placeholder="Enter Your Coupon">
+            <button class="normal">Apply</button> -->
         </div>
     </div>
     <div class="subtotal">
@@ -119,7 +104,7 @@
         </table>
         <form action="{{ route('cart.Checkout') }}" method="POST">
             @csrf
-            <button type="submit" class="normal">Thanh Toán</button>
+            <button type="submit" class="normal">Mua Hàng</button>
         </form>
     </div>
 </section>
