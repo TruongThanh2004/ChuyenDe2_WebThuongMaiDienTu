@@ -90,8 +90,7 @@
         <form action="{{ route('singleProduct.comments.store', $product->product_id) }}" method="POST">
             @csrf
             <div>
-                <label for="name">Tên:</label>
-                <input type="text" name="name" value="{{ Auth::user()->username }}" id="name" readonly style="background-color: #ddd;">
+                <input type="hidden" name="name" value="{{ Auth::user()->username }}" id="name" readonly style="background-color: #ddd;">
             </div>
             <div>
                 <label for="comment">Nội dung:</label>
