@@ -128,6 +128,7 @@ class ProductController extends Controller
 // ProductController.php (Controller)
     public function showProduct($id)
     {
+        
         $data = Product::getProductWithCategoryAndColor($id);
 
         return view('home.singleProduct', $data);

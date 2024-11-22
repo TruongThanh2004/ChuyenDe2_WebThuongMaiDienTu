@@ -36,6 +36,10 @@ class Product extends Model
     {
         return $this->belongsTo(Color::class, 'color_id', 'color_id');
     }
+        public function comments()
+    {
+        return $this->hasMany(Comment::class, 'product_id', 'product_id');
+    }
        /**
      * Tạo sản phẩm mới và lưu ảnh.
      */
@@ -237,10 +241,10 @@ class Product extends Model
 
 public static function getProductWithCategoryAndColor($id)
 {
-    $product = self::findOrFail($id);
+    $product = Product::with('comments')->findOrFail($id);
+    // $product = self::findOrFail($id);
     $categories = Category::all();
     $colors = Color::all();
-    
     return compact('product', 'categories', 'colors');
 }
 

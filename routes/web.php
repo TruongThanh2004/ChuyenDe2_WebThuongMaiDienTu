@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -167,7 +168,7 @@ Route::get('/shop', [ProductController::class, 'ShowProductShop'])->name('shop')
 Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->name('product.details');
 Route::get('/shop/search', [ProductController::class, 'searchShop'])->name('home.search');
 Route::get('/shop/filter', [ProductController::class, 'filterByCategories'])->name('shop.filter');
-
+Route::post('/singleProduct/{id}/comments', [CommentController::class, 'store'])->name('singleProduct.comments.store');
 
 
 

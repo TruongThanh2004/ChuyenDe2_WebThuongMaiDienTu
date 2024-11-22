@@ -76,6 +76,130 @@
         <span>{{ $product->description}}</span>
     </div>
 </section>
+<style>
+    /* Định dạng cho phần bình luận */
+.comment-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-section h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.comment-section form {
+    margin-bottom: 30px;
+}
+
+.comment-section form div {
+    margin-bottom: 15px;
+}
+
+.comment-section form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.comment-section form input,
+.comment-section form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.comment-section form textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+.comment-section form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.comment-section form button:hover {
+    background-color: #45a049;
+}
+
+/* Định dạng cho các bình luận đã gửi */
+.comment-list {
+    margin-top: 20px;
+}
+
+.comment-item {
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment-item strong {
+    font-size: 16px;
+    color: #333;
+}
+
+.comment-item p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.comment-item small {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #888;
+}
+    
+</style>
+
+<div class="comment-section">
+    <h3>Bình luận</h3>
+    <form action="{{ route('singleProduct.comments.store', $product->product_id) }}" method="POST">
+        @csrf
+        <div>
+            <label for="name">Tên:</label>
+            <input type="text" name="name" value="{{ Auth::user()->username }}" id="name" readonly>
+        </div>
+        <div>
+            <label for="comment">Nội dung:</label>
+            <textarea name="comment" id="comment" rows="4" required></textarea>
+        </div>
+        <button type="submit">Gửi</button>
+    </form>
+
+    <h4>Các bình luận:</h4>
+    <div class="comment-list">
+        @if ($product->comments->count())
+            @foreach ($product->comments as $comment)
+                <div class="comment-item">
+                    <strong>{{ $comment->name }}</strong>:
+                    <p>{{ $comment->comment }}</p>
+                    <small>{{ $comment->created_at->format('d/m/Y H:i') }}</small>
+                </div>
+            @endforeach
+        @else
+            <p>Chưa có bình luận nào.</p>
+        @endif
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const quantityInput = document.getElementById('quantityInput');
