@@ -169,7 +169,15 @@ Route::get('/singleProduct/{id}', [ProductController::class, 'showProduct'])->na
 Route::get('/shop/search', [ProductController::class, 'searchShop'])->name('home.search');
 Route::get('/shop/filter', [ProductController::class, 'filterByCategories'])->name('shop.filter');
 Route::post('/singleProduct/{id}/comments', [CommentController::class, 'store'])->name('singleProduct.comments.store');
+// Route::get('/comments/{id}/edit', [CommentController::class, 'edit'])->name('comments.edit');
 
+// // Cập nhật bình luận
+// Route::post('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+// Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+// Định nghĩa các route
+Route::post('/comments/{id}', [CommentController::class, 'update'])->name('comments.update'); // Cập nhật bình luận
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy'); // Xóa bình luận
+Route::post('/comments/{product_id}/store', [CommentController::class, 'store'])->name('singleProduct.comments.store'); // Thêm bình luận
 
 
 //Register - Login
