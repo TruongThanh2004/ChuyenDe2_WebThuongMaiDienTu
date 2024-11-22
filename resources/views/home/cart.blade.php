@@ -4,11 +4,7 @@
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-  
-
 </head>
-
 
 <section id="page-header" class="about-header">
     <h2>Giỏ Hàng Của Bạn</h2>
@@ -29,6 +25,7 @@
                 <td></td>
                 <td>Image</td>
                 <td>Name Product</td>
+               
                 <td>Quantity</td>
                 <td>Price</td>
                 <td>Remove</td>
@@ -41,6 +38,7 @@
                         <td><input type="checkbox" class="remove-item" data-id="{{ $item->order_items_id }}"></td>
                         <td><img src="{{ asset('images/products/' . $item->product->image1) }}" alt=""></td>
                         <td>{{ $item->product->product_name }}</td>
+                       
                         <td>
                             <button class="btn btn-outline-secondary quantity-btn decrease-btn">-</button>
                             <input type="text" class="form-control d-inline text-center quantity-input" style="width: 40px;"
@@ -73,7 +71,8 @@
         @method('DELETE')
         <td><input type="checkbox" id="remove-all" onclick="toggleAll(this)"></td>
         <input type="hidden" name="selected_items" id="selected-items">
-        <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">delete check</button>
+        <button type="button" class="btn btn-outline-danger delete-btn" onclick="confirmDeleteAll()">delete
+            check</button>
     </form>
 </section>
 
@@ -109,166 +108,50 @@
     </div>
 </section>
 
-
-
+<script src="{{ asset('js/cart/cart-list.js') }}"></script>
 <script>
-
-    // check box
-    function toggleAll(source) {
-        const checkboxes = document.querySelectorAll('.remove-item');
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = source.checked;
-        });
-    }
-    // xóa  1 đơn hàng
-    function confirmDelete(event) {
+     // đặt hàng
+     document.querySelector('form[action="{{ route('cart.Checkout') }}"]').addEventListener('submit', function (event) {
         event.preventDefault();
-        const form = event.target.closest('.delete-form');
-
-        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')) {
-            const cartItemRow = form.closest('.cart-item');
-            const priceCell = cartItemRow.querySelector('.product-price');
-            const quantityInput = cartItemRow.querySelector('.quantity-input');
-            const price = parseFloat(priceCell.textContent.replace(/\./g, '').replace(' VNĐ', ''));
-            const quantity = parseInt(quantityInput.value);
-
-            form.submit();
-            updateCartTotal(-price * quantity); // Cập nhật tổng tiền sau khi xóa
-            showAlert('Sản phẩm đã được xóa khỏi giỏ hàng.');
-        }
-    }
-    document.querySelectorAll('.remove-item').forEach(checkbox => {
-        checkbox.addEventListener('change', updateCartTotal);
-    });
-    function showAlert(message) {
-        const alertBox = document.getElementById('alert-box');
-        alertBox.innerText = message;
-        alertBox.style.display = 'block';
-
-        setTimeout(() => {
-            alertBox.style.display = 'none';
-        }, 3000);
-    }
-
-
-
-
-
-
-    function updateCartTotal() {
-        const totalElement = document.getElementById('cart-total');
-        let total = 0;
-        const checkedItems = document.querySelectorAll('.remove-item:checked');
-
-        // Kiểm tra có sản phẩm nào được chọn không
-        if (checkedItems.length === 0) {
-            totalElement.textContent = '0 VNĐ'; // Hiển thị 0 VNĐ nếu không có sản phẩm nào được chọn
-        } else {
-            // Tính tổng giá cho các sản phẩm được chọn
-            checkedItems.forEach(checkbox => {
-                const cartItemRow = checkbox.closest('.cart-item');
-                const priceCell = cartItemRow.querySelector('.product-price');
-                const quantityInput = cartItemRow.querySelector('.quantity-input');
-
-                const price = parseFloat(priceCell.textContent.replace(/\./g, '').replace(' VNĐ', '').replace(',', '.'));
-                const quantity = parseInt(quantityInput.value);
-
-                total += price; // Tính tổng tiền cho từng sản phẩm
-            });
-
-            // Cập nhật phần tổng tiền với định dạng chính xác
-            totalElement.textContent = `${total.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} VNĐ`;
-        }
-    }
-
-    document.querySelectorAll('.increase-btn, .decrease-btn').forEach(button => {
-        button.addEventListener('click', updateCartTotal);
-    });
-
-    document.querySelectorAll('.remove-item').forEach(checkbox => {
-        checkbox.addEventListener('change', updateCartTotal);
-    });
-
-
-
-
-
-
-    // Cập nhật tổng tiền khi trang được tải lại
-    document.addEventListener('DOMContentLoaded', () => {
-        updateCartTotal();
-    });
-
-
-
-    function confirmDeleteAll() {
-        const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked'))
-            .map(item => item.dataset.id);
+        const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked')).map(item => item.dataset.id);
 
         if (selectedItems.length === 0) {
-            alert('Vui lòng chọn ít nhất một sản phẩm để xóa.');
+            Swal.fire({
+                icon: 'error',
+                // title: 'Lỗi!',
+                text: 'Vui lòng chọn ít nhất một sản phẩm để đặt hàng.',
+            });
             return;
         }
 
-        document.getElementById('selected-items').value = JSON.stringify(selectedItems);
-
-        if (confirm('Bạn có chắc chắn muốn xóa các sản phẩm đã chọn không?')) {
-            document.getElementById('delete-selected-form').submit();
-        }
-    }
-
-
-    
-   // thanh toán
-    document.querySelector('form[action="{{ route('cart.Checkout') }}"]').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const selectedItems = Array.from(document.querySelectorAll('.remove-item:checked')).map(item => item.dataset.id);
-
-    if (selectedItems.length === 0) {
-        Swal.fire({
-            icon: 'error',
-            // title: 'Lỗi!',
-            text: 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.',
-        });
-        return;
-    }
-
- // Kiểm tra tồn tại sản phẩm qua AJAX
- fetch("{{ route('cart.checkItems') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ selected_items: selectedItems })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            Swal.fire({
-                icon: 'error',
-                text: data.message,
-            });
-        } else {
-            // Tạo input ẩn và gửi form nếu tất cả sản phẩm tồn tại
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'selected_items';
-            hiddenInput.value = JSON.stringify(selectedItems);
-            this.appendChild(hiddenInput);
-            this.submit();
-        }
-    })
-    .catch(error => console.error('Lỗi kiểm tra tồn tại sản phẩm:', error));
-});
-
-
-
-
-
-
-
-
+        // Kiểm tra tồn tại sản phẩm qua AJAX
+        fetch("{{ route('cart.checkItems') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ selected_items: selectedItems })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    Swal.fire({
+                        icon: 'error',
+                        text: data.message,
+                    });
+                } else {
+                    // Tạo input ẩn và gửi form nếu tất cả sản phẩm tồn tại
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = 'selected_items';
+                    hiddenInput.value = JSON.stringify(selectedItems);
+                    this.appendChild(hiddenInput);
+                    this.submit();
+                }
+            })
+            .catch(error => console.error('Lỗi kiểm tra tồn tại sản phẩm:', error));
+    });
     //  Cập nhật số lượng khi nhấn nút tăng
     document.querySelectorAll('.increase-btn').forEach(button => {
         button.addEventListener('click', function () {
@@ -278,18 +161,11 @@
             const price = parseFloat(quantityInput.dataset.price);
             let quantity = parseInt(quantityInput.value);
 
-            // Tăng số lượng
             quantity++;
             quantityInput.value = quantity;
-
-            // Cập nhật giá của sản phẩm
             const totalPrice = price * quantity;
             priceCell.textContent = `${totalPrice.toLocaleString('vi-VN', { minimumFractionDigits: 2 })} VNĐ`;
-
-
-            // Cập nhật tổng tiền của giỏ hàng
             updateCartTotal(totalPrice - (price * (quantity - 1))); // Cập nhật với sự thay đổi
-            // Gửi yêu cầu cập nhật số lượng đến server
             updateCartItem(cartItemRow.dataset.id, quantity);
         });
     });
@@ -302,17 +178,11 @@
             const priceCell = cartItemRow.querySelector('.product-price');
             const price = parseFloat(quantityInput.dataset.price);
             let quantity = parseInt(quantityInput.value);
-
-            // Giảm số lượng
             if (quantity > 1) {
                 quantity--;
                 quantityInput.value = quantity;
-
-                // Cập nhật giá của sản phẩm
                 const totalPrice = price * quantity;
                 priceCell.textContent = `${totalPrice.toLocaleString('vi-VN', { minimumFractionDigits: 2 })} VNĐ`;
-
-                // Cập nhật tổng tiền của giỏ hàng
                 updateCartTotal(-price); // Cập nhật với sự thay đổi
 
                 // Gửi yêu cầu cập nhật số lượng đến server
@@ -324,6 +194,7 @@
     // Hàm gửi yêu cầu AJAX cập nhật số lượng
     function updateCartItem(itemId, quantity) {
         let updateCartUrl = "{{ route('cart.update') }}";
+
         fetch(updateCartUrl, {
             method: 'POST',
             headers: {
@@ -341,10 +212,14 @@
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-            });
+    console.error('Lỗi:', error);
+    Swal.fire({
+        icon: 'error',
+        text: 'Có lỗi xảy ra. Vui lòng thử lại.',
+    });
+});
+           
     }
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

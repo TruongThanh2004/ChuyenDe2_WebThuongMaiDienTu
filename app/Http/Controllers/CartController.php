@@ -104,30 +104,58 @@ class CartController extends Controller
     }
 
     // hàm cập nhật số lượng 
+    // public function update(Request $request)
+    // {
+    //     $request->validate([
+    //         'id' => 'required|exists:order_items,order_items_id',
+    //         'quantity' => 'required|integer|min:1',
+    //     ]);
+
+    //     $cartItem = OrderItem::findOrFail($request->id);
+
+    //     if ($cartItem->product->stock < $request->quantity) {
+    //         return response()->json(['success' => false, 'message' => 'Sản phẩm không đủ trong kho.']);
+    //     }
+
+    //     $cartItem->quantity = $request->quantity;
+    //     $cartItem->price = $cartItem->product->price * $request->quantity;
+    //     $cartItem->save();
+
+    //     if ($cartItem->save()) {
+    //         return response()->json(['success' => true, 'message' => 'Cập nhật thành công']);
+    //     } else {
+    //         return response()->json(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu']);
+    //     }
+
+    //     }
     public function update(Request $request)
     {
-        $request->validate([
-            'id' => 'required|exists:order_items,order_items_id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-
-        $cartItem = OrderItem::findOrFail($request->id);
-
-        if ($cartItem->product->stock < $request->quantity) {
-            return response()->json(['success' => false, 'message' => 'Sản phẩm không đủ trong kho.']);
+        $cartItemId = $request->input('cartItemId');
+        $quantity = $request->input('quantity');
+    
+        // Lấy cart item
+        $cartItem = OrderItem::find($cartItemId);
+        if (!$cartItem) {
+            return response()->json(['error' => 'Không tìm thấy sản phẩm'], 404);
         }
-
-        $cartItem->quantity = $request->quantity;
-        $cartItem->price = $cartItem->product->price * $request->quantity;
+    
+        // Cập nhật số lượng
+        $cartItem->quantity = $quantity;
         $cartItem->save();
-
-        if ($cartItem->save()) {
-            return response()->json(['success' => true, 'message' => 'Cập nhật thành công']);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Lỗi khi lưu dữ liệu']);
-        }
+    
+        // Cập nhật giá từng sản phẩm
+        $updatedItemPrice = $cartItem->product->price * $cartItem->quantity;
+    
+        // Cập nhật tổng giá giỏ hàng
+        $cartTotal = OrderItem::where('order_id', $cartItem->order_id)
+            ->join('products', 'products.id', '=', 'order_items.product_id')
+            ->sum(DB::raw('order_items.quantity * products.price'));
+    
+        return response()->json([
+            'updatedItemPrice' => number_format($updatedItemPrice, 2),
+            'cartTotal' => number_format($cartTotal, 2),
+        ]);
     }
-
     // hàm xóa 1 sản phâm
     public function destroy($id)
     {
