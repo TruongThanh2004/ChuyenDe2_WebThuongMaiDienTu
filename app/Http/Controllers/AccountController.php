@@ -70,7 +70,7 @@ class AccountController extends Controller
         $validator = ValidationHelper::Change_passowrd($request);
 
         if ($validator->fails()) {
-            return redirect()->route('reset-password-code',$token)
+            return redirect()->route('reset-password',$token)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -86,7 +86,7 @@ class AccountController extends Controller
             ];
             $check = $user->update($data);
         }else{
-            return redirect()->route('reset-password-code',$token)->with('error','Mã code không đúng');
+            return redirect()->route('reset-password',$token)->with('error','Mã code không đúng');
         }
        
         return redirect()->route('login')->with('success','Lấy lại mật khẩu thành công');
