@@ -75,7 +75,7 @@ class Category extends Model
     /**
      * Lấy danh sách danh mục có phân trang.
      */
-    public static function getPaginatedCategories($perPage = 10)
+    public static function getPaginatedCategories($perPage = 5)
     {
         return self::paginate($perPage);
     }
@@ -85,7 +85,7 @@ class Category extends Model
      */
     public static function getFilteredCategories($selectedCategoryIds)
     {
-        return self::whereIn('category_id', $selectedCategoryIds)->paginate(10);
+        return self::whereIn('category_id', $selectedCategoryIds)->paginate(5);
     }
 }
 
