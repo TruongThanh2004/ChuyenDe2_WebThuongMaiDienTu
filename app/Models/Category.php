@@ -4,47 +4,62 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
 
 class Category extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    /**
+     * Tên bảng trong cơ sở dữ liệu
+     *
+     * @var string
+     */
     protected $table = 'categories';
+    public $timestamps = false;
     protected $primaryKey = 'category_id';
-    protected $fillable = ['category_name'];
 
     /**
-     * Lấy danh sách tất cả danh mục.
+     * Các trường có thể được gán giá trị hàng loạt
+     *
+     * @var array
      */
-    public static function getAllCategories()
-    {
-        return self::all();
+    protected $fillable = [
+        'category_name',
+    ];
+    
+
+    /**
+     * Lấy danh sách danh mục với phân trang và tìm kiếm
+     *
+     * @param string|null $keyword
+     * @param int $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getFilteredCategories($keyword = null, $perPage = 5)
+{
+    $query = self::query();
+
+    // Kiểm tra nếu có từ khóa tìm kiếm
+    if (!empty($keyword)) {
+        $query->where(function ($query) use ($keyword) {
+            // Tìm kiếm full-text trên trường 'category_name'
+            $query->whereRaw('MATCH(category_name) AGAINST (? IN BOOLEAN MODE)', [$keyword])
+                  // Fallback tìm kiếm LIKE nếu không có kết quả full-text
+                  ->orWhere('category_name', 'LIKE', "%{$keyword}%");
+        });
     }
 
-    /**
-     * Tìm kiếm danh mục theo từ khóa.
-     */
-    public static function searchCategories($searchTerm)
-    {
-        return self::where('category_name', 'like', "%$searchTerm%")
-            ->orWhere('category_id', 'like', "%$searchTerm%")
-            ->get();
-    }
+    // Trả về kết quả với phân trang
+    return $query->paginate($perPage);
+}
+
 
     /**
-     * Lấy danh mục theo ID.
-     */
-    public static function getCategoryById($id)
-    {
-        return self::findOrFail($id); // Tìm và ném lỗi nếu không tìm thấy
-    }
-
-    /**
-     * Tạo mới danh mục.
+     * Thêm danh mục mới
+     *
+     * @param array $data
+     * @return Category
      */
     public static function createCategory($data)
     {
@@ -52,40 +67,37 @@ class Category extends Model
     }
 
     /**
-     * Cập nhật danh mục.
+     * Cập nhật danh mục
+     *
+     * @param int $id
+     * @param array $data
+     * @return bool
      */
-    public function updateCategory($data)
+    public static function updateCategory($id, $data)
     {
-        return $this->update($data);
+        $category = self::findOrFail($id);
+        return $category->update($data);
     }
 
     /**
-     * Xóa danh mục.
+     * Xóa danh mục
+     *
+     * @param int $id
+     * @return bool|null
      */
     public static function deleteCategory($id)
     {
-        $category = self::find($id);
-        if ($category) {
-            $category->delete();
-            return true;
-        }
-        return false;
+        $category = self::findOrFail($id);
+        return $category->delete();
     }
 
     /**
-     * Lấy danh sách danh mục có phân trang.
+     * Kiểm tra nếu không còn danh mục
+     *
+     * @return bool
      */
-    public static function getPaginatedCategories($perPage = 5)
+    public static function isEmpty()
     {
-        return self::paginate($perPage);
-    }
-
-    /**
-     * Lọc danh mục theo danh sách ID.
-     */
-    public static function getFilteredCategories($selectedCategoryIds)
-    {
-        return self::whereIn('category_id', $selectedCategoryIds)->paginate(5);
+        return self::count() === 0;
     }
 }
-

@@ -4,39 +4,34 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Vinkla\Hashids\Facades\Hashids;
 
 class CategoriesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách danh mục.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        // Lấy danh mục với phân trang
-        $category = Category::paginate(5);
+        // Lấy danh sách danh mục với tìm kiếm và phân trang
+        $categories = Category::getFilteredCategories($request->keyword);
 
-        // Kiểm tra từ khóa tìm kiếm và lọc danh mục
-        if (isset($request->keyword) && $request->keyword != '') {
-            $category = Category::where('category_name', 'like', '%' . $request->keyword . '%')
-                ->orWhere('category_id', 'like', '%' . $request->keyword . '%')
-                ->paginate(5);
-        }
-
-        // Kiểm tra nếu không có danh mục nào
-        if ($category->isEmpty()) {
+        // Kiểm tra nếu danh sách rỗng
+        if ($categories->isEmpty()) {
             return view('admin.category', [
-                'category' => $category,
+                'category' => $categories,
                 'error' => 'Không tìm thấy danh mục bạn cần tìm'
             ]);
         }
 
-        return view('admin.category', ['category' => $category]);
+        return view('admin.category', ['category' => $categories]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form tạo danh mục.
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,76 +41,90 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu danh mục mới.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required|string|max:255', // yêu cầu nhập tên danh mục
+            'category_name' => 'required|string|max:255',
         ], [
-            'category_name.required' => 'Vui lòng nhập tên danh mục.', // Thông báo lỗi khi không nhập tên
+            'category_name.required' => 'Vui lòng nhập tên danh mục.',
         ]);
-    
-        // Nếu validation thành công, tạo danh mục mới
-        Category::create([
+
+        // Gọi hàm trong model để thêm danh mục
+        Category::createCategory([
             'category_name' => $request->input('category_name'),
         ]);
-    
-        // Redirect về danh sách danh mục với thông báo thành công
+
         return redirect()->route('category-list')->with('success', 'Thêm danh mục sản phẩm thành công');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa danh mục.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($hashId)
     {
-        // Lấy thông tin danh mục để chỉnh sửa
-        $category = Category::findOrFail($id);
+        // Giải mã hash ID thành ID thực
+        $categoryIds = Hashids::decode($hashId);
+        
+        // Kiểm tra nếu ID không hợp lệ
+        if (empty($categoryIds)) {
+            return redirect()->route('category-list')->with('error', 'ID không hợp lệ.');
+        }
+        
+        // Lấy ID thực từ mảng
+        $category_id = $categoryIds[0];
+        
+        // Lấy thông tin danh mục bằng ID thực
+        $category = Category::findOrFail($category_id);
+        
+        // Trả về view và truyền dữ liệu category
         return view('admin.category.edit_category', compact('category'));
     }
-
+    
     /**
-     * Update the specified resource in storage.
+     * Cập nhật danh mục.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        // Cập nhật thông tin danh mục
-        $category = Category::findOrFail($id);
-        $category->update($request->all());
+        $request->validate([
+            'category_name' => 'required|string|max:255',
+        ], [
+            'category_name.required' => 'Vui lòng nhập tên danh mục.',
+        ]);
 
-        // Redirect về trang danh sách danh mục với thông báo thành công
+        // Gọi hàm trong model để cập nhật danh mục
+        Category::updateCategory($id, $request->only(['category_name']));
+
         return redirect()->route('category-list')->with('success', 'Cập nhật danh mục thành công.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa danh mục.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        // Lấy danh mục cần xóa
-        $category = Category::findOrFail($id);
-        $category->delete();
-    
-        // Kiểm tra nếu danh sách danh mục còn lại là rỗng
-        if (Category::count() === 0) {
+        // Gọi hàm trong model để xóa danh mục
+        Category::deleteCategory($id);
+
+        // Kiểm tra nếu danh sách danh mục trống
+        if (Category::isEmpty()) {
             return redirect()->route('category-list')->with('error', 'Không có danh mục nào để hiển thị.');
         }
-    
-        // Nếu không, redirect với thông báo xóa thành công
+
         return redirect()->route('category-list')->with('success', 'Xóa danh mục thành công.');
     }
 }

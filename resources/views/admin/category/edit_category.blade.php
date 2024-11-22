@@ -75,7 +75,7 @@
                                                 <div class="text-center custom-pro-edt-ds">
                                                     <button type="submit"
                                                         class="btn btn-ctl-bt waves-effect waves-light m-r-10"
-                                                        id="submit_user">Add Category
+                                                        id="submit_user">Update Category
                                                     </button>
 
 

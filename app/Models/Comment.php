@@ -19,4 +19,37 @@ class Comment extends Model
 {
     return $this->belongsTo(User::class, 'user_id');
 }
+    /**
+     * Thêm bình luận mới.
+     *
+     * @param array $data
+     * @return static
+     */
+    public static function addComment(array $data)
+    {
+        return self::create($data);
+    }
+
+    /**
+     * Cập nhật bình luận.
+     *
+     * @param string $newComment
+     * @return bool
+     */
+    public function updateComment(string $newComment)
+    {
+        $this->comment = $newComment;
+        return $this->save();
+    }
+
+    /**
+     * Kiểm tra quyền người dùng đối với bình luận.
+     *
+     * @param string $username
+     * @return bool
+     */
+    public function isOwnedByUser(string $username)
+    {
+        return $this->name === $username;
+    }
 }
