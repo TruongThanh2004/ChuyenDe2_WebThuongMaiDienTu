@@ -113,4 +113,20 @@ class Blog extends Model
         $blogs = self::paginate(10);
         return compact('blogs');
     }
+    /**
+     * Tìm kiếm và lọc blogs.
+     */
+    public static function searchBlogs(Request $request)
+    {
+        $query = self::query();
+
+        // Tìm kiếm Full-Text
+        if ($search = $request->input('search')) {
+            $query->whereRaw("MATCH(title, content) AGAINST(? IN BOOLEAN MODE)", [$search]);
+        }
+
+        // Phân trang
+        return $query->paginate(10)->appends($request->all());
+    }
+
 }
