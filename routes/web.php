@@ -248,12 +248,16 @@ Route::prefix('admin/blogs')->group(function () {
     Route::get('/', [BlogController::class, 'index'])->name('blogs.index'); // Hiển thị danh sách blog
     Route::get('/create', [BlogController::class, 'create'])->name('blogs.create'); // Hiển thị form thêm blog
     Route::post('/', [BlogController::class, 'store'])->name('blogs.store'); // Xử lý thêm blog
-    Route::get('/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit'); // Hiển thị form sửa blog
+    Route::get('/blogs/{hashid}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
     Route::put('/{id}', [BlogController::class, 'update'])->name('blogs.update'); // Xử lý sửa blog
-    Route::delete('/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Xóa blog
-    Route::get('/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Hiển thị chi tiết blog
+    Route::delete('/blogs/{hashid}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+    Route::get('/blogs/{hashid}', [BlogController::class, 'show'])->name('blogs.show');
 });
 Route::get('/blog', [BlogController::class, 'showBlogsForHome'])->name('home.blog');
 Route::get('/blog/{post_id}', [BlogController::class, 'showFullBlogs'])->name('home.showbl');
 Route::post('/profile/update-email', [UserController::class, 'updateEmail'])->name('profile.updateEmail');
 Route::get('/shop/sortprice', [ProductController::class, 'SortPrice'])->name('sortPrice');
+Route::get('/favorite', [BlogController::class, 'favoriteBlogs'])->name('home.favorite');
+Route::post('/update-favorite-posts', [BlogController::class, 'updateFavoritePosts'])->name('updateFavoritePosts');
+Route::get('/admin/blogs/search', [BlogController::class, 'searchBlogsInAdmin'])->name('admin.blogs.search');
+Route::get('/blogs', [BlogController::class, 'searchBlogsInHome'])->name('home.blogs.search');

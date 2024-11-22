@@ -63,10 +63,21 @@
                     <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                         <div class="header-top-menu tabl-d-n hd-search-rp">
                             <div class="breadcome-heading">
-                                <form role="search" class="" action="{{ route('home.blog') }}">
-                                    <input type="text" placeholder="Tìm kiếm blog..." class="form-control" id="search" name="search" value="{{ old('search', $search ?? '') }}">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                                </form>
+                            <div class="search-bar">
+                            <form method="GET" action="{{ route('admin.blogs.search') }}">
+                                <input type="text" name="search" placeholder="Tìm kiếm..." value="{{ request('search') }}">
+                                <input type="date" name="from_date" value="{{ request('from_date') }}">
+                                <input type="date" name="to_date" value="{{ request('to_date') }}">
+                                <select name="sort">
+                                    <option value="">Sắp xếp</option>
+                                    <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>A-Z</option>
+                                    <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Z-A</option>
+                                </select>
+                                <button type="submit">Tìm kiếm</button>
+                            </form>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -100,13 +111,15 @@
                                     <td>{{ $blog->title }}</td>
                                     <td>{{ Str::limit($blog->content, 50) }}</td>
                                     <td>
-                                        <a href="{{ route('blogs.show', $blog->post_id) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
+                                        <a href="{{ route('blogs.show', ['hashid' => \Hashids::encode($blog->post_id)]) }}" data-toggle="tooltip" title="Xem chi tiết" class="pd-setting-ed">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
-                                        <a href="{{ route('blogs.edit', $blog->post_id) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
+
+                                        <a href="{{ route('blogs.edit', ['hashid' => \Hashids::encode($blog->post_id)]) }}" data-toggle="tooltip" title="Cập nhật" class="pd-setting-ed">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </a>
-                                        <form action="{{ route('blogs.destroy', $blog->post_id) }}" method="POST" style="display:inline;">
+
+                                        <form action="{{ route('blogs.destroy', ['hashid' => \Hashids::encode($blog->post_id)]) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" data-toggle="tooltip" title="Xóa" class="pd-setting-ed">
@@ -115,6 +128,7 @@
                                         </form>
 
                                     </td>
+
                                 </tr>
                                 @endforeach
                             </tbody>
