@@ -6,178 +6,249 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
-    // Hiển thị danh sách blog
     public function index(Request $request)
     {
-        $search = $request->input('search', '');
+        $search = $request->input('search'); // Lấy từ khóa tìm kiếm
+        $blogs = Blog::when($search, function ($query, $search) {
+            return $query->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhere('content', 'LIKE', '%' . $search . '%');
+        })->paginate(10); // Thực hiện tìm kiếm và phân trang
 
-        // Ràng buộc và kiểm tra từ khóa tìm kiếm
-        $validator = Validator::make($request->all(), [
-            'search' => [
-                'nullable',
-                'string',
-                'max:100',
-                'regex:/^[a-zA-Z0-9\s]+$/', // Không cho phép ký tự đặc biệt
-            ],
-        ]);
-    
-        // Xử lý lỗi nếu có
-        if ($validator->fails()) {
-            return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
-        }
-    
-        // Tìm kiếm và phân trang
-        $blogs = Blog::when($search, function ($query) use ($search) {
-            return $query->where('title', 'LIKE', "%{$search}%"); // Tìm kiếm không phân biệt hoa thường
-        })->paginate(10);
-    
-        if ($blogs->isEmpty()) {
-            return view('admin.blogs.index', compact('blogs', 'search'))
-                   ->with('message', 'Không tìm thấy bài viết');
-        }
-    
         return view('admin.blogs.index', compact('blogs', 'search'));
     }
-
-    // Hiển thị form thêm bài viết
-    public function create()
+  
+    public function show($hashid)
     {
-        $user = auth()->user(); // Lấy thông tin người dùng hiện tại
-        return view('admin.blogs.create', compact('user'));
-    }
-
-    public function store(Request $request)
-    {
-        // Xác thực dữ liệu
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Gán user_id từ người dùng hiện tại
-        $validatedData['user_id'] = auth()->id(); 
+        // Giải mã ID từ Hashids
+        $decodedId = \Hashids::decode($hashid);
+        if (empty($decodedId)) {
+            abort(404); // Trả về lỗi nếu không giải mã được
+        }
         
-        try {
-            // Khởi tạo mảng để lưu thông tin blog
-            $blogData = [
-                'title' => $validatedData['title'],
-                'content' => $validatedData['content'],
-                'user_id' => $validatedData['user_id'],
-            ];
+        // Lấy blog bằng ID
+        $blog = Blog::with('user')->findOrFail($decodedId[0]);
+    
+        return view('admin.blogs.show', compact('blog'));
+    }
+    
+    /**
+     * Hiển thị danh sách blog cho trang chủ.
+     */
+    public function showBlogsForHome(Request $request)
+    {
+        $query = Blog::query();
 
-            // Xử lý hình ảnh
-            if ($request->hasFile('image')) {
-                $imageName = time() . '.' . $request->image->extension();
-                $request->image->move(public_path('images/blog'), $imageName);
-                $blogData['image'] = $imageName;
+        // Phân biệt hành động dựa trên button
+        $action = $request->get('action');
+
+        if ($action == 'search') {
+            // Xử lý tìm kiếm
+            if ($request->filled('search')) {
+                $query->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('content', 'like', '%' . $request->search . '%');
+            }
+        } elseif ($action == 'filter') {
+            // Xử lý lọc theo ngày và sắp xếp
+            if ($request->filled('from_date') && $request->filled('to_date')) {
+                $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            } elseif ($request->filled('from_date')) {
+                $query->whereDate('created_at', '>=', $request->from_date);
+            } elseif ($request->filled('to_date')) {
+                $query->whereDate('created_at', '<=', $request->to_date);
             }
 
-            // Tạo blog mới
-            Blog::create($blogData);
-
-            // Chuyển hướng thành công
-            return redirect()->route('blogs.index')->with('success', 'Blog đã được thêm thành công.');
-        } catch (\Exception $e) {
-            return redirect()->route('blogs.create')->with('error', 'Đã xảy ra lỗi khi thêm blog: ' . $e->getMessage());
+            // Sắp xếp
+            if ($request->filled('sort')) {
+                $query->orderBy('title', $request->sort);
+            }
         }
+
+        $blogs = $query->paginate(10)->appends($request->all());
+
+        return view('home.blog', compact('blogs'));
     }
 
-    // Hiển thị form sửa bài viết
-    public function edit($id)
+
+    /**
+     * Hiển thị chi tiết blog.
+     */
+    public function showFullBlogs($post_id)
     {
-        $blog = Blog::findOrFail($id);
+        // Lấy blog với post_id
+        $blog = Blog::findOrFail($post_id);
+        
+        // Trả về view với dữ liệu blog
+        return view('home.showbl', compact('blog'));
+    }
+    /**
+     * Hiển thị form tạo blog.
+     */
+    public function create()
+    {
+        $users = User::all();  // Lấy danh sách người dùng
+        return view('admin.blogs.create', compact('users'));
+    }
+
+
+    /**
+     * Lưu blog mới vào cơ sở dữ liệu.
+     */
+    public function store(Request $request)
+    {
+        // Gọi phương thức createBlog từ model Blog để tạo blog mới
+        $blog = Blog::createBlog($request);
+    
+        // Quay lại trang danh sách blog hoặc chuyển hướng
+        return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
+    }
+    
+   
+    /**
+     * Hiển thị form chỉnh sửa blog.
+     */
+    public function edit($hashid)
+    {
+        $decodedId = \Hashids::decode($hashid);
+        if (empty($decodedId)) {
+            abort(404);
+        }
+
+        $blog = Blog::findOrFail($decodedId[0]);
         $users = User::all();
+
         return view('admin.blogs.edit', compact('blog', 'users'));
     }
 
+    /**
+     * Cập nhật blog.
+     */
     public function update(Request $request, $id)
     {
-        // Xác thực dữ liệu
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|max:2048', // Đảm bảo hình ảnh có định dạng hợp lệ
-        ]);
-
         $blog = Blog::findOrFail($id);
-        $data = $request->all();
+        $blog->updateBlog($request);
+        return redirect()->route('blogs.index');
+    }
+    public function destroy($hashid)
+    {
+        $decodedId = \Hashids::decode($hashid);
+        if (empty($decodedId)) {
+            return redirect()->route('blogs.index')->with('error', 'Invalid ID!');
+        }
 
-        // Xử lý hình ảnh
-        if ($request->hasFile('image')) {
-            // Xóa hình ảnh cũ nếu có
-            if ($blog->image) {
-                $oldImagePath = public_path('images/blog/' . $blog->image);
-                if (file_exists($oldImagePath)) {
-                    unlink($oldImagePath); // Xóa hình ảnh cũ
-                }
-            }
+        $result = Blog::deleteBlog($decodedId[0]);
 
-            // Lưu hình ảnh mới
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images/blog'), $imageName);
-            $data['image'] = $imageName;
+        if ($result) {
+            return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
         } else {
-            // Nếu không tải lên hình ảnh mới, giữ nguyên hình ảnh cũ
-            $data['image'] = $blog->image;
-        }
-
-        // Cập nhật blog
-        $blog->update($data);
-
-        return redirect()->route('blogs.index')->with('success', 'Blog đã được cập nhật thành công.');
-    }
-
-    public function destroy($id)
-    {
-        $blog = Blog::findOrFail($id);
-
-        // Kiểm tra xem blog có hình ảnh hay không
-        if ($blog->image) {
-            // Xóa hình ảnh khỏi thư mục
-            $imagePath = public_path('images/blog/' . $blog->image);
-            if (file_exists($imagePath)) {
-                unlink($imagePath); // Xóa hình ảnh khỏi thư mục
-            }
-        }
-
-        // Xóa blog khỏi cơ sở dữ liệu
-        $deleted = $blog->delete();
-
-        if ($deleted) {
-            return redirect()->route('blogs.index')->with('success', 'Blog đã được xóa thành công.');
-        } else {
-            return redirect()->route('blogs.index')->with('error', 'Không thể xóa blog, vui lòng thử lại.');
+            return redirect()->route('blogs.index')->with('error', 'Blog not found!');
         }
     }
 
-    public function show($id)
+
+    /**
+     * Tìm kiếm và lọc blog.
+     */
+    public function filterBlogs(Request $request)
     {
-        $blog = Blog::with('user')->findOrFail($id); // Tìm bài viết cùng với thông tin người dùng
-        return view('admin.blogs.show', compact('blog'));
+        // Lọc blog theo từ khóa tìm kiếm và danh mục
+        $searchTerm = $request->get('search');
+        $categoryIds = $request->get('category_ids');
+        $sort = $request->get('sort', 'asc');
+
+        $blogs = Blog::getFilteredAndSortedBlogs($searchTerm, $categoryIds, $sort);
+
+        return view('home.blog', compact('blogs'));
+    }
+    public function favoriteBlogs()
+    {
+        // Lấy danh sách bài viết yêu thích từ session
+        $favoritePosts = session('favorite_posts', []);
+
+        // Kiểm tra nếu danh sách yêu thích có bài viết nào
+        if (empty($favoritePosts)) {
+            // Nếu không có, trả về view với một collection rỗng
+            return view('home.favorite', ['blogs' => collect()]); // trả về một collection rỗng
+        }
+
+        // Lấy các bài viết yêu thích từ database
+        $blogs = Blog::whereIn('post_id', $favoritePosts)->get();
+
+        // Trả về view với danh sách bài viết yêu thích
+        return view('home.favorite', compact('blogs'));
     }
 
-    // Hiển thị blog cho trang chủ với tìm kiếm
-    public function showBlogsForHome(Request $request)
+    public function updateFavoritePosts(Request $request)
     {
-        $search = $request->input('search', '');
-        $blogs = Blog::when($search, function ($query, $search) {
-            return $query->where('title', 'like', "%{$search}%");
-        })->paginate(4); // Sử dụng phân trang
+        // Lấy danh sách bài viết yêu thích từ request
+        $favoritePosts = $request->input('favorite_posts', []);
 
-        return view('home.blog', compact('blogs', 'search'));
+        // Lưu danh sách bài viết yêu thích vào session
+        session(['favorite_posts' => $favoritePosts]);
+
+        // Trả về một phản hồi JSON
+        return response()->json(['success' => true]);
+    }
+     /**
+     * Tìm kiếm và lọc blog trong trang quản trị.
+     */
+    public function searchBlogsInAdmin(Request $request)
+    {
+        $query = Blog::query();
+
+        // Tìm kiếm từ khóa
+        if ($request->filled('search')) {
+            $query->whereRaw("MATCH(title, content) AGAINST(? IN BOOLEAN MODE)", [$request->search]);
+        }
+
+        // Lọc theo khoảng thời gian
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        } elseif ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        } elseif ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
+        }
+
+        // Sắp xếp thứ tự (A-Z, Z-A)
+        if ($request->filled('sort')) {
+            $query->orderBy('title', $request->sort);
+        }
+
+        // Phân trang
+        $blogs = $query->paginate(10)->appends($request->all());
+
+        return view('admin.blogs.index', compact('blogs'));
     }
 
-    // Hiển thị chi tiết blog trên trang chủ
-    public function showFullBlogs($post_id)
+    /**
+     * Tìm kiếm và lọc blog trong trang chủ.
+     */
+    public function searchBlogsInHome(Request $request)
     {
-        $blog = Blog::findOrFail($post_id); // Sử dụng post_id để tìm kiếm
-        return view('home.showbl', compact('blog')); // Truyền biến blog cho view
-    }
+        $query = Blog::query();
+
+        // Tìm kiếm từ khóa
+        if ($request->filled('search')) {
+            $query->whereRaw("MATCH(title, content) AGAINST(? IN BOOLEAN MODE)", [$request->search]);
+        }
+
+        // Lọc theo khoảng thời gian
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
+        }
+
+        // Sắp xếp
+        if ($request->filled('sort')) {
+            $query->orderBy('title', $request->sort);
+        }
+
+        // Phân trang
+        $blogs = $query->paginate(10)->appends($request->all());
+
+        return view('home.blog', compact('blogs'));
+    }   
+
 }

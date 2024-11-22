@@ -154,6 +154,19 @@
     language-code="vi"></df-messenger>
     <!-- javascript script file link -->
     <script src="script.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+    const messenger = document.querySelector('df-messenger');
+    if (messenger) {
+        messenger.style.transform = 'scale(0.8)';
+        messenger.style.transformOrigin = 'bottom right';
+        messenger.style.position = 'fixed';
+        messenger.style.bottom = '20px';
+        messenger.style.right = '20px';
+        messenger.style.zIndex = '1000';
+        }
+    });
+    </script>
 </body>
 
 </html>
