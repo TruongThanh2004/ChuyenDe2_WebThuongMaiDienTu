@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -35,6 +36,10 @@ class Product extends Model
     public function color()
     {
         return $this->belongsTo(Color::class, 'color_id', 'color_id');
+    }
+        public function comments()
+    {
+        return $this->hasMany(Comment::class, 'product_id', 'product_id');
     }
        /**
      * Tạo sản phẩm mới và lưu ảnh.
@@ -237,11 +242,17 @@ class Product extends Model
 
 public static function getProductWithCategoryAndColor($id)
 {
-    $product = self::findOrFail($id);
+    $product = Product::with('comments')->findOrFail($id);
+
+    // Lấy tất cả các bình luận của sản phẩm và sắp xếp bình luận của người dùng lên đầu tiên
+    $comments = $product->comments()->orderByRaw("name = ? DESC", [Auth::user()->username ?? ''])->get();
+
+    // Lấy tất cả các danh mục và màu sắc
     $categories = Category::all();
     $colors = Color::all();
-    
-    return compact('product', 'categories', 'colors');
+
+    // Trả về tất cả dữ liệu cần thiết cho view
+    return compact('product', 'comments', 'categories', 'colors');
 }
 
 

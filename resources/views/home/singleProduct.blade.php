@@ -30,7 +30,7 @@
         <h6>{{ $product->category->category_name ?? 'Không có thể loại' }}</h6>
         <h4>{{ $product->product_name }}</h4>
         <h2>{{ $product->price }} VND</h2>
-        
+        <h2>Số lượng: {{ $product->quantity }}</h2>
         <!-- <select>
             <option>Select Color</option>
             @foreach ($colors as $color)
@@ -59,12 +59,8 @@
             </ul>
         </div>
         <input type="hidden" name="selected_color" id="selectedColor">
-
-
-
-
         <input type="hidden" name="selected_color" id="selectedColor">
-        <input type="number" value="1">
+        <input type="number" id="quantityInput" value="1" max="{{ $product->quantity }}" min="1">
 
         <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
                     @csrf
@@ -80,7 +76,120 @@
         <span>{{ $product->description}}</span>
     </div>
 </section>
+
+<div class="comment-section">
+    <h3>Bình luận</h3>
+
+    <!-- Kiểm tra nếu người dùng chưa đăng nhập thì yêu cầu đăng nhập -->
+    @if(!Auth::check())
+        <div class="alert alert-warning">
+            Bạn cần đăng nhập để bình luận.
+        </div>
+    @else
+        <!-- Form thêm bình luận -->
+        <form action="{{ route('singleProduct.comments.store', $product->product_id) }}" method="POST">
+            @csrf
+            <div>
+                <label for="name">Tên:</label>
+                <input type="text" name="name" value="{{ Auth::user()->username }}" id="name" readonly style="background-color: #ddd;">
+            </div>
+            <div>
+                <label for="comment">Nội dung:</label>
+                <textarea name="comment" id="comment" rows="4" required></textarea>
+            </div>
+            <button type="submit">Gửi</button>
+        </form>
+    @endif
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <h4>Các bình luận:</h4>
+
+    <!-- Hiển thị bình luận -->
+    @if ($product->comments->count())
+    @foreach ($product->comments->sortByDesc(function ($comment) {
+        return (Auth::check() && $comment->name === Auth::user()->username) ? 1 : 0;
+    }) as $comment)
+        <div class="comment-item">
+            <strong>{{ $comment->name }}</strong>:
+            <p>{{ $comment->comment }}</p>
+            <small>{{ $comment->created_at->format('d/m/Y H:i') }}</small>
+
+            <!-- Kiểm tra nếu người dùng hiện tại là người tạo bình luận -->
+            @if(Auth::user() && Auth::user()->username === $comment->name)
+                <!-- Form sửa bình luận -->
+                <div class="class-button">
+                    <button class="edit" onclick="editComment({{ $comment->id }})">Sửa</button>
+                    <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Bạn chắc chắn muốn xóa bình luận này?')">Xóa</button>
+                    </form>
+
+                    <div id="edit-form-{{ $comment->id }}" style="display:none;">
+                        <form action="{{ route('comments.update', $comment->id) }}" method="POST">
+                            @csrf
+                            @method('POST')
+                            <textarea name="comment" rows="4">{{ $comment->comment }}</textarea>
+                            <button type="submit">Cập nhật</button>
+                            <button type="button" onclick="cancelEdit({{ $comment->id }})">Hủy</button>
+                        </form>
+                    </div>
+                </div>
+            @endif
+        </div>
+    @endforeach
+@else
+    <p>Chưa có bình luận nào.</p>
+@endif
+</div>
+
+
 <script>
+    function editComment(commentId) {
+        const editForm = document.getElementById('edit-form-' + commentId);
+        editForm.style.display = 'block'; 
+    }
+
+    // Hủy chỉnh sửa
+    function cancelEdit(commentId) {
+        const editForm = document.getElementById('edit-form-' + commentId);
+        editForm.style.display = 'none'; 
+    }
+</script>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const quantityInput = document.getElementById('quantityInput');
+    const maxQuantity = parseInt(quantityInput.getAttribute('max'), 10);
+
+    quantityInput.addEventListener('input', () => {
+        const value = parseInt(quantityInput.value, 10);
+
+        if (isNaN(value) || value < 1 || value > maxQuantity) {
+            swal({
+                title: "Số lượng không hợp lệ!",
+                text: `Số lượng phải phù hợp với số lượng đang có từ 1 đến ${maxQuantity}.`,
+                icon: "error",
+                button: "OK",
+            }).then(() => {
+                if (value < 1) {
+                    quantityInput.value = 1;
+                } else if (value > maxQuantity) {
+                    quantityInput.value = maxQuantity;
+                }
+            });
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const selectTrigger = document.querySelector('.select-trigger');
     const options = document.querySelector('.options');
