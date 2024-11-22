@@ -78,30 +78,6 @@
 </section>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const quantityInput = document.getElementById('quantityInput');
-    const maxQuantity = parseInt(quantityInput.getAttribute('max'), 10);
-
-    quantityInput.addEventListener('input', () => {
-        const value = parseInt(quantityInput.value, 10);
-
-        if (isNaN(value) || value < 1 || value > maxQuantity) {
-            swal({
-                title: "Số lượng không hợp lệ!",
-                text: `Số lượng phải phù hợp với số lượng đang có từ 1 đến ${maxQuantity}.`,
-                icon: "error",
-                button: "OK",
-            }).then(() => {
-                if (value < 1) {
-                    quantityInput.value = 1;
-                } else if (value > maxQuantity) {
-                    quantityInput.value = maxQuantity;
-                }
-            });
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
     const selectTrigger = document.querySelector('.select-trigger');
     const options = document.querySelector('.options');
     const selectedColorInput = document.getElementById('selectedColor');
