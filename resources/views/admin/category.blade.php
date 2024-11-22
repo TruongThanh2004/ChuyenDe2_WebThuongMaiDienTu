@@ -78,7 +78,7 @@
                                     <td>{{ $data_category->category_id }}</td>
                                     <td>{{ $data_category->category_name }}</td>
                                     <td>
-                                        <form action="{{ route('category-list.edit', $data_category->category_id) }}">
+                                        <form action="{{ route('category-list.edit', Hashids::encode($data_category->category_id))}}">
                                             <button data-toggle="tooltip" title="Edit" class="pd-setting-ed">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                             </button>

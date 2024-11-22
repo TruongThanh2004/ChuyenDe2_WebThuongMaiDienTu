@@ -15,7 +15,9 @@ return new class extends Migration
             $table->increments('category_id');
             $table->string('category_name');
         });
+        DB::statement('ALTER TABLE categories ADD FULLTEXT(category_name)');
     }
+  
 
     /**
      * Reverse the migrations.
