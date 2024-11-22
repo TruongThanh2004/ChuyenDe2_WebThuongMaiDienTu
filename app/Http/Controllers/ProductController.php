@@ -128,6 +128,7 @@ class ProductController extends Controller
 // ProductController.php (Controller)
     public function showProduct($id)
     {
+        
         $data = Product::getProductWithCategoryAndColor($id);
 
         return view('home.singleProduct', $data);
@@ -180,4 +181,5 @@ class ProductController extends Controller
         return view('home.shop', compact('categories', 'products', 'selectedCategories', 'sort','searchTerm'));
     }
 
+    
 }

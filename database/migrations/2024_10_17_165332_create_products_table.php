@@ -25,6 +25,8 @@ return new class extends Migration
             $table->tinyInteger('rating')->default(0); // điểm đánh giá sản phẩm
             $table->timestamps(); // thời gian tạo và cập nhật
         });
+
+        DB::statement('ALTER TABLE products ADD FULLTEXT(product_name, description)');
     }
 
     /**

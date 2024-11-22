@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Vinkla\Hashids\Facades\Hashids;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -34,6 +36,10 @@ class Product extends Model
     public function color()
     {
         return $this->belongsTo(Color::class, 'color_id', 'color_id');
+    }
+        public function comments()
+    {
+        return $this->hasMany(Comment::class, 'product_id', 'product_id');
     }
        /**
      * Tạo sản phẩm mới và lưu ảnh.
@@ -236,11 +242,17 @@ class Product extends Model
 
 public static function getProductWithCategoryAndColor($id)
 {
-    $product = self::findOrFail($id);
+    $product = Product::with('comments')->findOrFail($id);
+
+    // Lấy tất cả các bình luận của sản phẩm và sắp xếp bình luận của người dùng lên đầu tiên
+    $comments = $product->comments()->orderByRaw("name = ? DESC", [Auth::user()->username ?? ''])->get();
+
+    // Lấy tất cả các danh mục và màu sắc
     $categories = Category::all();
     $colors = Color::all();
-    
-    return compact('product', 'categories', 'colors');
+
+    // Trả về tất cả dữ liệu cần thiết cho view
+    return compact('product', 'comments', 'categories', 'colors');
 }
 
 
@@ -281,9 +293,14 @@ public static function getFilteredAndSortedProducts($searchTerm,$selectedCategor
         return $query->whereIn('category_id', $selectedCategories);
     });
     // Lọc theo từ khóa tìm kiếm trong tên sản phẩm và mô tả
+    
+    // Tìm kiếm toàn văn bản (Full Text Search)
     if ($searchTerm) {
-        $query = $query->where('product_name', 'like', "%$searchTerm%")
-                       ->orWhere('description', 'like', "%$searchTerm%");
+        $query->where(function ($query) use ($searchTerm) {
+            $query->whereRaw('MATCH(product_name, description) AGAINST (? IN BOOLEAN MODE)', [$searchTerm])
+                  ->orWhere('product_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+        });
     }
     if ($sort === 'asc') {
         $query->orderBy('price', 'asc');
