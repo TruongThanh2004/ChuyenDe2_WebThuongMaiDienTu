@@ -240,9 +240,9 @@ Route::post('/cart/Checkout', [CartController::class, 'Checkout'])->name('cart.C
 Route::post('/cart/check-items', [CartController::class, 'checkItemsExist'])->name('cart.checkItems');// kiểm tra sp trong cart có tồn tại không
 Route::get('/cart/search', [CartController::class, 'searchCart'])->name('cart.search'); // tìm kiếm fulltexxt
 
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
-
-
+//blogs
 //blogs
 Route::prefix('admin/blogs')->group(function () {
     Route::get('/', [BlogController::class, 'index'])->name('blogs.index'); // Hiển thị danh sách blog
