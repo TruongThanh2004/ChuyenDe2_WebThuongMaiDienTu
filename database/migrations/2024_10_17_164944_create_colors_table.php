@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id('color_id'); // khóa chính, tự động tăng
             $table->string('images', 255)->nullable(); // ảnh bảng màu (cho phép null)
             $table->string('name', 30); // tên bảng màu
-            $table->timestamps(); // thêm thời gian tạo và cập nhật
+            $table->timestamps(); // thêm thời gian tạo và lors nhật
         });
+        DB::statement('ALTER TABLE colors ADD FULLTEXT(name)');
     }
     
 

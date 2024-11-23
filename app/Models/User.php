@@ -62,17 +62,26 @@ class User extends Authenticatable
 
 
     public static function showList($keyword,$perpage){
+        
         $user = User::paginate($perpage);   
+        $query = self::query();
+        
 
-        if(isset($keyword) && $keyword != ''){
-            $user = User::where('username','like','%' .$keyword.'%')
-                        ->orWhere('fullname','like','%' .$keyword.'%')
-                        ->orWhere('id','like','%' .$keyword.'%')
-                        ->orWhere('email','like','%' .$keyword.'%')
-                        ->orWhere('address','like','%' .$keyword.'%')
-            ->paginate($perpage);
+        
+
+        if(isset($keyword) && $keyword != '' ){
+            $query->where(function ($query) use ($keyword) {
+          
+                $query->whereRaw('MATCH(username,fullname,address) AGAINST (? IN BOOLEAN MODE)', [$keyword])
+                  
+                      ->orWhere('username', 'LIKE', "%{$keyword}%")
+                      ->orWhere('fullname', 'LIKE', "%{$keyword}%")
+                      ->orWhere('address', 'LIKE', "%{$keyword}%")
+                      
+                      ;
+            }); 
         }      
-        return $user; 
+        return $query->paginate($perpage); 
     }
 
     public static function addUser($data){

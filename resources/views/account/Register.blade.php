@@ -34,7 +34,7 @@
             <div class="form">
                 <h2>đăng ký</h2>
                 <div class="inputBox">
-                    <input type="text" id="username" name="username" required value="{{old('username')}}" max="90">
+                    <input type="text" id="username" name="username" required value="{{old('username')}}" maxlength="90">
                     <span>User Name</span>
                     <i></i>
                 </div>
