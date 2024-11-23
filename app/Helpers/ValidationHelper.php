@@ -2,7 +2,9 @@
 
 namespace App\Helpers;
 
+use Hash;
 use Illuminate\Support\Facades\Validator;
+use Vinkla\Hashids\Facades\Hashids;
 
 class ValidationHelper
 {
@@ -46,6 +48,7 @@ class ValidationHelper
 
     public static function userUpdateValidation($request, $user)
     {
+        
         return Validator::make($request->all(), [
             'username' => 'required|unique:users,username,' . $user->id . '|max:255',
             'fullname' => 'required|max:255',

@@ -97,6 +97,8 @@ class UserController extends Controller
         
         $validator = ValidationHelper::userUpdateValidation($request,$request);
 
+      
+
         if ($validator->fails()) {
             return redirect()->route('user-list.edit',$id)
                 ->withErrors($validator)
